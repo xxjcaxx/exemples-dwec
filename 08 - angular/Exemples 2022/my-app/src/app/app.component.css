@@ -1,0 +1,11 @@
+.container {
+  /*  background-image: url("/assets/img/main.jpg");*/
+}
+
+.retired {
+  background-color: chocolate;
+}
+
+.active {
+  background-color: cornflowerblue;
+}

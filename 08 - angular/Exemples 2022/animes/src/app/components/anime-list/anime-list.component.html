@@ -1,0 +1,27 @@
+<div class="container">
+<div>
+  <button class="btn btn-secondary" (click)="anterior()" [disabled]="this.start == 0">Anterior</button>
+  <button class="btn btn-secondary" (click)="seguent()">Següent</button>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+
+      <th scope="col">img</th>
+      <th scope="col">Titol</th>
+      <th scope="col">Tags</th>
+      <th scope="col">Detalls</th>
+    </tr>
+  </thead>
+<tbody>
+  <tr *ngFor="let anime of animes; let i = index">
+    <td><img [src]="anime.thumbnail" class="thumbnail" [alt]="anime.title" srcset=""></td>
+    <td>{{anime.title}}</td>
+    <td>{{anime.tags | hashtag}}</td>
+    <td><a [routerLink]="['/anime',anime.id]">Detalls</a></td>
+  </tr>
+</tbody>
+
+</table>
+</div>

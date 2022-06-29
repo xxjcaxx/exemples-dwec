@@ -1,0 +1,25 @@
+<mat-card class="city-card">
+  <mat-card-header>
+    <!--  <img
+        [src]="survivor?.image"
+        mat-card-avatar />  -->
+    <mat-card-title>{{ city?.name }}</mat-card-title>
+    <mat-card-subtitle> </mat-card-subtitle>
+  </mat-card-header>
+  <img
+    mat-card-image
+    style="width: 150px"
+    src="/assets/img/city.jpg"
+    alt="city image"
+  />
+  <mat-card-content>
+    <p>
+      {{ city?.survivors }}
+    </p>
+  </mat-card-content>
+
+  <mat-card-actions>
+
+    <button mat-raised-button color="primary" (click)="deleteCity()">Delete</button>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,36 @@
+<mat-toolbar color="primary">
+  <button
+    class="mat-focus-indicator mat-icon-button mat-button-base"
+    mat-icon-button
+    aria-label="Example icon-button with menu icon"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span [routerLink]="'/home'">Negocity</span>
+  <img
+    [src]="player ? player.avatar : './assets/img/placeholder.png'"
+    mat-card-avatar
+  />
+  <div>
+    <a mat-button [routerLink]="'/global'"> Global </a>
+    <a mat-button [routerLink]="'/points'"> Points </a>
+    <a mat-button *ngIf="!isAuth" [routerLink]="'/login'"> Login </a>
+    <a mat-button *ngIf="!isAuth" [routerLink]="'/register'"> Register </a>
+    <a mat-button *ngIf="isAuth" (click)="logout()"> Logout </a>
+  </div>
+  <span class="example-spacer"></span>
+  <button
+    mat-icon-button
+    class="mat-icon-button mat-button-base"
+    aria-label="Example icon-button with heart icon"
+  >
+    <mat-icon>favorite</mat-icon>
+  </button>
+  <button
+    class="mat-icon-button mat-button-base"
+    mat-icon-button
+    aria-label="Example icon-button with share icon"
+  >
+    <mat-icon>share</mat-icon>
+  </button>
+</mat-toolbar>

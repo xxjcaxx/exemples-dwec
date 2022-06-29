@@ -1,0 +1,23 @@
+<div class="container">
+  <form class="row g-3" [formGroup]="formHeroe">
+    <div class="col-md-6">
+      <label for="inputIdentificador" class="form-label">ID</label>
+      <input type="text" class="form-control" id="inputIdentificador" formControlName="id" [ngClass]="formHeroe.get('id')?.valid ? 'is-valid' : 'is-invalid'">
+    </div>
+    <div class="col-md-6">
+      <label for="inputName" class="form-label">Name</label>
+      <input type="text" class="form-control" id="inputName" formControlName="name" [ngClass]="formHeroe.get('name')?.valid ? 'is-valid' : 'is-invalid'">
+    </div>
+    <div class="col-12">
+      <label for="inputDate" class="form-label">Date</label>
+      <input type="text" class="form-control" id="inputDate" formControlName="date" [ngClass]="formHeroe.get('date')?.valid ? 'is-valid' : 'is-invalid'">
+    </div>
+    <div class="col-12">
+      <label for="inputLevel" class="form-label">Level</label>
+      <input type="number" class="form-control" id="inputLevel" formControlName="level" [ngClass]="formHeroe.get('level')?.valid ? 'is-valid' : 'is-invalid'">
+    </div>
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary" (click)="crear()">Save</button>
+    </div>
+  </form>
+  </div>

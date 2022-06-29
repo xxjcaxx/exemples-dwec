@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+}
+
+li {
+  display: block;
+  margin: 2px;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 300px;
+}
+
+div.buttons {
+  display: inline;
+  margin-left: 130px;
+}
+
+button.down {
+  margin-left: 5px;
+}

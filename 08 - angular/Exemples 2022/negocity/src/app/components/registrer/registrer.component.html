@@ -1,0 +1,65 @@
+<mat-card color="primary">
+  <mat-card-content>
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+      <h2>Registry</h2>
+      <mat-error *ngIf="loginForm.invalid">
+        The username and password were not correct
+      </mat-error>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Email"
+          [(ngModel)]="username"
+          name="username"
+          required
+          appCorreu
+          #correuModel="ngModel"
+        />
+        <mat-error>
+          Please provide a valid email address
+          {{ correuModel.errors | json }}</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          type="password"
+          placeholder="Password"
+          [(ngModel)]="password"
+          name="password"
+          required
+          appPassword
+        />
+        <mat-error> Please provide a valid password </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="nickname"
+          [(ngModel)]="nick"
+          name="nickname"
+          required
+        />
+        <mat-error> Please provide a valid nickname</mat-error>
+      </mat-form-field>
+
+      <div>
+        <mat-error> {{ imageError }}</mat-error>
+        <input type="file" (change)="imageChangeEvent($event)" class="" />
+        <div class="img-space">
+          <ng-container *ngIf="isImageSaved; else elseTemplate">
+            <img [src]="imageBase64" />
+          </ng-container>
+          <ng-template #elseTemplate>
+            <img src="/assets/img/placeholder.png" class="img-responsive" />
+          </ng-template>
+        </div>
+      </div>
+
+      <button mat-raised-button color="primary">Register</button>
+      <h2 *ngIf="registerValid">Register Correct</h2>
+      <h2 *ngIf="registerError"><mat-error> Register Error</mat-error></h2>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,48 @@
+
+<div class="container">
+<h2>{{anime?.title}}</h2>
+ <img [src]="anime?.picture" class="thumbnail" [alt]="anime?.title" srcset="">
+
+    <p>{{anime?.tags | hashtag}}</p>
+
+   <h3>Relations</h3>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let r of anime?.relations">
+        <a [href]="r">{{r}}</a>
+      </li>
+    </ul>
+
+    <h3>Edit</h3>
+    <form [formGroup]="formulariAnime">
+      <div class="row mb-3">
+        <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputTitle"  formControlName="title"  [ngClass]="formulariAnime.get('title')?.valid ? 'is-valid' : 'is-invalid'">
+          <div class="invalid-feedback">
+            Please choose a Title.
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="inputPicture" class="col-sm-2 col-form-label">Picture URL</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputPicture"  formControlName="picture" [ngClass]="formulariAnime.get('picture')?.valid ? 'is-valid' : 'is-invalid'"  >
+          <div class="invalid-feedback">
+            Please choose a valid URL jpg.
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="inputThumbnail" class="col-sm-2 col-form-label">Thumbnail URL</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputThumbnail"  formControlName="thumbnail" [ngClass]="formulariAnime.get('thumbnail')?.valid ? 'is-valid' : 'is-invalid'"  >
+          <div class="invalid-feedback">
+            Please choose a valid URL jpg.
+          </div>
+        </div>
+      </div>
+
+
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+  </div>

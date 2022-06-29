@@ -1,0 +1,15 @@
+#container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+div.character {
+    border: 1px solid  #333;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 5px;
+}
+
+div.character img {
+    width: 200px;
+}

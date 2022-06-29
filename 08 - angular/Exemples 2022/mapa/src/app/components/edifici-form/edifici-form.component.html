@@ -1,0 +1,46 @@
+<form [formGroup]="edificiForm">
+  <div class="mb-3">
+    <label for="descripcioInput" class="form-label">Descripcio</label>
+    <input
+      type="text"
+      formControlName="descripcio"
+      class="form-control"
+      id="descripcioInput"
+      [ngClass]="inputValid('descripcio')"
+    />
+    <div
+      class="alert alert-danger"
+      *ngIf="inputValid('descripcio') == 'is-invalid'"
+    >
+      Descripción requerida (entre 5 y 60 caracteres)
+    </div>
+  </div>
+  <div class="mb-3">
+    <input
+      type="text"
+      formControlName="pdf"
+      class="form-control"
+      name="pdf"
+      [ngClass]="inputValid('pdf')"
+    />
+    <div class="alert alert-danger" *ngIf="inputValid('pdf') == 'is-invalid'">
+      PDF invalid
+    </div>
+  </div>
+  <div class="mb-3">
+    <input
+      type="text"
+      formControlName="foto"
+      class="form-control"
+      name="foto"
+      [ngClass]="inputValid('foto')"
+    />
+    <div class="alert alert-danger" *ngIf="inputValid('foto') == 'is-invalid'">
+      Foto no valida
+    </div>
+  </div>
+</form>
+
+<p>{{ edificiForm.value | json }}</p>
+<p>{{ edificiForm.get("descripcio")?.errors | json }}</p>
+<p>{{ edificiForm.get("pdf")?.errors | json }}</p>

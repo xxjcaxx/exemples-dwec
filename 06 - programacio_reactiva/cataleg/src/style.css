@@ -1,0 +1,79 @@
+body {
+    background-color: #aaa;
+    margin: 0;
+}
+
+#container {
+    width: 80%;
+    margin: auto;
+    background-color: #fff;
+    padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.containerExemples{
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+
+
+.containerExemples div.exemplesResum{
+   width: 100%;
+}
+
+#exemple1 {
+    width: 300px;
+    height: 300px;
+    background-color: beige;
+   
+ overflow: scroll;
+}
+
+#sampleTime{
+    width: 300px;
+    height: 300px;
+    background-color: beige;
+   
+ overflow: scroll;
+}
+
+.code{
+    padding: 10px;
+}
+
+#comparativaTime{
+    width: 100%;
+    background-color: beige;
+    height: 300px;
+}
+
+#comparativaTime div{
+display: flex;
+flex-wrap: wrap;
+}
+
+#comparativaTime div div{
+    width: 10px;
+    height: 10px;
+}
+
+#comparativaE{
+    width: 100%;
+    background-color: beige;
+    height: 300px;
+}
+
+#comparativaE div{
+display: flex;
+flex-wrap: wrap;
+}
+
+#comparativaE div div{
+    width: 10px;
+    height: 10px;
+}

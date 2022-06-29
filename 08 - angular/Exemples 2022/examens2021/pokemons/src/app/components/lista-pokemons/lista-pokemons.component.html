@@ -1,0 +1,27 @@
+Buscar: <input type="text" [(ngModel)]="filtreNom">
+<button *ngFor="let type of tipus" (click)="filter(type)">{{type}}</button>
+
+<div>
+
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+
+      <th scope="col">Name</th>
+      <th scope="col">Type</th>
+      <th scope="col">Power</th>
+      <th scope="col">Total Power</th>
+    </tr>
+  </thead>
+<tbody>
+  <tr *ngFor="let p of pokemons | filtrePokemons:filtreTipus:filtreNom; let i = index">
+    <td>{{p.name.english}}</td>
+    <td>{{p.type.join(" ")}}</td>
+    <td>HP: {{p.base.HP}} Attack: {{p.base.Attack}} Defense: {{p.base.Defense}}  Speed: {{p.base.Speed}}</td>
+    <td>{{p.totalPower}}</td>
+  </tr>
+</tbody>
+
+</table>

@@ -1,0 +1,12 @@
+<h3>Survivors</h3>
+<button mat-button color="accent" (click)="createRandom()">
+  Create Random
+</button>
+
+<div class="card-wrapper">
+  <app-survivor-item
+    *ngFor="let survivor of survivors"
+    [survivor]="survivor"
+    (eventDeleteSurvivor)="deleteSurvivor($event, survivor)"
+  ></app-survivor-item>
+</div>

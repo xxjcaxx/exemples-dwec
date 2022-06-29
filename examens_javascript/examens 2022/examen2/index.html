@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+ 
+    <script src="https://unpkg.com/mocha/mocha.js"></script>
+    <script src="https://unpkg.com/chai/chai.js"></script>
+    <script src="scripts.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
+    <style>
+      #container {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .character {
+        border: 1px solid #aaa;
+        border-radius: 10px;
+        width: 300px;
+        margin-right: 20px;
+      }
+      .character img {
+        width: 300px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+      .character h2 {
+        font-family: Arial, Helvetica, sans-serif;
+        padding: 10px;
+      }
+      .character ul {
+        list-style: none;
+        padding: 10px;
+        font-size: 9px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <div id="mocha"></div>
+  </body>
+</html>

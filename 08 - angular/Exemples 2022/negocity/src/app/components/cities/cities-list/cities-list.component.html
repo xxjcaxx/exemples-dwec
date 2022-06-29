@@ -1,0 +1,8 @@
+<button mat-button color="accent" (click)="createRandom()">Create Random</button>
+
+<div class="card-wrapper">
+<app-cities-item *ngFor="let city of cities"
+[city]="city"
+(eventDeleteCity)="deleteCity($event,city)"
+></app-cities-item>
+</div>

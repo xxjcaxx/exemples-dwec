@@ -1,0 +1,54 @@
+<app-header></app-header>
+<div class="container">
+  <ul>
+    <input
+      type="text"
+      [(ngModel)]="nombre"
+      class="form-control"
+      name="nombre"
+      id="inputNombre"
+      placeholder="nombre..."
+    />
+    <li>{{ nombre }}</li>
+    <li *ngIf="showSurname">{{ apellido }}</li>
+
+    <button
+      class="btn btn-sm"
+      [ngClass]="{ 'btn-danger': showSurname, 'btn-primary': !showSurname }"
+      (click)="toggleSurname()"
+    >
+      {{ showSurname ? "Ocultar" : "Mostrar" }} Apellido
+    </button>
+  </ul>
+
+  <ul>
+    <li
+      *ngFor="let person of people; let i = index"
+      [ngClass]="person.age > 65 ? 'retired' : 'active'"
+    >
+      {{ person.name }},
+      <span *ngIf="person.age < 20">{{ person.surname }}</span>
+    </li>
+  </ul>
+</div>
+
+<form id="contact">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <input
+          style="border-color: black; text-transform: capitalize"
+          type="text"
+          class="form-control"
+          id="nombre"
+          name="nombre"
+          placeholder="Name"
+          required
+        />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group"></div>
+    </div>
+  </div>
+</form>

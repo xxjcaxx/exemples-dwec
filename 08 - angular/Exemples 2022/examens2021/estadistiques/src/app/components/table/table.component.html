@@ -1,0 +1,46 @@
+<form [formGroup]="lineForm">
+<table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>Ciudad</th>
+            <th>Ventas</th>
+            <th>Clientes</th>
+            <th>Visitas</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let linea of lineas | filtreCiutat: filtreC;">
+            <td>{{linea.id}}</td>
+            <td><a [routerLink]="['/filtreCiutat', linea.ciudad]">{{linea.ciudad}}</a></td>
+            <td>{{linea.ventas}}</td>
+            <td>{{linea.clientes}}</td>
+            <td>{{linea.visitas}}</td>
+            <td><button (click)="borrar(linea.id)">Borrar</button></td>
+        </tr>
+        <tr>
+
+            <td><input readonly type="text" id="inputid" formControlName="id" [ngClass]="fieldNotValid('id')"></td>
+            <td><input type="text" id="inputCiudad" formControlName="ciudad" [ngClass]="fieldNotValid('ciudad')"></td>
+            <td><input type="text" id="inputVentas" formControlName="ventas" [ngClass]="fieldNotValid('ventas')"></td>
+            <td><input type="text" id="inputClientes" formControlName="clientes" [ngClass]="fieldNotValid('clientes')"></td>
+            <td><input type="text" id="inputVisitas" formControlName="visitas" [ngClass]="fieldNotValid('visitas')">
+
+            </td>
+            <td><button (click)="crear()">Crear</button></td>
+
+        </tr>
+        <tr>
+            <td>{{mitjana?.id}}</td>
+            <td>{{mitjana?.ciudad}}</td>
+            <td>{{mitjana?.ventas}}</td>
+            <td>{{mitjana?.clientes}}</td>
+            <td>{{mitjana?.visitas}}</td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+</form>
+
+{{filtreC}}  <button [routerLink]="['']">Quitar Filtro</button>

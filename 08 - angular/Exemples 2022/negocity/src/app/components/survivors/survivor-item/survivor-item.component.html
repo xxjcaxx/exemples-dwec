@@ -1,0 +1,49 @@
+<mat-card class="survivor-card">
+  <ng-container *ngIf="mode == 'view'">
+    <mat-card-header>
+      <mat-card-title>{{ survivor?.name }}</mat-card-title>
+      <mat-card-subtitle> </mat-card-subtitle>
+    </mat-card-header>
+    <img
+
+    style="width: 150px; height: 310px; object-fit: cover; "
+      [src]="survivor?.image"
+      alt="survivor image"
+    />
+    <mat-card-content>
+      <p>
+        Health: {{ survivor?.health }}
+      </p>
+      <p>
+        Damage: {{ survivor?.damage }}
+      </p>
+      <p>
+        Shield: {{ survivor?.shield }}
+      </p>
+    </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="deleteSurvivor()">
+      Delete
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="editSurvivor()"
+
+    >
+      Edit
+    </button>
+
+  </mat-card-actions>
+
+</ng-container>
+
+<app-survivor-form
+  *ngIf="mode == 'edit'"
+  [survivor]="survivor"
+  (changeMode)="changeMode($event)"
+  (updateSurvivor)="updateSurvivor($event)"
+></app-survivor-form>
+
+</mat-card>

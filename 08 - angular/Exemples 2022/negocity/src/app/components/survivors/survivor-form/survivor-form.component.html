@@ -1,0 +1,79 @@
+<form [formGroup]="survivorForm">
+  <mat-card-header>
+    <mat-card-title>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Name"
+          name="name"
+          formControlName="name"
+          type="text"
+        />
+      </mat-form-field>
+    </mat-card-title>
+    <mat-card-subtitle> </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div>
+      <img
+        style="width: 150px; height: 310px; object-fit: cover"
+        [src]="imageBase64"
+        alt="survivor image"
+      />
+    </div>
+
+    <button type="button" mat-raised-button (click)="fileInput.click()">
+      Selecciona avatar
+    </button>
+    <input
+      hidden
+      type="file"
+      #fileInput
+      (change)="imageChangeEvent($event)"
+      class=""
+      formControlName="image"
+    />
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Health"
+        name="health"
+        formControlName="health"
+        type="number"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Damage"
+        name="damage"
+        formControlName="damage"
+        type="number"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Shield"
+        name="shield"
+        formControlName="shield"
+        type="number"
+      />
+    </mat-form-field>
+    <mat-error *ngIf="survivorForm.hasError('maxSum')"
+      >The sum of health, damage and shield is more than 300</mat-error
+    >
+  </mat-card-content>
+</form>
+<mat-card-actions>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="saveSurvivor()"
+    [disabled]="survivorForm.invalid"
+  >
+    Save
+  </button>
+  <button mat-raised-button color="primary" (click)="cancel()">Cancel</button>
+</mat-card-actions>
