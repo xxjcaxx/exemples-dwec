@@ -1,0 +1,19 @@
+{
+  "type": "module",
+  "name": "fibonacci",
+  "version": "1.0.0",
+  "description": "",
+  "main": "scripts.js",
+  "scripts": {
+    "test": "mocha -r jsdom-global/register"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "jsdom": "18.0.0",
+    "jsdom-global": "3.0.2",
+    "mocha": "^9.1.3"
+  }
+}
