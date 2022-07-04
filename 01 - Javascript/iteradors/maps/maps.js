@@ -136,3 +136,12 @@ let pokemons = [
     },
   },
 ];
+
+let pokemonsMap = new Map(
+  pokemons.map((p) => [p, Math.random() > 0.5 ? true : false])
+);
+console.log(pokemonsMap);
+
+pokemonsMap.forEach((valor, clau) =>
+  valor ? console.log(clau) : console.log(false)
+);
