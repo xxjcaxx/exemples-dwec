@@ -21,3 +21,26 @@ function ejercicio3(){}
 
 function ejercicio4(){}
 
+// Ejercicio 5: Haz una función que retorne todos los números impares de un array
+
+function ejercicio5(){}
+
+// Ejercicio 6: Haz una función que ordene alfabeticamente las letras de un string
+
+function ejercicio6(){}
+
+
+///////////// Objectes
+
+
+// Ejercicio 7: Haz una función que acepte nombre y dos apellidos y retorne un objeto con esos datos
+
+function ejercicio7(){}
+
+// Ejercicio 8: Haz una función que acepte un objeto y retorne un array con los atributos sin las claves.
+
+function ejercicio8(){}
+
+// Ejercicio 9: Haz una función constructora de objetos que acepte el nombre y los dos apellidos
+
+function Persona(){}
