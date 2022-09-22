@@ -52,19 +52,51 @@
   
 
   function DNI(dni){
-    this.validar = 
-    this.calcularLletra =
-    this.numeros = 
-    this.dniComplet = 
+    this.validar = (dni) => /^[0-9]{8}$/.test(dni);
+    this.calcularLletra =  function (dni) {
+      let lletres = "TRWAGMYFPDXBNJZSQVHLCKE".split("");
+      return lletres[parseInt(dni) % 23];
+    }
+    this.numeros = dni;
+    this.dniComplet = this.validar(this.numeros) ? dni + this.calcularLletra(this.numeros) : false;
+    this.mostrarDNI = () =>  console.log(this, this.dniComplet); 
   }
 
   let LlistaDNIObjectes = [];
-  for ( let dni of DNIList){
+  for ( let dni of arrayDNIs){
     let DNIObjecte = new DNI(dni);
     LlistaDNIObjectes.push(DNIObjecte);
   }
 
   console.log(LlistaDNIObjectes);
+
+  for(let d of LlistaDNIObjectes){
+    d.mostrarDNI();
+  }
+
+
+  ///////////////////// Exercicis 5 i 6
+
+  document.addEventListener("DOMContentLoaded",()=>{
+    let inputDNI = document.querySelector('#dni');
+    let buttonDNI = document.querySelector('#calcularLletra');
+    buttonDNI.addEventListener('click',()=>{
+      let valueDNI = inputDNI.value;
+      console.log(valueDNI);
+    });
+
+    ///// 6 ///////////
+    const lletres = "TRWAGMYFPDXBNJZSQVHLCKE".split("");
+    document.querySelector('#calcularDNIs').addEventListener('click',()=>{
+      let lletra = document.querySelector('#lletra').value;
+      let base = lletres.indexOf(lletra);
+      console.log(base);
+      for(let i=0;i<20;i++){
+        
+      }
+    });
+
+  });
 
 
 })();
