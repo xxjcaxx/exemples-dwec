@@ -47,7 +47,7 @@ function plenarLlista(llista) {
     //let downButton = elementLlista.querySelector('.down');
     let buttons = elementLlista.querySelectorAll("button");
     buttons.forEach((b) => {
-      b.addEventListener("click", fletxa);
+      b.addEventListener("click", fletxa); // Utilitzant el context d'execució 
     });
     llista.append(elementLlista);
   }
@@ -69,7 +69,7 @@ function plenarLlista2(llista) {
     elementLlista.innerHTML = `${i} <div class="buttons"><button class="up">▲</button><button class="down">▼</button></div>`; // Pensar si és millor així o creant-los
     let buttons = elementLlista.querySelectorAll("button");
     buttons.forEach((b) => {
-      b.addEventListener("click", function (event) {
+      b.addEventListener("click", function (event) {  // Passant per paràmetres
         fletxa2(event);
       });
     });
