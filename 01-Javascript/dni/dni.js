@@ -82,7 +82,7 @@
     let buttonDNI = document.querySelector('#calcularLletra');
     buttonDNI.addEventListener('click',()=>{
       let valueDNI = inputDNI.value;
-      console.log(valueDNI);
+      console.log(validarLletra(valueDNI));
     });
 
     ///// 6 ///////////
@@ -90,10 +90,13 @@
     document.querySelector('#calcularDNIs').addEventListener('click',()=>{
       let lletra = document.querySelector('#lletra').value;
       let base = lletres.indexOf(lletra);
-      console.log(base);
+      console.log(lletra,':',base);
+      let arrayDNIs = [];
       for(let i=0;i<20;i++){
-        
+        let dniGenerat = (Math.floor(Math.random()*3913043)+434782)*23+base;
+        arrayDNIs.push(validarLletra(dniGenerat));
       }
+      console.log(arrayDNIs);
     });
 
   });
