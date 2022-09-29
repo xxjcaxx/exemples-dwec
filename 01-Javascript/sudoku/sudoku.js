@@ -55,15 +55,20 @@ function validarSudoku(sudoku) {
     let quadratsOK = true;
     for(let I =0; I< 3; I++){ // Files grans
         for(let J=0;J<3; J++){ // columnes grans
+            let quadrat = [];
             for(let i=0; i<3; i++){  // Files i columnes menudes
                 for (let j=0;j<3;j++){
-
+                    quadrat.push(sudoku[I*3+i][J*3+j]);
                 }
             }
+           // console.log(quadrat);
+           if (!validarGrup(quadrat)){
+            quadratsOK = false;
+        } 
         }
     }
 
-    return filesOK && columnesOK;
+    return filesOK && columnesOK && quadratsOK;
 }
 
 console.log(validarSudoku(sudokuExemple));
