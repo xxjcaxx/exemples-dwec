@@ -26,3 +26,20 @@ td input {
     height: 20px;
 }
 
+td.userInput{
+    animation: blink 5s infinite;
+}
+@keyframes blink{
+    0% {
+      background: #fff;
+    }
+    20% {
+      background: #aaa;
+    }
+    40% {
+      background: #eee;
+    }
+    60% {
+      background: #aaa;
+    }
+}

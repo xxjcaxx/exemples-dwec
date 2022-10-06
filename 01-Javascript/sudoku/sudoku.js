@@ -83,10 +83,20 @@ function renderSudoku(sudoku) {
     sudokuTabla.append(filaTR);
     for (let celda of fila) {
       let celdaTD = document.createElement("td");
-      celdaTD.innerHTML = celda > 0 ? celda : '<input type="text">';
+      celdaTD.innerHTML = celda > 0 ? celda : '';
       filaTR.append(celdaTD);
+      celdaTD.classList.add(celda > 0 ? 'static' : 'userInput');
     }
   }
+  sudokuTabla.addEventListener('click',function tablaClick(event){
+    let target = event.target;
+    if(target.classList.contains('userInput')){
+     // console.log('userInput', target);
+     
+    }
+  });
+
+
   document.querySelector("#container").append(sudokuTabla);
   return sudokuTabla;
 }
@@ -98,10 +108,7 @@ function readSudoku(tabla) {
     let arrayFila = [];
     f.querySelectorAll("td").forEach((c) => {
       let value = parseInt(c.innerText);
-      if (c.querySelector("input")) {
-        value = parseInt(c.querySelector("input").value);
-        value = isNaN(value) ? 0 : value;
-      }
+      value = isNaN(value) ? 0 : value;
       arrayFila.push(value);
     });
     resultSudoku.push(arrayFila);
@@ -111,6 +118,7 @@ function readSudoku(tabla) {
 
 document.addEventListener("DOMContentLoaded", () => {
   let sudokuTabla = renderSudoku(sudokuExemple);
+
   document.querySelector("#validar").addEventListener("click", () => {
     let valid = validarSudoku(readSudoku(sudokuTabla));
     console.log(valid, readSudoku(sudokuTabla));

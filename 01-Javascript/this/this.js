@@ -47,14 +47,13 @@ function plenarLlista(llista) {
     //let downButton = elementLlista.querySelector('.down');
     let buttons = elementLlista.querySelectorAll("button");
     buttons.forEach((b) => {
-      b.addEventListener("click", fletxa); // Utilitzant el context d'execució 
+      b.addEventListener("click", fletxa);
     });
     llista.append(elementLlista);
   }
 }
 
 function fletxa2(event) {
-  // Provar flexa sense el addeventlistener
   let elementLlista = event.target.parentElement.parentElement;
   let funcio = event.target.className;
   let llista = elementLlista.parentElement;
@@ -69,7 +68,7 @@ function plenarLlista2(llista) {
     elementLlista.innerHTML = `${i} <div class="buttons"><button class="up">▲</button><button class="down">▼</button></div>`; // Pensar si és millor així o creant-los
     let buttons = elementLlista.querySelectorAll("button");
     buttons.forEach((b) => {
-      b.addEventListener("click", function (event) {  // Passant per paràmetres
+      b.addEventListener("click", function (event) {
         fletxa2(event);
       });
     });
