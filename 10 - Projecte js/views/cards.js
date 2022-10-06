@@ -1,4 +1,9 @@
-let graphPlaceholder = `<img src="images/graphPlaceholder.png" alt="graph Placeholder">`
+function graphPlaceholder() {
+  let gph = document.createElement(`img`)
+  gph.src = "images/graphPlaceholder.png";
+  gph.style.width = '100%';
+  return gph;
+} 
 
 function generateGraphCard(graph){
     let cardTemplate = document.createElement('div');
@@ -9,12 +14,15 @@ function generateGraphCard(graph){
         ${graph.title}
       </div>
       <div class="card-body">
-        <div class="graph">${graph.data ? generateGraph(graph.data) : graphPlaceholder}</div>
+        <div class="graph"></div>
         <p class="card-text">${graph.description}</p>
         <a href="#" class="btn btn-primary">Full screen</a>
       </div>
       </div>
     `;
+    let graphContainer = cardTemplate.querySelector('.graph');
+    graphContainer.append(graph.data ? generateBarGraph(graph.data) : graphPlaceholder());
+    graphContainer.classList.add()
     return cardTemplate;
 }
 
