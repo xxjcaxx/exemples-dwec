@@ -43,3 +43,23 @@ td.userInput{
       background: #aaa;
     }
 }
+
+.teclado {
+  position: absolute;
+  width: 86px;
+  height: 110px;
+  background-color: #ddd;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  display: flex;
+  flex-wrap: wrap;
+}
+.teclado span {
+  display: inline-block;
+  padding: 0 4px 0 4px;
+  font-size: 26px;
+  background-color: #fff;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  margin: 0px;
+}

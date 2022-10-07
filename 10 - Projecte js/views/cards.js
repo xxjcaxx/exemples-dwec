@@ -21,7 +21,7 @@ function generateGraphCard(graph){
       </div>
     `;
     let graphContainer = cardTemplate.querySelector('.graph');
-    graphContainer.append(graph.data ? generateBarGraph(graph.data) : graphPlaceholder());
+    graphContainer.append(graph.data ? generateLineGraph(graph.data) : graphPlaceholder());
     graphContainer.classList.add()
     return cardTemplate;
 }

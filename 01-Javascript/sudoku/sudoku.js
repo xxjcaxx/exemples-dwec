@@ -32,12 +32,21 @@ function validarGrup(grup) {
 
 function validarSudoku(sudoku) {
   // Validar Files
-  let filesOK = true;
-  for (let fila of sudoku) {
+  //let filesOK = true;
+  //let listFilesOk = [];
+  /*for (let fila of sudoku) {
     if (!validarGrup(fila)) {
-      filesOK = false;
+    //  filesOK = false;
+      listFilesOk.push(false);
+    } 
+    else {
+      listFilesOk.push(true);
     }
-  }
+  }*/
+  let listFilesOk = sudoku.map(fila => validarGrup(fila));
+  let filesOK = listFilesOk.every(f => f);
+
+
   // Validar Columnes
   let columnesOK = true;
   for (let i = 0; i < 9; i++) {
@@ -70,7 +79,11 @@ function validarSudoku(sudoku) {
     }
   }
 
-  return filesOK && columnesOK && quadratsOK;
+  return {
+    ok : filesOK && columnesOK && quadratsOK ,
+    listFilesOk,
+
+  };
 }
 
 //console.log(validarSudoku(sudokuExemple));
@@ -90,9 +103,27 @@ function renderSudoku(sudoku) {
   }
   sudokuTabla.addEventListener('click',function tablaClick(event){
     let target = event.target;
+    let teclado;
     if(target.classList.contains('userInput')){
      // console.log('userInput', target);
-     
+     teclado = document.createElement("div");
+     teclado.innerHTML = `<span>1</span>
+     <span>2</span>
+     <span>3</span>
+     <span>4</span>
+     <span>5</span>
+     <span>6</span>
+     <span>7</span>
+     <span>8</span>
+     <span>9</span>
+     `;
+     teclado.classList.add("teclado");
+     target.append(teclado);
+     teclado.addEventListener("click", (e) => {
+      target.innerText = e.target.innerText;
+       teclado.remove();
+      // validar(celda);
+     });
     }
   });
 
