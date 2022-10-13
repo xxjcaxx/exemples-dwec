@@ -1,3 +1,5 @@
+export {generateBarGraph,generateLineGraph};
+
 function generateBarGraph(data){
       let width = 500;
       let height = 500;

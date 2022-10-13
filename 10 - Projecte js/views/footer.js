@@ -1,3 +1,5 @@
+export {generateFooter};
+
 function generateFooter(){
     let footer = document.createElement('div');
     footer.id = 'footer';

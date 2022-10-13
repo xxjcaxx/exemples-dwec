@@ -1,3 +1,5 @@
+export {menuTemplate};
+
 let menuTemplate = document.createElement('div');
 menuTemplate.id = 'header';
 menuTemplate.innerHTML = ` 

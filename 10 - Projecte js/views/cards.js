@@ -1,3 +1,7 @@
+import {generateLineGraph} from "../graphs/graphs.js"
+
+export {graphPlaceholder,generateGraphCard,generateGraph};
+
 function graphPlaceholder() {
   let gph = document.createElement(`img`)
   gph.src = "images/graphPlaceholder.png";

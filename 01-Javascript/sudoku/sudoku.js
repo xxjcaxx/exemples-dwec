@@ -48,7 +48,7 @@ function validarSudoku(sudoku) {
 
 
   // Validar Columnes
-  let columnesOK = true;
+  /*let columnesOK = true;
   for (let i = 0; i < 9; i++) {
     let columna = [];
     for (let j = 0; j < 9; j++) {
@@ -57,7 +57,12 @@ function validarSudoku(sudoku) {
     if (!validarGrup(columna)) {
       columnesOK = false;
     }
-  }
+  }*/
+
+  let inverseSudoku = sudoku[0].map((col,i) => sudoku.map((fila) => fila[i]));
+  let listcolumnesOK = inverseSudoku.map(fila => validarGrup(fila));
+  let columnesOK = listcolumnesOK.every(f => f);
+
 
   // Validar Quadrats
   let quadratsOK = true;
@@ -78,6 +83,8 @@ function validarSudoku(sudoku) {
       }
     }
   }
+
+  
 
   return {
     ok : filesOK && columnesOK && quadratsOK ,
