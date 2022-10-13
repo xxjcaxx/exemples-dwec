@@ -15,81 +15,38 @@ let sudokuExemple = [
 ];
 
 function validarGrup(grup) {
-  /*  // Validar si te 0
-    let te0 = grup.includes(0);
-    // Validar si te repetits (o si falta algun numero)
-    let faltaNumero = false;
-    for(let i=1;i<10;i++) {
-        if (!grup.includes(i)) {
-            faltaNumero = true;
-        }
-    }
-    return !(te0 || faltaNumero);*/
   let setGrup = new Set(grup);
   setGrup.delete(0);
   return setGrup.size == 9;
 }
 
 function validarSudoku(sudoku) {
-  // Validar Files
-  //let filesOK = true;
-  //let listFilesOk = [];
-  /*for (let fila of sudoku) {
-    if (!validarGrup(fila)) {
-    //  filesOK = false;
-      listFilesOk.push(false);
-    } 
-    else {
-      listFilesOk.push(true);
-    }
-  }*/
-  let listFilesOk = sudoku.map(fila => validarGrup(fila));
-  let filesOK = listFilesOk.every(f => f);
 
+  function validarFiles(matrix){return matrix.map((fila) => validarGrup(fila));}
+  function validarTotes(llistaOks){return listFilesOk.every((f) => f);}
+
+  // Validar Files
+  let listFilesOk = validarFiles(sudoku); //sudoku.map((fila) => validarGrup(fila));
+  let filesOK = validarTotes(listFilesOk);// listFilesOk.every((f) => f);
 
   // Validar Columnes
-  /*let columnesOK = true;
-  for (let i = 0; i < 9; i++) {
-    let columna = [];
-    for (let j = 0; j < 9; j++) {
-      columna[j] = sudoku[j][i];
-    }
-    if (!validarGrup(columna)) {
-      columnesOK = false;
-    }
-  }*/
+  let inverseSudoku = sudoku[0].map((col, i) => sudoku.map((fila) => fila[i]));
+  let listcolumnesOK =  validarFiles(inverseSudoku);
+  let columnesOK = validarTotes(listcolumnesOK);
 
-  let inverseSudoku = sudoku[0].map((col,i) => sudoku.map((fila) => fila[i]));
-  let listcolumnesOK = inverseSudoku.map(fila => validarGrup(fila));
-  let columnesOK = listcolumnesOK.every(f => f);
-
-
-  // Validar Quadrats
-  let quadratsOK = true;
-  for (let I = 0; I < 3; I++) {
-    // Files grans
-    for (let J = 0; J < 3; J++) {
-      // columnes grans
-      let quadrat = [];
-      for (let i = 0; i < 3; i++) {
-        // Files i columnes menudes
-        for (let j = 0; j < 3; j++) {
-          quadrat.push(sudoku[I * 3 + i][J * 3 + j]);
-        }
-      }
-      // console.log(quadrat);
-      if (!validarGrup(quadrat)) {
-        quadratsOK = false;
-      }
-    }
+  function extractSubMatrix(matrix, pos, size) {
+    return matrix
+      .filter((fila, i) => i >= pos.y && i < pos.y + size)
+      .map((fila) => fila.slice(pos.x, pos.x + size));
   }
 
-  
+  let SquaresSudoku = [0,3,6].map(y => [0,3,6].map(x => extractSubMatrix(sudoku,{x,y},3).flat()));
+   let listQuadratsOK = validarFiles(SquaresSudoku.flat());
+  let quadratsOK = validarTotes(listQuadratsOK);
 
   return {
-    ok : filesOK && columnesOK && quadratsOK ,
-    listFilesOk,
-
+    ok: filesOK && columnesOK && quadratsOK,
+    listFilesOk, listcolumnesOK, listQuadratsOK
   };
 }
 
@@ -103,18 +60,20 @@ function renderSudoku(sudoku) {
     sudokuTabla.append(filaTR);
     for (let celda of fila) {
       let celdaTD = document.createElement("td");
-      celdaTD.innerHTML = celda > 0 ? celda : '';
+      celdaTD.innerHTML = celda > 0 ? celda : "";
       filaTR.append(celdaTD);
-      celdaTD.classList.add(celda > 0 ? 'static' : 'userInput');
+      celdaTD.classList.add(celda > 0 ? "static" : "userInput");
     }
   }
-  sudokuTabla.addEventListener('click',function tablaClick(event){
+
+  sudokuTabla.addEventListener("click", function tablaClick(event) {
+    this.querySelectorAll('div.teclado').forEach(tecladoViejo => tecladoViejo.remove());
     let target = event.target;
     let teclado;
-    if(target.classList.contains('userInput')){
-     // console.log('userInput', target);
-     teclado = document.createElement("div");
-     teclado.innerHTML = `<span>1</span>
+    if (target.classList.contains("userInput")) {
+      // console.log('userInput', target);
+      teclado = document.createElement("div");
+      teclado.innerHTML = `<span>1</span>
      <span>2</span>
      <span>3</span>
      <span>4</span>
@@ -124,16 +83,15 @@ function renderSudoku(sudoku) {
      <span>8</span>
      <span>9</span>
      `;
-     teclado.classList.add("teclado");
-     target.append(teclado);
-     teclado.addEventListener("click", (e) => {
-      target.innerText = e.target.innerText;
-       teclado.remove();
-      // validar(celda);
-     });
+      teclado.classList.add("teclado");
+      target.append(teclado);
+      teclado.addEventListener("click", (e) => {
+        target.innerText = e.target.innerText;
+        teclado.remove();
+        colorizeSudoku(this,validarSudoku(readSudoku(this)));
+      });
     }
   });
-
 
   document.querySelector("#container").append(sudokuTabla);
   return sudokuTabla;
@@ -152,6 +110,11 @@ function readSudoku(tabla) {
     resultSudoku.push(arrayFila);
   });
   return resultSudoku;
+}
+
+function colorizeSudoku(tabla,validation){
+  tabla.className = ""; // reset
+  tabla.classList.add(validation.ok ? '': 'mal');
 }
 
 document.addEventListener("DOMContentLoaded", () => {
