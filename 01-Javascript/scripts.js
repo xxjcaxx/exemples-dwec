@@ -1,21 +1,15 @@
-document.addEventListener("DOMContentLoaded",()=>{
-
-    let dins = document.querySelector('#quadrat_dins');
-    let fora = document.querySelector('#quadrat');
-
-    /*dins.addEventListener('click',function(event){ 
-        console.log("Dins"); 
-        event.stopPropagation();  
-    });*/
-
-    fora.addEventListener('click',function(event){ 
-        if (event.target == dins){
-            console.log("Dins");
-        }
-        else {
-            console.log("Fora"); 
-        }
-       
-    });
-
-});
+document.addEventListener("DOMContentLoaded", () => {
+    let progress = document.querySelector("#progress");
+    let i = 0;
+    function count() {
+      // do a piece of the heavy job (*)
+      do {
+        i++;
+        progress.innerHTML = i;
+      } while (i % 1e1 != 0);
+   
+      if (i < 1e7) {     setTimeout(count);   }
+    }
+    count();
+   });
+   

@@ -16,9 +16,43 @@
 
     restaurarP1();
 
+    document.querySelector("#p2").addEventListener("click", function () {
+      this.innerHTML = "";
+      /*   setTimeout(()=>{
+        this.innerHTML += "Missatge 1 ";
+        setTimeout(()=>{
+          this.innerHTML += "Missatge 2 ";
+          setTimeout(()=>{
+            this.innerHTML += "Missatge 3 ";
+          },Math.random()*1000);
+        },Math.random()*1000);
+      },Math.random()*1000);*/
+
+      function crearPromesa(message) {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(message);
+          }, Math.random() * 1000);
+        });
+      }
+
+      crearPromesa("Missatge 1")
+        .then((message) => {
+          this.innerHTML = message;
+          return crearPromesa("Missatge 2");
+        })
+        .then((message) => {
+          this.innerHTML = message;
+          return crearPromesa("Missatge 3");
+        })
+        .then((message) => {
+          this.innerHTML = message;
+        });
+    });
+
     /// Fes que al fer click al p2, escriga 3 paraules en un temps aleatori de diferencia
     function restaurarP2() {
-      let p2 = document.querySelector("#p2");
+      /*  let p2 = document.querySelector("#p2");
       p2.innerHTML = ` P2
     <img src="loading.gif" alt="">`;
       function promesaN(n) {
@@ -50,14 +84,58 @@
           .then((n) => {
             createN(n, p2);
           });
-      });
+      });*/
     }
 
     restaurarP2();
     /// Transforma, per a p3, el que fa p2 però en Promise.all  ¿Les fa seqüencialment?
 
+    document.querySelector("#p3").addEventListener("click", function () {
+      this.innerHTML = "";
+      
+     
+      function crearPromesa3(message) {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(message);
+            
+          }, Math.random() * 100);
+        });
+      }
+
+      let promiseI = Promise.resolve(`Missatge 0`)
+
+      for (let i=1; i<1000; i++){
+        promiseI = promiseI.then((message)=>{ 
+          this.innerHTML = message; 
+          return  crearPromesa3(`Missatge ${i}`)})
+       
+      }
+
+
+   /*   Promise.all(llistaPromeses).then((missatges) => {
+        console.log(missatges);
+        for(let m of missatges){
+          this.innerHTML = m;
+        }
+      });*/
+    });
+
+    /*  crearPromesa3("Missatge 1")
+    .then((message)=>{
+      this.innerHTML = message;
+      return crearPromesa3("Missatge 2");
+    })
+    .then((message)=>{
+      this.innerHTML = message;
+      return crearPromesa3("Missatge 3");
+    })
+    .then((message)=>{
+      this.innerHTML = message;});
+  });*/
+
     function restaurarP3() {
-      let p3 = document.querySelector("#p3");
+      /* let p3 = document.querySelector("#p3");
       p3.innerHTML = ` P3
       <img src="loading.gif" alt="">`;
 
@@ -87,9 +165,9 @@
          for (let p of arrayPromeses) {
           p.then((n) => create3N(n, p3));
         }*/
-        /// Solucio en for:
-        let arrayN = [1, 2, 3];
-        /* let promesaI = Promise.resolve();
+      /// Solucio en for:
+      // let arrayN = [1, 2, 3];
+      /* let promesaI = Promise.resolve();
         for (let n of arrayN) {
           promesaI = promesaI.then(() => {
             return new Promise((resolve) => {
@@ -101,9 +179,8 @@
           });
         }
   */
-        /// Solucio en reduce:
-
-        arrayN.reduce((anterior, actual) => {
+      /// Solucio en reduce:
+      /*  arrayN.reduce((anterior, actual) => {
           return anterior.then(() => {
             return new Promise((r) => {
               setTimeout(() => {
@@ -116,7 +193,7 @@
       }
 
       p3.removeEventListener("click", clickP3, true);
-      p3.addEventListener("click", clickP3);
+      p3.addEventListener("click", clickP3);*/
     }
 
     restaurarP3();

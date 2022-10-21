@@ -1,11 +1,12 @@
 // Ejercicio 1: Haz una función que retorne un array con tantos 0 como se indique por parámetros:
 
 function ejercicio1(n){
-    let array = []
+  /*  let array = []
     for(let i = 0; i < n ; i++){
         array.push(0);
     }
-    return array;
+    return array;*/
+    return Array(n).fill(0);
 }
 
 
