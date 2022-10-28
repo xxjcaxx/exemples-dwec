@@ -99,7 +99,7 @@ function generatePagination(qtyCharacters,limit,offset){
     }
 }
 
-function mainList(limit,offset){
+/*function mainList(limit,offset){
     let peticio = fetch(`https://gateway.marvel.com:443/v1/public/characters?limit=${limit}&offset=${offset}&apikey=${apikey}`);
     peticio.then(response => response.json())
     .then(datos => { 
@@ -108,8 +108,14 @@ function mainList(limit,offset){
         return datos.data.results;
     })
     .then(printCharacters);
-}
+}*/
 
+async function mainList(limit,offset){
+    let resposta = await fetch(`https://gateway.marvel.com:443/v1/public/characters?limit=${limit}&offset=${offset}&apikey=${apikey}`);
+    let datos = await resposta.json()
+    generatePagination(datos.data.total,limit,offset);
+    printCharacters(datos.data.results);
+}
 
 document.addEventListener('DOMContentLoaded',()=>{
    mainList(20,0);
