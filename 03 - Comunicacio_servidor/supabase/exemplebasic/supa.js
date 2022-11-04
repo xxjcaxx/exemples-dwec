@@ -2,7 +2,7 @@
     document.addEventListener('DOMContentLoaded', () => {
 
         const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJxaG52d2Zvdm1jeHJxcnNtZnhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjYyNzk4MDYsImV4cCI6MTk4MTg1NTgwNn0.jVhmEO__GFSxqRlbzdCxyeb_VxWWD7Bqk9sj3Po8xtM"
-        let access_token = ';'
+        let access_token = '';
      /*   let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNjY3MDU0ODc0LCJzdWIiOiJiMDc5ODMyZC1lMjQzLTRhYWYtYmQ5Mi1iNGZiOTYxZTg2NzQiLCJlbWFpbCI6ImpvY2FzYWxAZ21haWwuY29tIiwicGhvbmUiOiIiLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwidXNlcl9tZXRhZGF0YSI6e30sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwic2Vzc2lvbl9pZCI6IjQyOTQzZDI2LWEyNWUtNGEzMi1iODgzLWNhNzFkNTQyZTUxYSJ9.lFTwGO-2dbhPMg7XBMg2EXU4iBjmeQrvWMbbw798GPE"
         fetch('https://bqhnvwfovmcxrqrsmfxr.supabase.co/rest/v1/graphs',{ 
             method: 'get',

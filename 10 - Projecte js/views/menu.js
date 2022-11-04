@@ -12,7 +12,7 @@ menuTemplate.innerHTML = `
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Home</a>
+        <a class="nav-link active" aria-current="page" href="#/">Home</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Data</a>
@@ -21,7 +21,7 @@ menuTemplate.innerHTML = `
       <a class="nav-link" href="#">User</a>
     </li>
     <li class="nav-item">
-    <a class="nav-link" href="#">Login</a>
+    <a class="nav-link" href="#/login">Login</a>
   </li>
       <li class="nav-item">
         <a class="nav-link disabled">Logout</a>

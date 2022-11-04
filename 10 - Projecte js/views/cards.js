@@ -1,4 +1,4 @@
-import {generateLineGraph} from "../graphs/graphs.js"
+import {generateLineGraph, generateBarGraph} from "../graphs/graphs.js"
 
 export {graphPlaceholder,generateGraphCard,generateGraph};
 
@@ -25,7 +25,7 @@ function generateGraphCard(graph){
       </div>
     `;
     let graphContainer = cardTemplate.querySelector('.graph');
-    graphContainer.append(graph.data ? generateLineGraph(graph.data) : graphPlaceholder());
+    graphContainer.append(graph.Data ? generateBarGraph(graph.Data) : graphPlaceholder());
     graphContainer.classList.add()
     return cardTemplate;
 }
