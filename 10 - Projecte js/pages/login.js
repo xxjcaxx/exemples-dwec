@@ -1,5 +1,5 @@
 export {loginForm};
-import {loginUser} from "../services/users.js"
+import {loginUser, logout} from "../services/users.js"
 
 function loginForm(){
 
@@ -36,7 +36,7 @@ function loginForm(){
     </div>
 
     <div class="container" style="background-color: #f1f1f1">
-      <button type="button" class="login cancelbtn">Cancel</button>
+      <button type="button" class="login cancelbtn" id="logoutbtn">Logout</button>
       <span class="psw">Forgot <a href="#">password?</a></span>
     </div>
   </form>`;
@@ -44,8 +44,12 @@ function loginForm(){
   divLogin.querySelector('#loginbutton').addEventListener('click', async ()=>{
     let email = divLogin.querySelector('#loginemail').value;
     let password = divLogin.querySelector('#loginpassword').value;
-    let dataLogin = await loginUser(email,password);
-    console.log(dataLogin);
+    loginUser(email,password);
+    
+  });
+
+  divLogin.querySelector('#logoutbtn').addEventListener('click',()=>{
+    logout();
   });
 
     return divLogin;

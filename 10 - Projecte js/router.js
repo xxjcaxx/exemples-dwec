@@ -20,5 +20,8 @@ function route(ruta) {
       main.innerHTML = "";
       main.append(registerForm());
       break;
+    case "":
+      window.location.hash = "#/";
+      break;
   }
 }

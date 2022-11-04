@@ -15,7 +15,7 @@ function home(){
       method: 'get',
       headers: {
           "apiKey": SUPABASE_KEY,
-          "Authorization": "Bearer "+SUPABASE_KEY
+          "Authorization": "Bearer "+localStorage.getItem('access_token')
       }
   })
       .then(r => r.json())

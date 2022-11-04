@@ -7,6 +7,7 @@ const headers = {
 }; 
 
 async function supaRequest(url,method,headers,body){
+   // headers.Authorization = `Bearer ${localStorage.getItem("access_token")}`;
     let response = await fetch(url,{
         method,
         headers,
@@ -26,4 +27,8 @@ async function signUpSupabase(email,password){
     let url = 'https://bqhnvwfovmcxrqrsmfxr.supabase.co/auth/v1/signup';
     let data = await supaRequest(url,'post',headers,{ email, password });
     return data;
+}
+
+async function getData(URI){
+    
 }
