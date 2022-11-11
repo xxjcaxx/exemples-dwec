@@ -143,7 +143,7 @@ function positivos(array){
 console.log(positivos([{a:1,Op: (a,b) => a+b, b:3},{a:2,Op: (a,b) => a-b, b:10},{a:14,Op: (a,b) => a*b, b:3}]));
 
 function ordenarUltima(array){
-    return positivos(array).sort((a,b)=> a%10 > b%10);
+    return positivos(array).sort((a,b)=>  a%10 - b%10 );
 }
 
 console.log(ordenarUltima([{a:1,Op: (a,b) => a+b, b:3},{a:2,Op: (a,b) => a-b, b:10},{a:14,Op: (a,b) => a*b, b:3}]));

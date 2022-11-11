@@ -10,5 +10,25 @@ async function descargar(){
     document.querySelector('#avatar').src = URL.createObjectURL(data);
 }
 
+
+
 descargar();
 
+
+
+async function supaRequest(url,method,headers,body){
+    // headers.Authorization = `Bearer ${localStorage.getItem("access_token")}`;
+    const { data, error } = await client
+    .from('profiles')
+    .update({
+         username: "asdf", full_name: "asdf", website: "asdf" 
+    })
+    .eq('id', "45ed7239-c49d-4c32-9c29-871e490be8c8")
+    .select()
+  
+    console.log(data,error);
+     
+     
+ }
+
+//supaRequest();

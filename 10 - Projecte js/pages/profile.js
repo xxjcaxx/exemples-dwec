@@ -1,12 +1,16 @@
+import { updateProfile } from "../services/users.js";
+
 export {profileForm};
 
 
 
 function profileForm(){
 
+    let dataProfile = JSON.parse(localStorage.getItem('dataProfile'));
+
     let divLogin = document.createElement('div');
     divLogin.classList.add('formulari_centrat');
-    divLogin.innerHTML = `        <form action="action_page.php" style="border: 1px solid #ccc">
+    divLogin.innerHTML = `<form action="action_page.php" id="formProfile" style="border: 1px solid #ccc">
     <div class="container">
       <h1>Profile</h1>
       <p>Please fill in this form to create an account.</p>
@@ -44,15 +48,16 @@ function profileForm(){
         type="text"
         placeholder="user name"
         name="username"
-        
+        id = "username"
+        value = "${dataProfile.username}"
       />
 
       <label for="fullname"><b>Full Name</b></label>
       <input
         type="text"
         placeholder="fullname"
-        name="fullname"
-        
+        name="full_name"
+        value = "${dataProfile.full_name}"
       />
 
 
@@ -60,10 +65,11 @@ function profileForm(){
       <input
         type="text"
         placeholder="web"
-        name="web"
+        name="website"
+        value = "${dataProfile.website}"
       />
   
-      <img id="avatar_prev" />
+      <img id="avatar_prev" src="${dataProfile.avatar_url}"/>
 
       <label for="avatar"><b>Avatar</b></label>
       <input
@@ -84,10 +90,18 @@ function profileForm(){
   </form>`;
 
   divLogin.querySelector('#update').addEventListener('click', async ()=>{
-   /* let email = divLogin.querySelector('#signupemail').value;
-    let password = divLogin.querySelector('#signuppassword').value;
-    let dataLogin = await registerUser(email,password);
-    console.log(dataLogin);*/
+  
+
+
+    let formData = new FormData(divLogin.querySelector("#formProfile"));
+    let {username, full_name, website} = Object.fromEntries(formData);
+  
+    console.log({username, full_name, website});
+    let dataUpdate = await updateProfile({username,full_name,website});
+    
+
+
+
   });
 
   function encodeImageFileAsURL(element) {

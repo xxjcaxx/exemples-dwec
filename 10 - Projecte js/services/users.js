@@ -1,6 +1,6 @@
-import { loginSupabase, signUpSupabase, logoutSupabase } from "./http.js";
+import { loginSupabase, signUpSupabase, logoutSupabase, updateData, createData, getData } from "./http.js";
 
-export { loginUser, registerUser, logout };
+export { loginUser, registerUser, logout,updateProfile };
 
 async function loginUser(email, password) {
     let status = { success: false };
@@ -8,6 +8,14 @@ async function loginUser(email, password) {
         let dataLogin = await loginSupabase(email, password);
         console.log(dataLogin);
         localStorage.setItem("access_token", dataLogin.access_token);
+        localStorage.setItem("uid", dataLogin.user.id);
+        localStorage.setItem("mail",dataLogin.user.email);
+
+
+        let dataProfile = await getData(`profiles?id=eq.${dataLogin.user.id}`,dataLogin.access_token)
+        dataProfile = dataProfile[0];
+        localStorage.setItem('dataProfile',JSON.stringify(dataProfile));
+
         status.success = true;
     }
     catch (err) {
@@ -24,7 +32,7 @@ function registerUser(email, password) {
     try {
         signUpSupabase(email, password).then(dataRegister => {
             console.log(dataRegister);
-            success = true;
+            status.success = true;
         })
     }
     catch (err) {
@@ -44,4 +52,12 @@ function logout() {
 }
 
 
-function updateProfile(profile){}
+function updateProfile(profile){
+
+    let access_token = localStorage.getItem('access_token');
+    let uid = localStorage.getItem('uid');
+
+    updateData(`profiles?id=eq.${uid}&select=*`,access_token,profile);
+   //createData('profiles',access_token,profile);
+
+}
