@@ -18,6 +18,7 @@ function loginForm(){
         required
         id="loginemail"
       />
+      <p id="errors"></p>
 
       <label for="psw"><b>Password</b></label>
       <input
@@ -44,7 +45,13 @@ function loginForm(){
   divLogin.querySelector('#loginbutton').addEventListener('click', async ()=>{
     let email = divLogin.querySelector('#loginemail').value;
     let password = divLogin.querySelector('#loginpassword').value;
-    loginUser(email,password);
+    loginUser(email,password).then(status => 
+      {
+       if(status.success) window.location.hash = '#/'; 
+       else {
+        divLogin.querySelector('#errors').innerHTML = status.errorText;
+       }
+      });
     
   });
 

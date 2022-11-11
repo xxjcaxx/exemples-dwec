@@ -23,9 +23,15 @@ menuTemplate.innerHTML = `
     <li class="nav-item">
     <a class="nav-link" href="#/login">Login</a>
   </li>
+  <li class="nav-item">
+  <a class="nav-link" href="#/register">Sign Up</a>
+</li>
       <li class="nav-item">
-        <a class="nav-link disabled">Logout</a>
+        <a class="nav-link"  href="#/logout">Logout</a>
       </li>
+      <li class="nav-item">
+      <a class="nav-link"  href="#/profile">Profile</a>
+    </li>
     </ul>
     <form class="d-flex" role="search">
       <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
