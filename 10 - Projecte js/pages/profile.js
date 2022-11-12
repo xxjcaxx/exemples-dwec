@@ -1,4 +1,6 @@
-import { updateProfile } from "../services/users.js";
+import { route } from "../router.js";
+import { getFileRequest } from "../services/http.js";
+import { getProfile, updateProfile } from "../services/users.js";
 
 export {profileForm};
 
@@ -6,14 +8,17 @@ export {profileForm};
 
 function profileForm(){
 
-    let dataProfile = JSON.parse(localStorage.getItem('dataProfile'));
+   //let dataProfile = JSON.parse(localStorage.getItem('dataProfile'));
+   let divLogin = document.createElement('div');
+   divLogin.classList.add('formulari_centrat');
 
-    let divLogin = document.createElement('div');
-    divLogin.classList.add('formulari_centrat');
+   getProfile().then(dataProfile=> {
+    dataProfile = dataProfile[0];
+   
     divLogin.innerHTML = `<form action="action_page.php" id="formProfile" style="border: 1px solid #ccc">
     <div class="container">
       <h1>Profile</h1>
-      <p>Please fill in this form to create an account.</p>
+      
       <hr />
 
       <label for="email"><b>Email</b></label>
@@ -23,6 +28,8 @@ function profileForm(){
         placeholder="Enter Email"
         name="email"
         required
+        readonly
+        value="${localStorage.getItem("mail")}"
       />
 
       <label for="psw"><b>Password</b></label>
@@ -68,9 +75,9 @@ function profileForm(){
         name="website"
         value = "${dataProfile.website}"
       />
-  
-      <img id="avatar_prev" src="${dataProfile.avatar_url}"/>
-
+  <div>
+      <img class="avatar_profile" id="avatar_prev" src="${dataProfile.avatar_blob}"/>
+</div>
       <label for="avatar"><b>Avatar</b></label>
       <input
         type="file"
@@ -90,36 +97,34 @@ function profileForm(){
   </form>`;
 
   divLogin.querySelector('#update').addEventListener('click', async ()=>{
-  
-
 
     let formData = new FormData(divLogin.querySelector("#formProfile"));
-    let {username, full_name, website} = Object.fromEntries(formData);
-  
-    console.log({username, full_name, website});
-    let dataUpdate = await updateProfile({username,full_name,website});
-    
+    let {username, full_name, website, avatar} = Object.fromEntries(formData);
+    console.log({username, full_name, website, avatar});
 
+    let dataUpdate = await updateProfile({username,full_name,website, avatar});
+    
+    route("#/profile");
 
 
   });
 
   function encodeImageFileAsURL(element) {
-    var file = element.files[0];
+    let file = element.files[0];
     if(file) {
         divLogin.querySelector('#avatar_prev').src = URL.createObjectURL(file);
     }
-    /*
-    var reader = new FileReader();
-    reader.onloadend = function() {
-      console.log('RESULT', reader.result)
-    }
-    reader.readAsDataURL(file);*/
    }
    
 
   divLogin.querySelector('#avatar').addEventListener('change',function () {encodeImageFileAsURL(this)})
 
-    return divLogin;
+
+  
+   });
+   
+  
+
+   return divLogin;
 
 }

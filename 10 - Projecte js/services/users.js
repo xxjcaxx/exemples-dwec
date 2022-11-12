@@ -1,6 +1,6 @@
-import { loginSupabase, signUpSupabase, logoutSupabase, updateData, createData, getData } from "./http.js";
+import { loginSupabase, signUpSupabase, logoutSupabase, updateData, createData, getData, fileRequest, getFileRequest } from "./http.js";
 
-export { loginUser, registerUser, logout,updateProfile };
+export { loginUser, registerUser, logout,updateProfile, getProfile };
 
 async function loginUser(email, password) {
     let status = { success: false };
@@ -52,12 +52,34 @@ function logout() {
 }
 
 
-function updateProfile(profile){
+async function updateProfile(profile){
 
     let access_token = localStorage.getItem('access_token');
     let uid = localStorage.getItem('uid');
 
-    updateData(`profiles?id=eq.${uid}&select=*`,access_token,profile);
+    let formImg = new FormData();
+    formImg.append("avatar", profile.avatar, 'avatarProfile.png');
+    
+    let avatarResponse = await fileRequest(`/storage/v1/object/avatars/avatar${uid}.png`,formImg,access_token)
+
+   // console.log(avatarResponse);
+    profile.avatar_url = avatarResponse.urlAvatar;
+    delete profile.avatar;
+
+    let responseUpdate = await updateData(`profiles?id=eq.${uid}&select=*`,access_token,profile);
+   // console.log(responseUpdate);
    //createData('profiles',access_token,profile);
 
+}
+
+async function getProfile(){
+
+    let access_token = localStorage.getItem('access_token');
+    let uid = localStorage.getItem('uid');
+    let responseGet = await getData(`profiles?id=eq.${uid}&select=*`,access_token);
+    console.log(responseGet);
+    let avatar_url = responseGet[0].avatar_url;
+    responseGet[0].avatar_blob =  URL.createObjectURL( await getFileRequest(avatar_url,access_token));
+    return responseGet;
+ 
 }

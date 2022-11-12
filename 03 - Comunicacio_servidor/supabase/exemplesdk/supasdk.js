@@ -32,3 +32,22 @@ async function supaRequest(url,method,headers,body){
  }
 
 //supaRequest();
+
+
+document.addEventListener('DOMContentLoaded',()=>{
+
+    document.querySelector('#avatarI').addEventListener('change', async (event)=>{
+        const avatarFile = event.target.files[0]
+        const { data, error } = await client.storage
+        .from('avatars')
+
+  .upload('/avatar46.png', avatarFile, {
+
+    cacheControl: '3600',
+
+    upsert: true
+
+  })
+    })
+
+});

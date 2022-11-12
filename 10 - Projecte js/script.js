@@ -9,7 +9,7 @@ import {route} from "./router.js"
 (() => {
   document.addEventListener("DOMContentLoaded", () => {
     let container = document.querySelector("#container");
-    container.append(menuTemplate);
+    container.append(menuTemplate());
     let mainWindow = document.createElement("div");
     mainWindow.id = "main";
     mainWindow.classList.add("container");

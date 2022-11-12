@@ -86,3 +86,13 @@
       width: 100%;
     }
   }
+
+
+
+  .avatar_profile{
+    object-fit: cover;
+  width: 230px;
+  height: 230px;
+    margin: auto;
+    border-radius: 50%;
+  }
