@@ -14,6 +14,7 @@ function profileForm(){
 
    getProfile().then(dataProfile=> {
     dataProfile = dataProfile[0];
+    console.log(dataProfile);
    
     divLogin.innerHTML = `<form action="action_page.php" id="formProfile" style="border: 1px solid #ccc">
     <div class="container">
@@ -76,7 +77,7 @@ function profileForm(){
         value = "${dataProfile.website}"
       />
   <div>
-      <img class="avatar_profile" id="avatar_prev" src="${dataProfile.avatar_blob}"/>
+      <img class="avatar_profile" id="avatar_prev" src="${dataProfile.avatar_blob ? dataProfile.avatar_blob : ""}"/>
 </div>
       <label for="avatar"><b>Avatar</b></label>
       <input

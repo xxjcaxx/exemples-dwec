@@ -79,7 +79,16 @@ async function getProfile(){
     let responseGet = await getData(`profiles?id=eq.${uid}&select=*`,access_token);
     console.log(responseGet);
     let avatar_url = responseGet[0].avatar_url;
-    responseGet[0].avatar_blob =  URL.createObjectURL( await getFileRequest(avatar_url,access_token));
+    responseGet[0].avatar_blob = false;
+    if (avatar_url){
+        let imageBlob = await getFileRequest(avatar_url,access_token);
+        console.log(imageBlob);
+        if(imageBlob instanceof Blob){
+            responseGet[0].avatar_blob =  URL.createObjectURL( imageBlob );
+        }
+    }
+    
+    
     return responseGet;
  
 }
