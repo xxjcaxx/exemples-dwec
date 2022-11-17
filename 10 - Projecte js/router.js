@@ -7,6 +7,12 @@ import { profileForm } from "./pages/profile.js";
 export { route };
 
 function route(ruta) {
+
+  if (/#\/link\/.*/.test(route)) {
+    console.log('Link');
+  }
+
+
   console.log(ruta);
   let main = document.querySelector("#main");
   switch (ruta) {
@@ -18,7 +24,6 @@ function route(ruta) {
       main.innerHTML = "";
       main.append(loginForm());
       break;
-      
     case "#/register":
       main.innerHTML = "";
       main.append(registerForm());

@@ -1,6 +1,6 @@
-import { loginSupabase, signUpSupabase, logoutSupabase, updateData, createData, getData, fileRequest, getFileRequest } from "./http.js";
+import { loginSupabase, signUpSupabase, logoutSupabase, recoverPasswordSupabase, updateData, createData, getData, fileRequest, getFileRequest } from "./http.js";
 
-export { loginUser, registerUser, logout,updateProfile, getProfile };
+export { loginUser, registerUser, logout,updateProfile, getProfile, forgotPassword };
 
 async function loginUser(email, password) {
     let status = { success: false };
@@ -91,4 +91,10 @@ async function getProfile(){
     
     return responseGet;
  
+}
+
+
+async function forgotPassword(email){
+    let responseForgot = await recoverPasswordSupabase(email);
+    console.log(responseForgot);
 }

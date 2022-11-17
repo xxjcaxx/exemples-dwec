@@ -1,5 +1,5 @@
 export {loginForm};
-import {loginUser, logout} from "../services/users.js"
+import {loginUser, logout, forgotPassword} from "../services/users.js"
 
 function loginForm(){
 
@@ -38,7 +38,7 @@ function loginForm(){
 
     <div class="container" style="background-color: #f1f1f1">
       <button type="button" class="login cancelbtn" id="logoutbtn">Logout</button>
-      <span class="psw">Forgot <a href="#">password?</a></span>
+      <span class="psw">Forgot <a href="#" id="forgot">password?</a></span>
     </div>
   </form>`;
 
@@ -58,6 +58,12 @@ function loginForm(){
   divLogin.querySelector('#logoutbtn').addEventListener('click',()=>{
     logout();
   });
+
+  divLogin.querySelector('#forgot').addEventListener('click',()=>{
+    let email = divLogin.querySelector('#loginemail').value;
+    forgotPassword(email);
+  });
+
 
     return divLogin;
 
