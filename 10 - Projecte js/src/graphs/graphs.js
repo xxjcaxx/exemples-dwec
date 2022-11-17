@@ -1,4 +1,8 @@
+import * as d3 from "d3";  //wp
+
 export { generateBarGraph, generateLineGraph };
+
+
 
 function generateBarGraph(data) {
   let width = 500;

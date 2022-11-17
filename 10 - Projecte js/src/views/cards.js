@@ -20,7 +20,7 @@ function generateGraphCard(graph){
       <div class="card-body">
         <div class="graph"></div>
         <p class="card-text">${graph.description}</p>
-        <a href="#" class="btn btn-primary">Full screen</a>
+        <a href="#/graph/${graph.id}" class="btn btn-primary">Full screen</a>
       </div>
       </div>
     `;

@@ -8,7 +8,7 @@ function detail(graph){
 
   
     if(localStorage.getItem('access_token')){
-      getData('graphs',localStorage.getItem('access_token'))
+      getData('graphs?id=eq.'+graph,localStorage.getItem('access_token'))
       .then(d => {
         console.log(d);
         for (let g of d) {
