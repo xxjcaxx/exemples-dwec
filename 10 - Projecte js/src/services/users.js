@@ -1,6 +1,6 @@
 import { loginSupabase, signUpSupabase, logoutSupabase, recoverPasswordSupabase, updateData, createData, getData, fileRequest, getFileRequest } from "./http.js";
 
-export { loginUser, registerUser, logout,updateProfile, getProfile, forgotPassword };
+export { loginUser, isLogged, registerUser, logout,updateProfile, getProfile, forgotPassword };
 
 async function loginUser(email, password) {
     let status = { success: false };
@@ -10,6 +10,8 @@ async function loginUser(email, password) {
         localStorage.setItem("access_token", dataLogin.access_token);
         localStorage.setItem("uid", dataLogin.user.id);
         localStorage.setItem("mail",dataLogin.user.email);
+        let expirationDate = Math.floor(Date.now() / 1000)+dataLogin.expires_in; 
+        localStorage.setItem("expirationDate",expirationDate);
 
 
         let dataProfile = await getData(`profiles?id=eq.${dataLogin.user.id}`,dataLogin.access_token)
@@ -25,6 +27,16 @@ async function loginUser(email, password) {
     }
 
     return status;
+}
+
+function isLogged(){
+    if(localStorage.getItem('access_token')){
+        if(localStorage.getItem('expirationDate') > Math.floor(Date.now() / 1000))
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 function registerUser(email, password) {

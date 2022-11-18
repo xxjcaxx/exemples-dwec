@@ -10,8 +10,21 @@ module.exports = {
  devServer: {
     static: './dist',
   },
-  module: {
+ module: {
     rules: [
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        type: "asset/resource",
+      },
+ 
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
+      },
+ 
       {
         test: /\.(scss)$/,
         use: [
@@ -33,7 +46,8 @@ module.exports = {
           },
           {
             loader: 'sass-loader'
-          }
+          },
+      
         ]
       }
     ]

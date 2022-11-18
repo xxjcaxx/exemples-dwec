@@ -1,10 +1,11 @@
 import {generateLineGraph, generateBarGraph} from "../graphs/graphs.js"
+import placeHolderImg from '../images/graphPlaceholder.png'
 
 export {graphPlaceholder,generateGraphCard,generateGraph};
 
 function graphPlaceholder() {
   let gph = document.createElement(`img`)
-  gph.src = "images/graphPlaceholder.png";
+  gph.src =  placeHolderImg; //"images/graphPlaceholder.png";
   gph.style.width = '100%';
   return gph;
 } 

@@ -1,11 +1,10 @@
-import { getProfile } from "../services/users.js";
+import { getProfile, isLogged } from "../services/users.js";
 
-export {menuTemplate};
+export { menuTemplate };
 
-
-function menuTemplate(){
-  let menuDiv = document.createElement('div');
-  menuDiv.id = 'header';
+function menuTemplate() {
+  let menuDiv = document.createElement("div");
+  menuDiv.id = "header";
   menuDiv.innerHTML = ` 
   <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid">
@@ -19,28 +18,47 @@ function menuTemplate(){
           <a class="nav-link active" aria-current="page" href="#/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Data</a>
+          <a class="nav-link" href="#/data">Data</a>
         </li>
         <li class="nav-item">
         <a class="nav-link" href="#">User</a>
       </li>
+      ${
+        !isLogged()
+          ? `
       <li class="nav-item">
       <a class="nav-link" href="#/login">Login</a>
     </li>
+    `
+          : ""
+      }
+    ${
+      !isLogged()
+        ? `
     <li class="nav-item">
     <a class="nav-link" href="#/register">Sign Up</a>
   </li>
+  `
+        : ""
+    }
+  ${
+    isLogged()
+      ? `
         <li class="nav-item">
           <a class="nav-link"  href="#/logout">Logout</a>
         </li>
         <li class="nav-item">
         <a class="nav-link"  href="#/profile">Profile</a>
       </li>
+   
       <li class="nav-item">
         <a class="nav-link" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <img id="avatar_navbar" src="" width="30" height="30" class="rounded-circle">
         </a>
       </li>   
+      `
+      : ""
+  }
       </ul>
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -51,13 +69,11 @@ function menuTemplate(){
   </nav>
   `;
 
-
-  getProfile().then(dataProfile=> {
+  getProfile().then((dataProfile) => {
     dataProfile = dataProfile[0];
     console.log(dataProfile);
-    menuDiv.querySelector('#avatar_navbar').src = dataProfile.avatar_blob
+    menuDiv.querySelector("#avatar_navbar").src = dataProfile.avatar_blob;
   });
 
   return menuDiv;
 }
-

@@ -1,5 +1,7 @@
 // Import our custom CSS
 import './scss/styles.scss'
+import './scss/style.css'
+import placeHolderImg from './images/graphPlaceholder.png'
 
 // Import all of Bootstrap's JS
 import * as bootstrap from 'bootstrap'
@@ -29,6 +31,8 @@ import {route} from "./router.js"
     window.addEventListener('hashchange',function hasChanged(){
       route(window.location.hash);
     });
+
+
 
   
   });
