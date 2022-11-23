@@ -1,4 +1,6 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 
 module.exports = {
   mode: 'development', // o production
@@ -10,6 +12,14 @@ module.exports = {
  devServer: {
     static: './dist',
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+        title: 'Dashboarding',
+       filename: 'index.html',
+       template: 'src/index.html',
+    }),
+],
+
  module: {
     rules: [
       {

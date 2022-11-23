@@ -20,9 +20,7 @@ function menuTemplate() {
         <li class="nav-item">
           <a class="nav-link" href="#/data">Data</a>
         </li>
-        <li class="nav-item">
-        <a class="nav-link" href="#">User</a>
-      </li>
+      
       ${
         !isLogged()
           ? `
