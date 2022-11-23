@@ -96,3 +96,12 @@
     margin: auto;
     border-radius: 50%;
   }
+
+
+span.edit_icon, span.delete_icon {
+  cursor: pointer;
+}
+
+span.edit_icon:hover, span.delete_icon:hover {
+  color: #ccc;
+}
