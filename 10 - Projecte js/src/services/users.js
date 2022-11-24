@@ -72,6 +72,8 @@ async function updateProfile(profile){
     let formImg = new FormData();
     formImg.append("avatar", profile.avatar, 'avatarProfile.png');
     
+    console.log(formImg);
+
     let avatarResponse = await fileRequest(`/storage/v1/object/avatars/avatar${uid}.png`,formImg,access_token)
 
    // console.log(avatarResponse);

@@ -98,6 +98,12 @@
   }
 
 
+
+  .column_buttons{
+    width: 0;
+  }
+
+
 span.edit_icon, span.delete_icon {
   cursor: pointer;
 }
