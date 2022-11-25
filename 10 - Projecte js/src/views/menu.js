@@ -67,11 +67,14 @@ function menuTemplate() {
   </nav>
   `;
 
-  getProfile().then((dataProfile) => {
-    dataProfile = dataProfile[0];
-    console.log(dataProfile);
-    menuDiv.querySelector("#avatar_navbar").src = dataProfile.avatar_blob;
-  });
+  if (isLogged()){
+    getProfile().then((dataProfile) => {
+      dataProfile = dataProfile[0];
+      console.log(dataProfile);
+      menuDiv.querySelector("#avatar_navbar").src = dataProfile.avatar_blob;
+    });
+  }
+
 
   return menuDiv;
 }

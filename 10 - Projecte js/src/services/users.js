@@ -1,6 +1,11 @@
 import { loginSupabase, signUpSupabase, logoutSupabase, recoverPasswordSupabase, updateData, createData, getData, fileRequest, getFileRequest } from "./http.js";
 
-export { loginUser, isLogged, registerUser, logout,updateProfile, getProfile, forgotPassword };
+export { loginUser, isLogged, registerUser, logout,updateProfile, getProfile, forgotPassword, loginWithToken };
+
+function expirationDate(expires_in){
+    return Math.floor(Date.now() / 1000)+expires_in; 
+        localStorage.setItem("expirationDate",expirationDate);
+}
 
 async function loginUser(email, password) {
     let status = { success: false };
@@ -8,16 +13,7 @@ async function loginUser(email, password) {
         let dataLogin = await loginSupabase(email, password);
         console.log(dataLogin);
         localStorage.setItem("access_token", dataLogin.access_token);
-        localStorage.setItem("uid", dataLogin.user.id);
-        localStorage.setItem("mail",dataLogin.user.email);
-        let expirationDate = Math.floor(Date.now() / 1000)+dataLogin.expires_in; 
-        localStorage.setItem("expirationDate",expirationDate);
-
-
-        let dataProfile = await getData(`profiles?id=eq.${dataLogin.user.id}`,dataLogin.access_token)
-        dataProfile = dataProfile[0];
-        localStorage.setItem('dataProfile',JSON.stringify(dataProfile));
-
+        localStorage.setItem("expirationDate",expirationDate(dataLogin.expires_in));
         status.success = true;
     }
     catch (err) {
@@ -27,6 +23,11 @@ async function loginUser(email, password) {
     }
 
     return status;
+}
+
+function loginWithToken(access_token,expires_in){
+    localStorage.setItem("access_token", access_token);
+    localStorage.setItem("expirationDate",expirationDate(expires_in));
 }
 
 function isLogged(){

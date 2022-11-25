@@ -59,9 +59,11 @@ function loginForm(){
     logout();
   });
 
-  divLogin.querySelector('#forgot').addEventListener('click',()=>{
+  divLogin.querySelector('#forgot').addEventListener('click',(event)=>{
+    event.preventDefault();
     let email = divLogin.querySelector('#loginemail').value;
     forgotPassword(email);
+    event.target.parentElement.append(' Has rebut un correu')
   });
 
 

@@ -1,7 +1,7 @@
 import { loginForm } from "./pages/login.js";
 import { home } from "./pages/home.js";
 import { registerForm } from "./pages/register.js";
-import { logout } from "./services/users.js";
+import { loginWithToken, logout } from "./services/users.js";
 import { profileForm } from "./pages/profile.js";
 import { detail } from "./pages/detail.js";
 import { dataPage } from "./pages/data.js";
@@ -18,34 +18,44 @@ function route(ruta) {
     main.innerHTML = "";
     main.append(detail(graphID));
   }
+  else if(/#access_token=.*type=recovery$/.test(ruta)) {
+    let datos = Object.fromEntries(ruta.substring(1).split('&').map(parametro => parametro.split('=')));
+    loginWithToken(datos['access_token'],datos.expires_in);
+    window.location.hash = "#/";
+    
+  }
 
-  switch (ruta) {
-    case "#/":
-      main.innerHTML = "";
-      main.append(home());
-      break;
-    case "#/login":
-      main.innerHTML = "";
-      main.append(loginForm());
-      break;
-    case "#/data":
+  else {
+    switch (ruta) {
+      case "#/":
         main.innerHTML = "";
-        main.append(dataPage());
+        main.append(home());
         break;
-    case "#/register":
-      main.innerHTML = "";
-      main.append(registerForm());
-      break;
-    case "#/logout":
-        logout();
+      case "#/login":
+        main.innerHTML = "";
+        main.append(loginForm());
+        break;
+      case "#/data":
+          main.innerHTML = "";
+          main.append(dataPage());
+          break;
+      case "#/register":
+        main.innerHTML = "";
+        main.append(registerForm());
+        break;
+      case "#/logout":
+          logout();
+          window.location.hash = "#/";
+          break;
+          case "#/profile":
+            main.innerHTML = "";
+        main.append(profileForm());
+            break;
+      case "":
         window.location.hash = "#/";
         break;
-        case "#/profile":
-          main.innerHTML = "";
-      main.append(profileForm());
-          break;
-    case "":
-      window.location.hash = "#/";
-      break;
+    }
   }
+
+
 }
