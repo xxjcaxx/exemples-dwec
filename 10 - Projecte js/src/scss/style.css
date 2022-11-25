@@ -104,10 +104,10 @@
   }
 
 
-span.edit_icon, span.delete_icon {
+span.pencil_icon, span.pencil_icon {
   cursor: pointer;
 }
 
-span.edit_icon:hover, span.delete_icon:hover {
+span.pencil_icon:hover, span.trash_icon:hover {
   color: #ccc;
 }
