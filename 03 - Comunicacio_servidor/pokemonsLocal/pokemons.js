@@ -5,6 +5,7 @@ function getPokemonTemplate(pokemon) {
         <h2 class="name">${pokemon.name.english}</h2>
         <p>${pokemon.type}</p>
     `;
+    
   return pokemonTemplate;
 }
 
