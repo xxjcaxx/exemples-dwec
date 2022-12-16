@@ -21,6 +21,7 @@ const syncCompose =
          fns[fns.length - 1](...args),
        ); 
 
+const CLog = data => { console.log(data); return data }
 
 //////////////// Data management
 
@@ -40,8 +41,8 @@ const createLink =  link => linkText => data => {
 
 const applySpecialRows = data => specialRows => {
  return syncCompose(
-  createLink(specialRows.link)(specialRows.linkText),
   deleteRows(specialRows.toDelete),
+  createLink(specialRows.link)(specialRows.linkText),
   copyObject)(data);
 }
 

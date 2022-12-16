@@ -1,0 +1,10 @@
+#matches {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#matches div {
+    margin: 10px;
+    border: 1px solid #aaa;
+    padding: 10px;
+}
