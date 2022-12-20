@@ -2,7 +2,7 @@ export {route};
 
 import { getProducts, getReviews } from "../services/http.js";
 import { reviewTemplate } from "../components/reviewItem/reviewItem.js";
-import { itemList } from "../components/itemList/ItemList.js";
+import { itemList } from "../components/itemList/itemList.js";
 import { productTemplate } from "../components/productItem/productItem.js";
 
 const route = (ruta) => {
