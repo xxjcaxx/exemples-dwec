@@ -1,5 +1,15 @@
-<p [ngClass]="{'resaltat': producte.id%2 == 0}">
-    ASIN: {{producte.asin}} 
-    <input [ngModelOptions]="{ standalone: true }"
-    type="text" [(ngModel)]="producte.asin">
-</p>
+<div class="col">
+<div class="card" style="width: 18rem;">
+    <img [src]="producte.asin+'jpg'" class="card-img-top" [alt]="producte.asin+' IMG '">
+    <div class="card-body">
+      <h5 class="card-title">{{producte.asin}}</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <app-reviews-list></app-reviews-list>
+    </ul>
+    <div class="card-body">
+      
+    </div>
+  </div>
+</div>
