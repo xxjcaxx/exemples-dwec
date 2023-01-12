@@ -18,6 +18,7 @@ const cleanPartidos = partidos => partidos.filter(p => p.Local != '')
 //c) partidos[] => semanas[]
 const groupPartidos = partidos => 
    // let semanas = [...new Set((await partidos).map(p => p['Sem.']))]
+   // També es pot fer amb l'array de setmanes i fent un filter dels partits
     Object.values(partidos.reduce((semObject,partido) => {
                             semObject[`${partido['Sem.']}`] = semObject[`${partido['Sem.']}`] 
                                 ? [...semObject[`${partido['Sem.']}`], partido] 

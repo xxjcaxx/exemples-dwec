@@ -1,0 +1,5 @@
+<p [ngClass]="{'resaltat': producte.id%2 == 0}">
+    ASIN: {{producte.asin}} 
+    <input [ngModelOptions]="{ standalone: true }"
+    type="text" [(ngModel)]="producte.asin">
+</p>
