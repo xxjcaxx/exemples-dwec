@@ -2,7 +2,7 @@
     <div class="ms-2 me-auto">
         <app-stars-rating [overall]="r.overall"></app-stars-rating>
         <div class="fw-bold">{{r.summary}}</div>
-        <p>{{r.unixReviewTime}}, {{r.reviewText}} </p>
+        <p>{{r.unixReviewTime}}, {{r.reviewText | slice:0:50}}... </p>
         <p><i class="bi bi-person"></i>{{r.reviewerName}}</p>
         <p>{{gethelpfull(r)[0]}}<i class="bi bi-hand-thumbs-up"></i>{{gethelpfull(r)[1]}}<i class="bi bi-hand-thumbs-down"></i></p>
       </div>
