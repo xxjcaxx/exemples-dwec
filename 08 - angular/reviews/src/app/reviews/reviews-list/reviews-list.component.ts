@@ -1,26 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { IProduct } from 'src/app/interfaces/i-product';
 import { IReview } from 'src/app/interfaces/i-review';
+import { SupabaseService } from 'src/app/services/supabase.service';
 
 @Component({
   selector: 'app-reviews-list',
   templateUrl: './reviews-list.component.html',
   styleUrls: ['./reviews-list.component.css']
 })
-export class ReviewsListComponent {
+export class ReviewsListComponent implements OnInit{
 
-  reviews: IReview[] = [{"id":1,"created_at":"2022-11-25T16:47:16.49729+00:00","reviewerID":"AHC2CUX3AWPHC","asin":"B00008RW9U","reviewerName":"Larry K. Lednik","helpful":"[0,0]","reviewText":"The California Car Duster has been so much more than I expected. I keep a good finish on my car and it is garaged year-round. Washing the car was (many times) simply a matter of hosing off the dust. This does a damn nice job of dusting all of the car surfaces quickly and easily. Sometimes I get lazy and the car duster saves me a full car wash. Try it!","overall":5,"summary":"quick and easy dust removal","unixReviewTime":1259280000,"reviewTime":"11 27, 2009"}, 
-  {"id":2,"created_at":"2022-11-25T16:47:16.511629+00:00","reviewerID":"A1Y4Y0MMSFNJWT","asin":"B0000AXRH5","reviewerName":"Fish","helpful":"[0,0]","reviewText":"Hard to complain, it's a funnel, it's a good length and width for awkwardly located fills. Has a guard on the top for spill prevention, feels sturdy and durable, and the price is more than fair. What's not to like?","overall":5,"summary":"It's a funnel, does what you need, the price is fair.","unixReviewTime":1372982400,"reviewTime":"07 5, 2013"}, 
-  {"id":3,"created_at":"2022-11-25T16:47:16.519519+00:00","reviewerID":"A21XUDC9QBLLSI","asin":"B0000AXRH5","reviewerName":"jlundin","helpful":"[0,0]","reviewText":"I love this funnel more than others that I have because it is the only one that stays in while I am pouring. The long spout keeps it in. I highly recommend it. I use one for automotive and my wife uses one for pouring in the homemade detergent into barrels.","overall":2,"summary":"Awesome multi use funnel","unixReviewTime":1388534400,"reviewTime":"01 1, 2014"}, 
-  {"id":4,"created_at":"2022-11-25T16:47:16.527382+00:00","reviewerID":"A24SYO10RBABLT","asin":"B0000AXRH5","reviewerName":"hawaiiannovice","helpful":"[0,0]","reviewText":"Ordered several funnels. One for my Auto trans oil. One for filling the Toyota van anti-freeze via the top hose. Faster than filling via the radiator cap. One for the shampoo consolidation in the house.","overall":5,"summary":"Need the fine tip.","unixReviewTime":1374537600,"reviewTime":"07 23, 2013"}, 
-  {"id":5,"created_at":"2022-11-25T16:47:16.535209+00:00","reviewerID":"A2QBZTG2TIZDER","asin":"B0000AXRH5","reviewerName":"Jared T. Guess \"Jared\"","helpful":"[0,0]","reviewText":"Perfect funnel to pour oil into your crankcase..  This funnel can be used for other purposes of course,.. but I bought it for pouring quart oil into my crankcase.","overall":5,"summary":"Small.. works well.","unixReviewTime":1395446400,"reviewTime":"03 22, 2014"}, 
-  {"id":6,"created_at":"2022-11-25T16:47:16.538533+00:00","reviewerID":"A4N52S2HDHF4Y","asin":"B0000AXRH5","reviewerName":"J. Waldvogel","helpful":"[4,6]","reviewText":"What's to say?  It's not very large.  It works perfect in my 2003 Chevy truck to add a Fuel Additive into the fuel tank!!!  It should work for Power steering and transmission also, at least on Car/trucks that's not hard to get to or down load were access is bad.  The design helps keep you from spilling when your poring a fluid into it!  For under $5, not a bad deal.  Hang it up out of the way when done with it.  It's able to fit into your Transmission Dip Stick tube, so it has to be small enough, so you can just dump a bunch a fluid into it at once!!!  It's small and doesn't hold all that much.  For what it is, I like it.","overall":5,"summary":"Come on, it's a Funnel!!!","unixReviewTime":1281139200,"reviewTime":"08 7, 2010"}, 
-  {"id":7,"created_at":"2022-11-25T16:47:16.544125+00:00","reviewerID":"AEV34C745C0FH","asin":"B0000AXRH5","reviewerName":"James L. Dooley","helpful":"[0,0]","reviewText":"While this is a simply plastic funnel, its uses are allot. My biggest use is with  power equipment like my riding lawnmower; the oil cap is near the bottom and a difficult place to fill. The funnel is perfect also for smaller engines like my Pressure Washer - etc. Hope this helps.","overall":4,"summary":"Hopkins Flo Tool Spill Saver Multi-Purpose Funnel","unixReviewTime":1325203200,"reviewTime":"12 30, 2011"}, 
-  {"id":8,"created_at":"2022-11-25T16:47:16.523789+00:00","reviewerID":"A205ZP18PBAATA","asin":"B0000AXRH5","reviewerName":"gjmcc50","helpful":"[1,1]","reviewText":"This thing is smaller and skinnier than I thought, although it is very long.  It is awkward for filling my car engine oil because its so long that the bottom of the funnel hits the valve heads before anything else, so its unstable to just sit in there.  I have to hold it to support it with one hand while i fill the oil with the other.It does have some good uses though, as it is just the right size to fill my motorcycle transmission oil.All in all, the funnel is solid, no complaints on the product quality, but I think next time I will purchase in person so I can really gauge the size I need.","overall":4,"summary":"Smaller than I thought","unixReviewTime":1397520000,"reviewTime":"04 15, 2014"}, 
-  {"id":10,"created_at":"2022-11-25T16:47:16.560345+00:00","reviewerID":"A3N0P5AAMP6XD2","asin":"B0000AXRH5","reviewerName":"H B","helpful":"[0,0]","reviewText":"Works great in refilling oil in my generator and lawnmower!It even has a lip on the top so the oil won't go out of the funnel.The only problem with funnels is, you never know how full the chamber is,and always need to remove the funnel to look. Someone should invent a meter on the funnel, that helps in overflowing,and an end valve in case the chamber is full, to prevent it from overflowing.But until then, this funnel will do just fine!","overall":5,"summary":"Great affordable funnel!","unixReviewTime":1339545600,"reviewTime":"06 13, 2012"}, 
-  {"id":9,"created_at":"2022-11-25T16:47:16.553764+00:00","reviewerID":"A2974KOBZGV447","asin":"B0000AXRH5","reviewerName":"Retired Navy","helpful":"[0,0]","reviewText":"Priced right and Just right for the longer reach needed for todays cars and trucks. Buy two or 3 they are so handy.Makes it easy to fill hard to reach items such as mowers UTV'S etc.","overall":5,"summary":"Your go to funnel.","unixReviewTime":1385424000,"reviewTime":"11 26, 2013"}]; 
+  constructor(private productsService: SupabaseService){}
+
+  @Input() product!: IProduct;
+  reviews: IReview[] = [];
 
   gethelpfull(review:IReview): number[]{
     return JSON.parse(review.helpful);
+  }
+
+  ngOnInit(): void {
+    this.productsService.getReviews(this.product.asin).subscribe(
+     (rev: IReview[]) => this.reviews = rev, // Success function
+    );
   }
 
 }

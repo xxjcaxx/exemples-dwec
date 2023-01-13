@@ -11,6 +11,8 @@ import { ProductsListComponent } from './reviews/products-list/products-list.com
 import { FormsModule } from '@angular/forms';
 import { ProductsItemComponent } from './reviews/products-item/products-item.component';
 import { StarsRatingComponent } from './reviews/stars-rating/stars-rating.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { StarsRatingComponent } from './reviews/stars-rating/stars-rating.compon
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
