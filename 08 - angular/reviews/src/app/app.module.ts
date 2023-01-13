@@ -10,6 +10,7 @@ import { ReviewsListComponent } from './reviews/reviews-list/reviews-list.compon
 import { ProductsListComponent } from './reviews/products-list/products-list.component';
 import { FormsModule } from '@angular/forms';
 import { ProductsItemComponent } from './reviews/products-item/products-item.component';
+import { StarsRatingComponent } from './reviews/stars-rating/stars-rating.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ProductsItemComponent } from './reviews/products-item/products-item.com
     MainComponent,
     ReviewsListComponent,
     ProductsListComponent,
-    ProductsItemComponent
+    ProductsItemComponent,
+    StarsRatingComponent
   ],
   imports: [
     BrowserModule,

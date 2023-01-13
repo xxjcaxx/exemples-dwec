@@ -1,6 +1,9 @@
-<li class="list-group-item">
+<li class="list-group-item" *ngFor="let r of reviews;">
     <div class="ms-2 me-auto">
-        <div class="fw-bold">Subheading</div>
-        Content for list item
+        <app-stars-rating [overall]="r.overall"></app-stars-rating>
+        <div class="fw-bold">{{r.summary}}</div>
+        <p>{{r.unixReviewTime}}, {{r.reviewText}} </p>
+        <p><i class="bi bi-person"></i>{{r.reviewerName}}</p>
+        <p>{{gethelpfull(r)[0]}}<i class="bi bi-hand-thumbs-up"></i>{{gethelpfull(r)[1]}}<i class="bi bi-hand-thumbs-down"></i></p>
       </div>
   </li>
