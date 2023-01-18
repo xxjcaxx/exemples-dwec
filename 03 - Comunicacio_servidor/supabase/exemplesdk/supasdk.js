@@ -12,7 +12,7 @@ async function descargar(){
 
 
 
-descargar();
+//descargar();
 
 
 
@@ -32,6 +32,24 @@ async function supaRequest(url,method,headers,body){
  }
 
 //supaRequest();
+
+
+async function supaCount(){
+  
+const { count, error } = await client
+.from('products')
+.select('*', { count: 'exact', head: true })
+
+  console.log(count,error);
+   
+  let { data, erroor } = await client
+  .from('products')
+  .select('*')
+
+  console.log(data,error);
+}
+
+supaCount()
 
 
 document.addEventListener('DOMContentLoaded',()=>{
