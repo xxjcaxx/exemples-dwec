@@ -1,5 +1,5 @@
 <div class="row">
-    <app-products-item class="col" [producte]="producte" *ngFor="let producte of productes">
+    <app-products-item class="col" [producte]="producte" *ngFor="let producte of productes | productFilter:filtre">
     </app-products-item>
 </div>
 

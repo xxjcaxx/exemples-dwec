@@ -1,10 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+  filtre: string = '';
+
+  constructor(private sharedService: SharedService){
+
+  }
+
+  ngOnInit(): void {
+    this.sharedService.filtre.subscribe(
+      (f: string) => this.filtre = f
+    )
+  }
+
+  aplicarFiltre(){
+    this.sharedService.filtre.next(this.filtre);
+  }
 
 }

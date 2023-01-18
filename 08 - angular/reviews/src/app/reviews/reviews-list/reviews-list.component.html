@@ -1,6 +1,6 @@
 <li class="list-group-item" *ngFor="let r of reviews;">
     <div class="ms-2 me-auto">
-        <app-stars-rating [overall]="r.overall"></app-stars-rating>
+        <app-stars-rating [overall]="r.overall"  (overallChanged)="updateReview($event, r)"></app-stars-rating>
         <div class="fw-bold">{{r.summary}}</div>
         <p>{{r.unixReviewTime}}, {{r.reviewText | slice:0:50}}... </p>
         <p><i class="bi bi-person"></i>{{r.reviewerName}}</p>

@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { ProductsItemComponent } from './reviews/products-item/products-item.component';
 import { StarsRatingComponent } from './reviews/stars-rating/stars-rating.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ProductFilterPipe } from './pipes/product-filter.pipe';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { HttpClientModule } from '@angular/common/http';
     ReviewsListComponent,
     ProductsListComponent,
     ProductsItemComponent,
-    StarsRatingComponent
+    StarsRatingComponent,
+    ProductFilterPipe
   ],
   imports: [
     BrowserModule,

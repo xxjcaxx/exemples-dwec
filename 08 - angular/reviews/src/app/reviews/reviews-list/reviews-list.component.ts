@@ -25,4 +25,12 @@ export class ReviewsListComponent implements OnInit{
     );
   }
 
+  updateReview($event: number, r: IReview){
+    r.overall = $event;
+    this.productsService.updateReview(r).subscribe(
+      (status: boolean) => console.log("Review modificada")
+      
+    )
+  }
+
 }

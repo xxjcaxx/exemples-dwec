@@ -1,4 +1,10 @@
 
-    <div class="d-flex  align-items-center">
-            <i class="bi" *ngFor="let i of [1,2,3,4,5]" [ngClass]="{'bi-star-fill': i<=overall, 'bi-star': i>overall}"></i>
+    <div class="d-flex  align-items-center" (mouseleave)="restaurarOverall()" >
+            <i class="bi" 
+            *ngFor="let i of [1,2,3,4,5]" 
+            [ngClass]="{'bi-star-fill': i<=auxOverall , 'bi-star': i>auxOverall}"
+            (mouseover)="auxOverall = i"
+            (click)="overall = auxOverall; puntuar(overall)"
+            >
+        </i>
     </div>

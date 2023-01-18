@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { IProduct } from '../interfaces/i-product';
 import { IReview } from '../interfaces/i-review';
@@ -26,7 +27,21 @@ export class SupabaseService {
     let headersReviews = {...this.headers};
     headersReviews.Range = '0-1000';
     return this.http.get<IReview[]>(`${this.supaURL}reviews?asin=eq.${asin}&select=*`,{headers: headersReviews})
+  }
 
+  updateReview(review:IReview): Observable<boolean>{
+    let headersReviews:any = {...this.headers};
+    delete headersReviews.Range;
+    headersReviews["Content-Type"] = "application/json";
+    headersReviews["Prefer"] = "return=minimal";
+    headersReviews["Content-Type"] = "application/json";
+    return this.http.patch<IReview>(
+      `${this.supaURL}reviews?id=eq.${review.id}`,
+      JSON.stringify(review),
+      {headers:  headersReviews}
+      ).pipe(
+        map(r=> true)
+      )
   }
  
 }
