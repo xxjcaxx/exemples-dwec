@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { map, Subject } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { IProduct } from '../interfaces/i-product';
 import { IReview } from '../interfaces/i-review';
@@ -17,10 +17,21 @@ export class SupabaseService {
   'Range': '0-9'};
   //reviewURL = `${this.supaURL}reviews?asin=eq.1&select=*`;
 
-  constructor(private http: HttpClient) { }
+  productsSubject: Subject<IProduct[]>;
 
-  getProducts(): Observable<IProduct[]>{
-    return this.http.get<IProduct[]>(this.productURL,{headers: this.headers});
+  constructor(private http: HttpClient) {
+    this.productsSubject = new Subject();
+   }
+
+  getProducts(): void{
+   // return this.http.get<IProduct[]>(this.productURL,{headers: this.headers});
+   this.http.get<IProduct[]>(this.productURL,{headers: this.headers})
+     .subscribe(prods => this.productsSubject.next(prods))
+  }
+
+  searchProducts(filtre:string): void{
+    this.http.get<IProduct[]>(`${this.supaURL}?asin=like.${filtre}&select=*`,{headers: this.headers})
+     .subscribe(prods => this.productsSubject.next(prods))
   }
 
   getReviews(asin:string): Observable<IReview[]>{

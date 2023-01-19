@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/services/shared.service';
+import { SupabaseService } from 'src/app/services/supabase.service';
 
 @Component({
   selector: 'app-header',
@@ -9,8 +10,9 @@ import { SharedService } from 'src/app/services/shared.service';
 export class HeaderComponent implements OnInit {
   filtre: string = '';
 
-  constructor(private sharedService: SharedService){
-
+  constructor(private sharedService: SharedService,
+    private supabaseService: SupabaseService
+    ){
   }
 
   ngOnInit(): void {
@@ -20,7 +22,8 @@ export class HeaderComponent implements OnInit {
   }
 
   aplicarFiltre(){
-    this.sharedService.filtre.next(this.filtre);
+    //this.sharedService.filtre.next(this.filtre);
+    this.supabaseService.searchProducts(this.filtre);
   }
 
 }

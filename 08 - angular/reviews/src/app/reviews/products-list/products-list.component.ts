@@ -19,9 +19,11 @@ export class ProductsListComponent implements OnInit {
   filtre: string = '';
  
  ngOnInit(): void {
-   this.productsService.getProducts().subscribe(
+   this.productsService.productsSubject.subscribe(
     (prods: IProduct[]) => this.productes = prods, // Success function
    );
+   this.productsService.getProducts();
+   
    this.sharedService.filtre.subscribe(
     (f: string) => this.filtre = f
    )

@@ -8,11 +8,12 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MainComponent } from './components/main/main.component';
 import { ReviewsListComponent } from './reviews/reviews-list/reviews-list.component';
 import { ProductsListComponent } from './reviews/products-list/products-list.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductsItemComponent } from './reviews/products-item/products-item.component';
 import { StarsRatingComponent } from './reviews/stars-rating/stars-rating.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductFilterPipe } from './pipes/product-filter.pipe';
+import { ReviewFormComponent } from './reviews/review-form/review-form.component';
 
 
 @NgModule({
@@ -25,13 +26,15 @@ import { ProductFilterPipe } from './pipes/product-filter.pipe';
     ProductsListComponent,
     ProductsItemComponent,
     StarsRatingComponent,
-    ProductFilterPipe
+    ProductFilterPipe,
+    ReviewFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

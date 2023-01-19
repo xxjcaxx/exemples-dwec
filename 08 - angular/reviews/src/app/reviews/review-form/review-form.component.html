@@ -1,0 +1,9 @@
+<form [formGroup]="formReview">
+    <input 
+    type="text" class="form-control" 
+    name="reviewText" id="inputText" 
+    formControlName="reviewText"
+    [ngClass]="reviewNotValid"
+    >
+    <input type="text" class="form-control" name="overall" id="inputOverall" formControlName="overall">
+</form>
