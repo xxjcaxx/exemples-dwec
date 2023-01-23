@@ -1,10 +1,14 @@
 export {route};
 
-import { getProducts, getQty, getReviews, searchReviews } from "../services/http.js";
+import { getProducts, getQty, getReviews, productSubject, searchReviews } from "../services/http.js";
 import { reviewTemplate, reviewItemTemplate } from "../components/reviewItem/reviewItem.js";
 import { itemList } from "../components/itemList/itemList.js";
 import { productTemplate } from "../components/productItem/productItem.js";
 import { generatePagination } from "../components/pagination/pagination.js";
+import { isObservable } from "rxjs";
+//import { isSubscription } from "rxjs/internal/Subscription.js";
+
+let currentSubscription = null;
 
 const route = (ruta) => {
     console.log(ruta);
@@ -29,11 +33,16 @@ const route = (ruta) => {
             })
             break;
         case "#/products":
+            currentSubscription && currentSubscription.unsubscribe();
             itemsContainer.innerHTML = "";
-            getProducts(pagina).then(products => {
+            currentSubscription = productSubject.subscribe(products => {
+                itemsContainer.innerHTML = "";
                 let productsDivs = itemList(products,productTemplate);
                 itemsContainer.append(...productsDivs);
-            })
+                console.log(products);
+            }
+                )
+            getProducts(pagina);
             getQty('products').then(qty => 
                 generatePagination(qty,10,parseInt(pagina),document.querySelector('#pagination')))
             break;

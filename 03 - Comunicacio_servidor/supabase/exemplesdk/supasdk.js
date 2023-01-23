@@ -49,8 +49,21 @@ const { count, error } = await client
   console.log(data,error);
 }
 
-supaCount()
+//supaCount()
 
+
+async function supaLike(){
+  
+  const { count, error } = await client
+  .from('products')
+  .select('*')
+  .like('asin','%AX%')
+  
+    console.log(count,error);
+     
+  
+  }
+  supaLike();
 
 document.addEventListener('DOMContentLoaded',()=>{
 
