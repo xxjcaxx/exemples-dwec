@@ -1,5 +1,8 @@
 <div class="row">
     <app-products-item class="col" [producte]="producte" *ngFor="let producte of productes | productFilter:filtre">
     </app-products-item>
+
+    <app-proves [nom]="'hola'"></app-proves>
+    <app-proves [nom]="'mon'"></app-proves>
 </div>
 

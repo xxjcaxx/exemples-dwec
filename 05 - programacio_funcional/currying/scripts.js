@@ -122,5 +122,7 @@ const addBox = (str) =>
 
 
 // Usando una utilidad para componer de forma flexible
-const composed = compose(addBox, replaceSpacesWithDashes, toUpper);
+const composed = compose(addBox, replaceSpacesWithDashes, (x) => (console.log(x),x) , toUpper);
 console.log(composed('hello world'))
+
+// (x) => (console.log(x),x) és una bona manera de ficar un "tap" en una composició. 

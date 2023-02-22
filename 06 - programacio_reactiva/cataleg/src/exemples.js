@@ -70,22 +70,14 @@ export const exemples = [
     category: "creation",
     id: "exemple1",
     name: "fromEvent():",
-    description: `Crea un observable a partir d'un esdeveniment`,
+    description: `Crea un observable a partir d'un esdeveniment. En l'exemple podem observar cóm fent scroll es modifica el número del costat. S'ha afegit un 
+    operador debonceTime per a no saturar el navegador en massa esdeveniments`,
     htmlExemple: `<div id="exemple1">
         <div style="height: 1000px"></div>
       </div>
       <span id="exemple1info">0</span>`,
     htmlCode: `
-      <div
-      style="
-        background: #ffffff;
-        overflow: auto;
-        width: auto;
-        border: solid gray;
-        border-width: 0.1em 0.1em 0.1em 0.8em;
-        padding: 0.2em 0.6em;
-      "
-    >
+      <div class="exempleCode" >
       <pre
         style="margin: 0; line-height: 125%"
       ><span style="color: #008800; font-weight: bold">const</span> divExemple1 <span style="color: #333333">=</span> <span style="color: #007020">document</span>.querySelector(<span style="background-color: #fff0f0">&quot;#exemple1&quot;</span>);
@@ -121,18 +113,11 @@ debounceTime(<span style="color: #0000DD; font-weight: bold">10</span>)
       </div>`,
     htmlCode: `
       <div
-      style="
-        background: #ffffff;
-        overflow: auto;
-        width: auto;
-        border: solid gray;
-        border-width: 0.1em 0.1em 0.1em 0.8em;
-        padding: 0.2em 0.6em;
-      "
+      class="exempleCode"
     >
       <pre
         style="margin: 0; line-height: 125%"
-      >    <span style="color: #008800; font-weight: bold">const</span> source <span style="color: #333333">=</span> of(<span style="color: #0000DD; font-weight: bold">1</span>, <span style="color: #0000DD; font-weight: bold">2</span>, <span style="color: #0000DD; font-weight: bold">3</span>, <span style="color: #0000DD; font-weight: bold">4</span>, <span style="color: #0000DD; font-weight: bold">5</span>);
+      ><span style="color: #008800; font-weight: bold">const</span> source <span style="color: #333333">=</span> of(<span style="color: #0000DD; font-weight: bold">1</span>, <span style="color: #0000DD; font-weight: bold">2</span>, <span style="color: #0000DD; font-weight: bold">3</span>, <span style="color: #0000DD; font-weight: bold">4</span>, <span style="color: #0000DD; font-weight: bold">5</span>);
 <span style="color: #008800; font-weight: bold">const</span> subscribe <span style="color: #333333">=</span> source.subscribe(val <span style="color: #333333">=&gt;</span> 
 <span style="color: #007020">document</span>.querySelector(<span style="background-color: #fff0f0">&#39;#exemple2info&#39;</span>).innerHTML <span style="color: #333333">+=</span> val);
 </pre>
@@ -150,26 +135,19 @@ debounceTime(<span style="color: #0000DD; font-weight: bold">10</span>)
     category: "creation",
     id: "exemple3",
     name: "from():",
-    description: `Transforma qualsevol promesa o iterable en un observable`,
+    description: `Transforma qualsevol promesa o iterable en un observable. Fes click i veruràs com funciona`,
     htmlExemple: `  <div id="exemple3">
-    <span id="exemple3info">0</span>
+    <span id="exemple3info">Fes-me Click</span>
   </div>`,
     htmlCode: `
     <div
-              style="
-                background: #ffffff;
-                overflow: auto;
-                width: auto;
-                border: solid gray;
-                border-width: 0.1em 0.1em 0.1em 0.8em;
-                padding: 0.2em 0.6em;
-              "
+    class="exempleCode"
             >
               <pre
                 style="margin: 0; line-height: 125%"
-              >  <span style="color: #008800; font-weight: bold">const</span> spanExemple3 <span style="color: #333333">=</span> <span style="color: #007020">document</span>.querySelector(<span style="background-color: #fff0f0">&quot;#exemple3info&quot;</span>);
-  <span style="color: #008800; font-weight: bold">const</span> promesaClick <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Promise((resolve) <span style="color: #333333">=&gt;</span>
-  spanExemple3.addEventListener(<span style="background-color: #fff0f0">&quot;click&quot;</span>, () <span style="color: #333333">=&gt;</span> resolve())
+              ><span style="color: #008800; font-weight: bold">const</span> spanExemple3 <span style="color: #333333">=</span> <span style="color: #007020">document</span>.querySelector(<span style="background-color: #fff0f0">&quot;#exemple3info&quot;</span>);
+<span style="color: #008800; font-weight: bold">const</span> promesaClick <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> Promise((resolve) <span style="color: #333333">=&gt;</span>
+spanExemple3.addEventListener(<span style="background-color: #fff0f0">&quot;click&quot;</span>, () <span style="color: #333333">=&gt;</span> resolve())
 );
 from(promesaClick).subscribe(() <span style="color: #333333">=&gt;</span> (spanExemple3.innerHTML <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;Click!&quot;</span>));
 </pre>
@@ -193,14 +171,7 @@ from(promesaClick).subscribe(() <span style="color: #333333">=&gt;</span> (spanE
       </div>`,
     htmlCode: `
         <div
-              style="
-                background: #ffffff;
-                overflow: auto;
-                width: auto;
-                border: solid gray;
-                border-width: 0.1em 0.1em 0.1em 0.8em;
-                padding: 0.2em 0.6em;
-              "
+        class="exempleCode"
             >
               <pre
                 style="margin: 0; line-height: 125%"
@@ -219,7 +190,7 @@ from(promesaClick).subscribe(() <span style="color: #333333">=&gt;</span> (spanE
     category: "creation",
     id: "interval",
     name: "interval() i timer():",
-    description: ` Crea un observable que va donant números consecutius cada cert temps. Timer dona un valro quan passa un temps.
+    description: ` Crea un observable que va donant números consecutius cada cert temps. Timer dona un valor quan passa un temps.
       En aquest exemple l'utilitzem per a parar l'interval`,
     htmlExemple: ` <div id="interval">
       <span id="intervalinfo">0</span>
@@ -248,7 +219,7 @@ from(promesaClick).subscribe(() <span style="color: #333333">=&gt;</span> (spanE
     name: "map()",
     description: `Aquest operador és molt simple. Sols mapeja un esdeveniment en la funció que li diguem`,
     htmlExemple: ` <div id="map">
-      <span id="maptoinfo">0</span>
+      <span id="maptoinfo"></span>
     </div>`,
     htmlCode: `
     <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"> () <span style="color: #333333">=&gt;</span> {
@@ -276,7 +247,7 @@ from(promesaClick).subscribe(() <span style="color: #333333">=&gt;</span> (spanE
     name: "filter()",
     description: `L'operador filter accepta una funció que ha de retornar vertader o fals si passa el filtre`,
     htmlExemple: ` <div id="filter">
-      <span id="filterinfo">0</span>
+      <span id="filterinfo"></span>
     </div>`,
     htmlCode: `
     <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%">() <span style="color: #333333">=&gt;</span> {
@@ -503,14 +474,14 @@ La octava és devonceTime: Espera un temps determinat a partir de l'últim esdev
 `,
     htmlExemple: ` 
     <div id="comparativaTime">
-      <div id="comparativaTimeAll"></div>
-      <div id="comparativaTimeEvent"></div>
-      <div id="comparativaTimeSample"></div>
-      <div id="comparativaTimeAudit"></div>
-      <div id="comparativaTimeThr"></div>
-      <div id="comparativaTimeDelay"></div>
-      <div id="comparativaTimeBuffer"></div>
-      <div id="comparativaTimeDebounce"></div>
+      <div id="comparativaTimeAll"><div class="hover">Tots els instants</div></div>
+      <div id="comparativaTimeEvent"><div class="hover">Events Aleatoris</div></div>
+      <div id="comparativaTimeSample"><div class="hover">SampleTime</div></div>
+      <div id="comparativaTimeAudit"><div class="hover">AuditTime</div></div>
+      <div id="comparativaTimeThr"><div class="hover">ThrottleTime</div></div>
+      <div id="comparativaTimeDelay"><div class="hover">Delay</div></div>
+      <div id="comparativaTimeBuffer"><div class="hover">Buffer</div></div>
+      <div id="comparativaTimeDebounce"><div class="hover">Debounce Time</div></div>
       </div>
   
     `,
@@ -612,6 +583,11 @@ La octava és devonceTime: Espera un temps determinat a partir de l'últim esdev
 
 `,
     method: () => {
+
+      document.querySelector('#comparativaTimeAll').addEventListener('mouseover',(e)=>{
+     //   e.target.querySelector('.hover').style.display = 'block';
+      });
+
       const createDiv = (h, s, l, id, container) => {
         const div = document.createElement("div");
         div.id = id;

@@ -1,14 +1,15 @@
 <div class="col">
   <div class="card" style="width: 18rem">
     <img
-      [src]="'https://bqhnvwfovmcxrqrsmfxr.supabase.co/storage/v1/object/public/products/'+producte.asin+'.jpg'"
+      [src]="'https://bqhnvwfovmcxrqrsmfxr.supabase.co/storage/v1/object/public/products/'+producte?.asin+'.jpg'"
       class="card-img-top"
-      [alt]="producte.asin + ' IMG '"
+      [alt]="producte?.asin + ' IMG '"
     />
     <div class="card-body">
-      <h5 class="card-title">{{ producte.asin }}</h5>
+     <a  [routerLink]="['product',producte?.id]"
+     ><h5 class="card-title">{{ producte?.asin }}</h5></a> 
     </div>
-    <ul class="list-group list-group-flush">
+    <ul class="list-group list-group-flush" *ngIf="producte">
       <app-reviews-list [product]="producte"></app-reviews-list>
     </ul>
     <div class="card-body"></div>

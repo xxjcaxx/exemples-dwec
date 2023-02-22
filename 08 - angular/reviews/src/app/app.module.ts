@@ -11,9 +11,11 @@ import { ProductsListComponent } from './reviews/products-list/products-list.com
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductsItemComponent } from './reviews/products-item/products-item.component';
 import { StarsRatingComponent } from './reviews/stars-rating/stars-rating.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ProductFilterPipe } from './pipes/product-filter.pipe';
 import { ReviewFormComponent } from './reviews/review-form/review-form.component';
+import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { ProvesComponent } from './components/proves/proves.component';
 
 
 @NgModule({
@@ -27,7 +29,8 @@ import { ReviewFormComponent } from './reviews/review-form/review-form.component
     ProductsItemComponent,
     StarsRatingComponent,
     ProductFilterPipe,
-    ReviewFormComponent
+    ReviewFormComponent,
+    ProvesComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,13 @@ import { ReviewFormComponent } from './reviews/review-form/review-form.component
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptorService,
+    multi: true,
+    }],
+ 
   bootstrap: [AppComponent]
 })
 export class AppModule { }

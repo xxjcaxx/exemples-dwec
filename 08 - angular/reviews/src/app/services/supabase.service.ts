@@ -30,8 +30,16 @@ export class SupabaseService {
   }
 
   searchProducts(filtre:string): void{
-    this.http.get<IProduct[]>(`${this.supaURL}?asin=like.${filtre}&select=*`,{headers: this.headers})
+    this.http.get<IProduct[]>(`${this.supaURL}products?asin=like.%25${filtre}%25&select=*`,{headers: this.headers})
      .subscribe(prods => this.productsSubject.next(prods))
+  }
+
+  getProductById(id:number): void{
+    let headersAux:any = {...this.headers};
+    delete headersAux.Range
+    this.http.get<IProduct[]>(`${this.supaURL}products?id=eq.${id}&select=*`,{headers: this.headers})
+    .subscribe(prods => this.productsSubject.next(prods))
+
   }
 
   getReviews(asin:string): Observable<IReview[]>{
