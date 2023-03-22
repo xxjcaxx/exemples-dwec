@@ -6,7 +6,7 @@
   function validar(dni) {
     let dniRegExp = /^[0-9]{8}$/;
     let valid = dniRegExp.test(dni);
-    return valid;
+    return valid; 
   }
 
   let validarFletxa = (dni) => /^[0-9]{8}$/.test(dni);
