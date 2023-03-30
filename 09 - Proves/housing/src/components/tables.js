@@ -6,6 +6,14 @@ const getArrayTable = (data) => {
     return [columns, ...dataTable];
 }
 
+ /*
+
+    [{a: 1, b: 2},{a: 1, c: 4}]  
+
+    [[a,b,c],[1,2,null],[1,null,4]] 
+
+    */
+
 const generateROW = (row) => row.map( col => `<td class="overflow-hidden">${col}</td>`).join('')
 
 const generateCRUDTR = (row) => `<tr>${generateROW(row)}<td>
