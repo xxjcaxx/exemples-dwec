@@ -26,6 +26,8 @@
   "dependencies": {
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.3",
+    "dotenv": "^16.0.3",
+    "dotenv-webpack": "^8.0.1",
     "elasticsearch": "^16.7.3",
     "sass": "^1.59.3"
   }

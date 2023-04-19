@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", async ()=>{
     window.addEventListener('hashchange',function hasChanged(){
         route(window.location.hash);
       });
-  
 
 });
 
