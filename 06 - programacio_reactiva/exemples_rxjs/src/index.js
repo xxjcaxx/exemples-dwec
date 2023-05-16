@@ -181,7 +181,7 @@ title=FetchedStates
 */
 
   const scrollObservable = fromEvent(document, "scroll").pipe(
-  throttleTime(100)());
+  throttleTime(100));
   // Necessitem fer throttle per no tindre massa events seguits i saturar la CPU
 
   scrollObservable.subscribe((e) => {
@@ -191,6 +191,8 @@ title=FetchedStates
     container.style.backgroundColor = `hsl(${hue}, 50%, 50%)`;
     console.log(hue, height, window.pageYOffset, window.scrollY);
   });
+
+  
 });
 
 const states = [
