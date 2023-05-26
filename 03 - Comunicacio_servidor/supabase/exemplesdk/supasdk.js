@@ -81,4 +81,21 @@ document.addEventListener('DOMContentLoaded',()=>{
   })
     })
 
+
+    const supabaseRealTimeClient = supabase.createClient(supabaseUrl, SUPABASE_KEY);
+
+
+    const channel = supabaseRealTimeClient.channel('schema-db-changes')
+   // const realtime = supabaseRealTimeClient
+   channel.on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        //table: 'products',
+        //filter: `room_id=eq.${roomId}`,
+      },
+      (payload) => console.log(payload)
+    ).subscribe()
+
 });
