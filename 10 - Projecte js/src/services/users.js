@@ -13,6 +13,7 @@ async function loginUser(email, password) {
         let dataLogin = await loginSupabase(email, password);
         console.log(dataLogin);
         localStorage.setItem("access_token", dataLogin.access_token);
+        localStorage.setItem("uid", dataLogin.user.id);
         localStorage.setItem("expirationDate",expirationDate(dataLogin.expires_in));
         status.success = true;
     }
