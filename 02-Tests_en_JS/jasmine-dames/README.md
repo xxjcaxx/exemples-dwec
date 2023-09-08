@@ -1,10 +1,14 @@
-# Jasmine
+# Tests en Jasmine (amb NPM)
+
+En primer lloc inicialitzem el projecte NPM
 
     $ npm init -y
 
-En package.json:
+En package.json cal dir que utilitze mòduls ESM:
     
     "type": "module"
+
+Ara cal instal·lar Jasmine i el llançador d'una web de tests amb Jasmine:
 
     $ npm install jasmine-browser-runner jasmine-core
     $ npx jasmine-browser-runner init --esm
