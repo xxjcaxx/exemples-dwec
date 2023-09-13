@@ -27,9 +27,3 @@ const pieces = {
 const getSymbol = (pieces, piece) => (piece ? pieces[piece.piece].characters[piece.color] : ' ');
 
 const getSymbolBoard = (pieces, board) => board.map((line) => line.map((piece) => getSymbol(pieces, piece)));
-
-const rulesPawn = (board,movement) => {
-  let piece = board[movement[0]][movement[1]];
-  let piecePlayerDirection = piece.color === 'black' ? 1 : -1;
-  let occupied = 
-}
