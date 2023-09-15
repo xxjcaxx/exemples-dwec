@@ -19,15 +19,7 @@
 
   // console.log(lletra('12345668'));
 
-  function validarLletra(dni) {
-    /*  if (validar(dni)){
-            return dni+lletra(dni);
-        }
-        else {
-            return false;
-        }*/
-    return validar(dni) ? dni + lletra(dni) : false;
-  }
+  const validarLletra = (dni) => validar(dni) ? dni + lletra(dni) : false;
 
   //   console.log(validarLletra('12345648'));
 
