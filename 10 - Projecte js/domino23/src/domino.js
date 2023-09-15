@@ -1,4 +1,4 @@
-export { getTile, gameTiles, allTiles, shuffleTiles, tileCanFollow, filterTilesThatCanFollow }
+export { getTile, gameTiles, allTiles, blackTile, shuffleTiles, tileCanFollow, filterTilesThatCanFollow }
 
 const allTiles = [
   ['🀱', '🀲', '🀳', '🀴', '🀵', '🀶', '🀷'],
@@ -17,7 +17,7 @@ const allTiles = [
   ['🂍', '🂎', '🂏', '🂐', '🂑', '🂒', '🂓'],
 ];
 
-const blackTile = '🁢';
+const blackTile = ['🁢', '🀰'];
 
 // Select non repeated tiles represented by an integer
 // (23 is 🁂, but we don't need 32 🁈)
