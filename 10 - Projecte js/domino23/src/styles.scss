@@ -1,0 +1,33 @@
+// @import "~bootstrap/scss/bootstrap";  // A l'espera de que s'arregle el sass
+
+body {
+    margin: 40px;
+}
+
+.wrapper{
+    display: grid;
+    grid-template-rows: repeat(8, 1fr);
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px;
+}
+
+div.item:nth-child(-2n+8),
+div.item:nth-child(8) ~ div.item:nth-child(-2n+15),
+div.item:nth-child(16) ~ div.item:nth-child(-2n+24),
+div.item:nth-child(24) ~ div.item:nth-child(-2n+31),
+div.item:nth-child(32) ~ div.item:nth-child(-2n+40),
+div.item:nth-child(40) ~ div.item:nth-child(-2n+47),
+div.item:nth-child(48) ~ div.item:nth-child(-2n+56),
+div.item:nth-child(56) ~ div.item:nth-child(-2n+63){
+    background-color: #000;
+}
+
+.item {
+    background-color: #ccc;
+    padding: 5px;
+    border-radius: 4px;
+    text-align: center;
+}
+.item img {
+    max-width: 100%;
+}
