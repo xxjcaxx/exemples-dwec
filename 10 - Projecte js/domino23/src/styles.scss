@@ -16,8 +16,16 @@ body {
     margin: auto;
     }
     
-    #player1 { grid-area: 1 / 2 / 2 / 9; background-color: #f0f0f0;}
+    #player4 { grid-area: 1 / 2 / 2 / 9; background-color: #f0f0f0;}
     #player2 { grid-area: 2 / 1 / 9 / 2; background-color: #f0f0f0;}
-    #board { grid-area: 2 / 2 / 9 / 9; background-color: #fefefe;}
-    #player4 { grid-area: 9 / 2 / 10 / 9; background-color: #f0f0f0;}
+    #board { grid-area: 2 / 2 / 9 / 9; background-color: #fefefe; font-size: 2em;}
+    #player1 { grid-area: 9 / 2 / 10 / 9; background-color: #f0f0f0;}
     #player3 { grid-area: 2 / 9 / 9 / 10; background-color: #f0f0f0;}
+
+    .player {
+        font-size: 2em;
+    }
+
+    .board {
+        font-size: 2em;
+    }

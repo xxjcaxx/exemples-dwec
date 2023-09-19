@@ -1,5 +1,5 @@
 export {
-  getTile, gameTiles, allTiles, blackTile, shuffleTiles, tileCanFollow, filterTilesThatCanFollow, gameState,
+  getTile, gameTiles, allTiles, shuffleTiles, tileCanFollow, filterTilesThatCanFollow, blackTile, gameState, getFreeNumbersBoard
 };
 
 const allTiles = [
@@ -46,6 +46,7 @@ const idToCoordinates = (id) => (`${id}`).split('').map((n) => parseInt(n));
 
 const getTile = (tiles, id, position) => {
   let [x, y] = idToCoordinates(id);
+  if(x === 9) return blackTile[ position === 'vertical' ? 0 : 1 ];
   x = position === 'vertical' ? x + 7 : x;
   return tiles[x][y];
 };
@@ -53,6 +54,9 @@ const getTile = (tiles, id, position) => {
 const tileCanFollow = (number, tile) => idToCoordinates(tile).some((n) => n == number);
 
 const filterTilesThatCanFollow = (number, tiles) => tiles.filter((t) => tileCanFollow(number, t));
+
+const getFreeNumbersBoard = (board) => ([board[0].tile.split('')[0],board.at(-1).tile.split('')[1]])
+
 
 /* GAME STATE */
 
@@ -89,4 +93,17 @@ const gameState = () => ({
     this.playersTiles[player].push(this.tileStack.pop());
   },
   logBoard() { console.log(this.board.map((t) => t.tileFigure)); },
+  logPlayers() { 
+    let colors = [
+      '#2a9d8f','#e9c46a','#a8dadc','#e63946',
+    ];
+    console.log(this.players);
+    for (let i = 0; i < this.players; i++) {
+     console.log('%c'+this.playersTiles[i+1].map(t => getTile(allTiles,t,'vertical')).join(''),`font-size: 3em; color: ${colors[i]}`)
+    }
+   },
+   getFirstPlayer(){
+    let choosen = ['66','55','44','33','22','11'].map(doubleTile => Object.values(this.playersTiles).findIndex(pt => pt.includes(doubleTile)) + 1);
+    return choosen.find(index => index > 0);
+   }
 });
