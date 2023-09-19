@@ -1,4 +1,6 @@
-export { getTile, gameTiles, allTiles, blackTile, shuffleTiles, tileCanFollow, filterTilesThatCanFollow }
+export {
+  getTile, gameTiles, allTiles, blackTile, shuffleTiles, tileCanFollow, filterTilesThatCanFollow, gameState,
+};
 
 const allTiles = [
   ['🀱', '🀲', '🀳', '🀴', '🀵', '🀶', '🀷'],
@@ -40,7 +42,7 @@ const shuffleTiles = (tiles) => {
   return tilesAux;
 };
 
-const idToCoordinates = (id) => (`${id}`).split('').map(n=>parseInt(n));
+const idToCoordinates = (id) => (`${id}`).split('').map((n) => parseInt(n));
 
 const getTile = (tiles, id, position) => {
   let [x, y] = idToCoordinates(id);
@@ -48,7 +50,43 @@ const getTile = (tiles, id, position) => {
   return tiles[x][y];
 };
 
-const tileCanFollow = (number,tile) => idToCoordinates(tile).some(n => n == number);
+const tileCanFollow = (number, tile) => idToCoordinates(tile).some((n) => n == number);
 
-const filterTilesThatCanFollow = (number,tiles) => tiles.filter(t => tileCanFollow(number,t));
+const filterTilesThatCanFollow = (number, tiles) => tiles.filter((t) => tileCanFollow(number, t));
 
+/* GAME STATE */
+
+const gameState = () => ({
+  playersTiles: {
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+  },
+  players: 0,
+  turn: 1,
+  board: [],
+  tileStack: [],
+  startGame(players) {
+    this.players = players;
+    this.tileStack = shuffleTiles(gameTiles);
+    for (let i = 0; i < players; i++) {
+      this.playersTiles[i + 1] = this.tileStack.splice(0, 7);
+    }
+  },
+  moveToBoard(player, tile, position) {
+    const tileIndex = this.playersTiles[player].indexOf(tile);
+    const tileFigure = getTile(allTiles, tile, position);
+    this.board.push({
+      tileFigure, tile, position, player,
+    });
+    this.playersTiles[player].splice(tileIndex, 1);
+  },
+  changeTurn() {
+    this.turn = this.turn === this.players ? 1 : this.turn + 1;
+  },
+  getFromTileStack(player) {
+    this.playersTiles[player].push(this.tileStack.pop());
+  },
+  logBoard() { console.log(this.board.map((t) => t.tileFigure)); },
+});
