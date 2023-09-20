@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable import/extensions */
 import {
-  getTile, gameTiles, allTiles, shuffleTiles, tileCanFollow, filterTilesThatCanFollow, gameState, getFreeNumbersBoard
+  getTile, gameTiles, allTiles, shuffleTiles, tileCanFollow, filterTilesThatCanFollow, gameState, getFreeNumbersBoard, canFollowBoard
 } from '../src/domino.js';
 
 describe('Domino', () => {
@@ -25,10 +25,12 @@ describe('Domino', () => {
       expect(shuffleTiles(gameTiles).sort()).toEqual(gameTiles.sort());
     });
 
-    it('should return the abailable numbers in a board', () => {
+    it('should return the available numbers in a board', () => {
       expect(getFreeNumbersBoard([{tileFigure: '🁼', tile: '34', position: 'vertical'}])).toEqual(['3', '4']);
       expect(getFreeNumbersBoard([{tileFigure: '🁼', tile: '34', position: 'vertical'},{tileFigure: '🁒', tile: '45', position: 'horizontal'}])).toEqual(['3', '5']);
     });
+
+
 
     it('should start a game', () => {
       const state = gameState();
@@ -43,10 +45,15 @@ describe('Domino', () => {
       const state = gameState();
       state.startGame(3);
       const tile = state.playersTiles[1][3];
-      state.moveToBoard(1, tile, 'vertical');
+      const tile2 = state.playersTiles[1][4];
+      state.moveToBoard(1, tile, 'last' , 'vertical');
       expect(state.playersTiles[1].length).toBe(6);
       expect(state.board.length).toBe(1);
       expect(state.board[0].tileFigure).toBe(getTile(allTiles, tile, 'vertical'));
+      state.moveToBoard(1, tile2, 'first' , 'vertical');
+      expect(state.playersTiles[1].length).toBe(5);
+      expect(state.board.length).toBe(2);
+      expect(state.board[0].tileFigure).toBe(getTile(allTiles, tile2, 'vertical'));
     });
 
     it('should change turn tile', () => {
