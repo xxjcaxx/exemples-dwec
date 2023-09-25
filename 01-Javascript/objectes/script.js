@@ -3,7 +3,6 @@
 Exercici 1: 
 * Crea un objecte que continga informació d'una pelicula: títol, duració i actors (un array de strings)
 * Crea una funció dins de l'objecte que imprimisca per la consola una frase amb aquests atributs.
-
 */
 
 
