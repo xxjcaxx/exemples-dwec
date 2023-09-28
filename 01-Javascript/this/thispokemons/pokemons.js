@@ -127,17 +127,12 @@ let pokemons = [
     function drawButton(){
         let button = document.createElement('button');
         button.innerHTML = this.name.english;
-        let that = this;
-        button.addEventListener('click',function(){ console.log(JSON.stringify(that))});
+        button.addEventListener('click',() => console.log(JSON.stringify(this)));
         return button;
     }
-
     const pokemons2 = pokemons.map( p=> { p.render = drawButton; return p})
-
+    console.log(pokemons2);
     pokemonsDiv.append(...pokemons2.map(p => p.render()))
-
-
-
   })
 
   
