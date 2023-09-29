@@ -1,5 +1,7 @@
 export {
-  getTile, gameTiles, allTiles, shuffleTiles, tileCanFollow, filterTilesThatCanFollow, blackTile, gameState, getFreeNumbersBoard, canFollowBoard
+  getTile, gameTiles, allTiles, shuffleTiles, tileCanFollow, filterTilesThatCanFollow, blackTile,
+  gameState, getFreeNumbersBoard, canFollowBoard, startGame, moveToBoard, changeTurn, getFromTileStack,
+  logBoard, logPlayers, getFirstPlayer,
 };
 
 const allTiles = [
@@ -51,16 +53,23 @@ const getTile = (tiles, id, position) => {
   return tiles[x][y];
 };
 
-const tileCanFollow = (number, tile) => idToCoordinates(tile).some((n) => n == number);
+const tileCanFollow = (number, tile) => idToCoordinates(tile).some((n) => n === number);
 
 const filterTilesThatCanFollow = (number, tiles) => tiles.filter((t) => tileCanFollow(number, t));
 
-const getFreeNumbersBoard = (board) => ([board[0].tile.split('')[0], board.at(-1).tile.split('')[1]]);
+const getFreeNumbersBoard = (board) => ([parseInt(board[0].tile.split('')[0], 10), parseInt(board.at(-1).tile.split('')[1], 10)]);
 
-const canFollowBoard = (board, tile, location) => {
-  location = location === 'first' ? 0 : 1;
-  let numberToFollow = getFreeNumbersBoard(board)[location];
-  return tileCanFollow(numberToFollow,tile.tile)
+const canFollowBoard = (board, tile, idx) => {
+  console.log(board, tile, idx);
+  let canFollow = false;
+  if (idx === 0 || idx === board.length - 1) {
+    const indexLocation = idx === 0 ? 0 : 1;
+    const numberToFollow = getFreeNumbersBoard(board)[indexLocation];
+    console.log({indexLocation,numberToFollow});
+    canFollow = tileCanFollow(numberToFollow, tile);
+    
+  }
+  return canFollow;
 };
 
 /* GAME STATE */
@@ -74,49 +83,66 @@ const gameState = () => ({
   },
   players: 0,
   turn: 1,
-  board: [],
+  board: [], // { tileFigure, tile, position, player}
   tileStack: [],
-  startGame(players) {
-    this.players = players;
-    this.tileStack = shuffleTiles(gameTiles);
-    for (let i = 0; i < players; i++) {
-      this.playersTiles[i + 1] = this.tileStack.splice(0, 7);
-    }
-  },
-  moveToBoard(player, tile, location, position) {
-    const tileIndex = this.playersTiles[player].indexOf(tile);
-    const tileFigure = getTile(allTiles, tile, position);
-    console.log(this.playersTiles[player]);
-    if (location === 'first') {
-      this.board = [{
-        tileFigure, tile, position, player,
-      }, ...this.board];
-    } else { // last
-      this.board.push({
-        tileFigure, tile, position, player,
-      });
-    }
-    this.playersTiles[player].splice(tileIndex, 1);
-    console.log(this.board);
-  },
-  changeTurn() {
-    this.turn = this.turn === this.players ? 1 : this.turn + 1;
-  },
-  getFromTileStack(player) {
-    this.playersTiles[player].push(this.tileStack.pop());
-  },
-  logBoard() { console.log(this.board.map((t) => t.tileFigure)); },
-  logPlayers() {
-    const colors = [
-      '#2a9d8f', '#e9c46a', '#a8dadc', '#e63946',
-    ];
-    console.log(this.players);
-    for (let i = 0; i < this.players; i++) {
-      console.log(`%c${this.playersTiles[i + 1].map((t) => getTile(allTiles, t, 'vertical')).join('')}`, `font-size: 3em; color: ${colors[i]}`);
-    }
-  },
-  getFirstPlayer() {
-    const choosen = ['66', '55', '44', '33', '22', '11'].map((doubleTile) => Object.values(this.playersTiles).findIndex((pt) => pt.includes(doubleTile)) + 1);
-    return choosen.find((index) => index > 0);
-  },
 });
+
+/* Game State Management */
+
+const startGame = (players, state) => {
+  const stateCopy = structuredClone(state);
+  stateCopy.players = players;
+  stateCopy.tileStack = shuffleTiles(gameTiles);
+  for (let i = 0; i < players; i++) {
+    stateCopy.playersTiles[i + 1] = stateCopy.tileStack.splice(0, 7);
+  }
+  return stateCopy;
+};
+
+const moveToBoard = (player, tile, location, position, state) => {
+  const stateCopy = structuredClone(state);
+  const tileIndex = stateCopy.playersTiles[player].indexOf(tile);
+  const tileFigure = getTile(allTiles, tile, position);
+  if (location === 'first') {
+    stateCopy.board = [{
+      tileFigure, tile, position, player,
+    }, ...stateCopy.board];
+  } else { // last
+    stateCopy.board.push({
+      tileFigure, tile, position, player,
+    });
+  }
+  stateCopy.playersTiles[player].splice(tileIndex, 1);
+  return stateCopy;
+};
+
+const changeTurn = (state) => {
+  const stateCopy = structuredClone(state);
+  stateCopy.turn = stateCopy.turn === stateCopy.players ? 1 : stateCopy.turn + 1;
+  return stateCopy;
+};
+
+const getFromTileStack = (player, state) => {
+  const stateCopy = structuredClone(state);
+  stateCopy.playersTiles[player].push(stateCopy.tileStack.pop());
+  return stateCopy;
+};
+
+const logBoard = (state) => { console.log('Board: ', state.board.map((t) => t.tileFigure)); };
+
+const logPlayers = (state) => {
+  const colors = [
+    '#2a9d8f', '#e9c46a', '#a8dadc', '#e63946',
+  ];
+  console.log(state.players);
+  for (let i = 0; i < state.players; i++) {
+    console.log(`%c${state.playersTiles[i + 1].map((t) => getTile(allTiles, t, 'vertical')).join('')}`, `font-size: 3em; color: ${colors[i]}`);
+  }
+};
+
+const getFirstPlayer = (state) => {
+  const stateCopy = structuredClone(state);
+  const choosen = ['66', '55', '44', '33', '22', '11'].map((doubleTile) => Object.values(state.playersTiles).findIndex((pt) => pt.includes(doubleTile)) + 1);
+  stateCopy.turn = choosen.find((index) => index > 0);
+  return stateCopy;
+};

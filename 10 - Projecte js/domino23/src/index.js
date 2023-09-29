@@ -1,20 +1,22 @@
-import {
-  getTile, gameTiles, allTiles, shuffleTiles, tileCanFollow, filterTilesThatCanFollow, gameState,
-} from './domino.js';
+import * as domino from './domino.js';
+
 import './styles.scss';
 // import * as bootstrap from 'bootstrap';
 
 // https://en.wikipedia.org/wiki/Domino_Tiles
 
+let state;
+
 const generatePlayerDiv = (playerTiles, position) => {
-  const tiles = playerTiles.map((tile) => `<span id="tile-${tile}">${getTile(allTiles, tile, position)}</span>`).join('');
+  const tiles = playerTiles.map((tile) => `<span id="tile-${tile}">${domino.getTile(domino.allTiles, tile, position)}</span>`).join('');
   const div = document.createElement('div');
   div.innerHTML = tiles;
   return div;
 };
 
 const generateBoardDiv = (board) => {
-  const tiles = board.map((tile, idx) => `<span id="board-${tile.tile}" data-first = "${idx === 0 ? 'first' : 'no'}" data-last = "${idx === board.length - 1 ? 'last' : 'no'}">${tile.tileFigure}</span>`).join('');
+  const tiles = board.map((tile, idx) => `<span id="board-${tile.tile}" data-board_index = "${idx}"> 
+                                          ${tile.tileFigure}</span>`).join('');
   const div = document.createElement('div');
   div.innerHTML = tiles;
   return div;
@@ -34,35 +36,39 @@ const drawPlayers = (state) => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  const state = gameState();
-  state.startGame(4);
-  state.logBoard();
-  state.logPlayers();
-  state.turn = state.getFirstPlayer();
+  state = domino.gameState();
+  state = domino.startGame(4, state);
+  domino.logBoard(state);
+  domino.logPlayers(state);
+  state = domino.getFirstPlayer(state);
   drawPlayers(state);
+
   let tileChoosen = null;
 
   document.querySelector('#player1').addEventListener('click', (e) => {
     const tileClicked = e.target.id.split('-')[1];
     if (tileClicked) {
       if (state.board.length === 0) {
-        state.moveToBoard(1, tileClicked, 'vertical');
+        state = domino.moveToBoard(1, tileClicked, 'first', 'vertical', state);
       } else {
         tileChoosen = tileClicked;
       }
 
       drawPlayers(state);
-      // state.logPlayers();
+      domino.logPlayers(state);
+      domino.logBoard(state);
     }
   });
 
   document.querySelector('#board').addEventListener('click', (e) => {
     const tileClicked = e.target.id.split('-')[1];
-    const locationFirst = e.target.dataset.first;
-    const locationLast = e.target.dataset.last;
-    if (tileClicked && (locationFirst || locationLast)) {
+    const tileIdx = parseInt(e.target.dataset.board_index, 10);
+    if (tileClicked && (tileIdx === 0 || tileIdx === state.board.length - 1)) {
       if (tileChoosen) {
-        console.log(tileClicked, tileChoosen, locationFirst, locationLast);
+        console.log(tileClicked, tileChoosen, tileIdx);
+        if (domino.canFollowBoard(state.board, tileClicked, tileIdx)) {
+          console.log('Can Follow');
+        }
       }
     }
   });
