@@ -42,6 +42,28 @@ describe('Domino', () => {
       expect(domino.canFollowBoard([{ tileFigure: '🁼', tile: '34', position: 'vertical' }], '45', 0)).toBe(true);
       expect(domino.canFollowBoard([{ tileFigure: '🁼', tile: '34', position: 'vertical' }], '54', 0)).toBe(true);
       expect(domino.canFollowBoard([{ tileFigure: '🁼', tile: '34', position: 'vertical' }], '62', 0)).toBe(false);
+      expect(domino.canFollowBoard([{ tileFigure: '🁼', tile: '34', position: 'vertical' }, { tileFigure: '🁒', tile: '45', position: 'horizontal' }], '32', 0)).toBe(true);
+      expect(domino.canFollowBoard([{ tileFigure: '🁼', tile: '34', position: 'vertical' }, { tileFigure: '🁒', tile: '45', position: 'horizontal' }], '35', 0)).toBe(true);
+      expect(domino.canFollowBoard([{ tileFigure: '🁼', tile: '34', position: 'vertical' }, { tileFigure: '🁒', tile: '45', position: 'horizontal' }], '62', 0)).toBe(false);
+    });
+
+    it('should return the best following position', () => { // no va be
+      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }], '35', 0)).toBe('before');
+      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }], '53', 0)).toBe('before');
+      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }], '45', 0)).toBe('after');
+      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }], '54', 0)).toBe('after');
+      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }], '62', 0)).toBe(false);
+      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }, { tileFigure: '🁒', tile: '45', position: 'horizontal' }], '32', 0)).toBe(false);
+      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }, { tileFigure: '🁒', tile: '45', position: 'horizontal' }], '35', 1)).toBe('after');
+      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }, { tileFigure: '🁒', tile: '45', position: 'horizontal' }], '62', 1)).toBe(false);
+    });
+
+    it('should rotate if needed', () => {
+      expect(domino.rotateIfNedeed('14', [{ tileFigure: '🁼', tile: '34', position: 'vertical' }], 'after')).toBe('41');
+      expect(domino.rotateIfNedeed('41', [{ tileFigure: '🁼', tile: '34', position: 'vertical' }], 'after')).toBe('41');
+      expect(domino.rotateIfNedeed('31', [{ tileFigure: '🁼', tile: '34', position: 'vertical' }], 'before')).toBe('13');
+      expect(domino.rotateIfNedeed('13', [{ tileFigure: '🁼', tile: '34', position: 'vertical' }], 'before')).toBe('13');
+      expect(domino.rotateIfNedeed('54', [], 'before')).toBe('54');
     });
 
     it('should start a game', () => {
@@ -56,8 +78,8 @@ describe('Domino', () => {
     it('should move a tile', () => {
       let state = domino.gameState();
       state = domino.startGame(3, state);
-      const tile = state.playersTiles[1][3];
-      const tile2 = state.playersTiles[1][4];
+      const tile = state.playersTiles[1][3] = '35';
+      const tile2 = state.playersTiles[1][4] = '53';
       state = domino.moveToBoard(1, tile, 'last', 'vertical', state);
       expect(state.playersTiles[1].length).toBe(6);
       expect(state.board.length).toBe(1);
@@ -65,7 +87,7 @@ describe('Domino', () => {
       state = domino.moveToBoard(1, tile2, 'first', 'vertical', state);
       expect(state.playersTiles[1].length).toBe(5);
       expect(state.board.length).toBe(2);
-      expect(state.board[0].tileFigure).toBe(domino.getTile(domino.allTiles, tile2, 'vertical'));
+      expect(state.board[1].tileFigure).toBe(domino.getTile(domino.allTiles, tile2, 'vertical'));
     });
 
     it('should change turn tile', () => {
@@ -96,6 +118,14 @@ describe('Domino', () => {
       state = domino.startGame(3, state);
       state = domino.getFirstPlayer(state);
       expect(state.playersTiles[state.turn].includes('66') || state.playersTiles[state.turn].includes('55')).toBe(true);
+    });
+  });
+
+  /* IA */
+
+  describe('IA', () => {
+    it('Sort by Priority', () => {
+      expect(domino.orderByPriority(['55', '66', '11', '12', '34', '00', '56'])).toEqual(['66', '55', '11', '00', '56', '34', '12']);
     });
   });
 });

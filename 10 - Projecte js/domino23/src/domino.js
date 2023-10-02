@@ -1,7 +1,7 @@
 export {
   getTile, gameTiles, allTiles, shuffleTiles, tileCanFollow, filterTilesThatCanFollow, blackTile,
   gameState, getFreeNumbersBoard, canFollowBoard, startGame, moveToBoard, changeTurn, getFromTileStack,
-  logBoard, logPlayers, getFirstPlayer,
+  logBoard, logPlayers, getFirstPlayer, getFollowPosition, rotateIfNedeed, doMachineStep, orderByPriority,
 };
 
 const allTiles = [
@@ -60,16 +60,50 @@ const filterTilesThatCanFollow = (number, tiles) => tiles.filter((t) => tileCanF
 const getFreeNumbersBoard = (board) => ([parseInt(board[0].tile.split('')[0], 10), parseInt(board.at(-1).tile.split('')[1], 10)]);
 
 const canFollowBoard = (board, tile, idx) => {
-  console.log(board, tile, idx);
   let canFollow = false;
   if (idx === 0 || idx === board.length - 1) {
     const indexLocation = idx === 0 ? 0 : 1;
     const numberToFollow = getFreeNumbersBoard(board)[indexLocation];
-    console.log({indexLocation,numberToFollow});
     canFollow = tileCanFollow(numberToFollow, tile);
-    
+    if (board.length === 1) {
+      const numberToFollow2 = getFreeNumbersBoard(board)[1];
+      canFollow = canFollow ? true : tileCanFollow(numberToFollow2, tile);
+    }
   }
   return canFollow;
+};
+
+const getFollowPosition = (board, tile, idx) => {
+  const freeNumbersBoard = getFreeNumbersBoard(board);
+  if (board.length === 1) { // Specific 1 tile case
+    const followAfter = tileCanFollow(freeNumbersBoard[1], tile);
+    const followBefore = tileCanFollow(freeNumbersBoard[0], tile);
+    if (followAfter) {
+      return 'after';
+    } if (followBefore) {
+      return 'before';
+    }
+  }
+  if (canFollowBoard(board, tile, idx)) {
+    if (idx === 0 && tileCanFollow(freeNumbersBoard[0], tile)) { return 'before'; }
+    if (idx > 0 && tileCanFollow(freeNumbersBoard[1], tile)) { return 'after'; }
+  }
+  return false;
+};
+
+const rotateIfNedeed = (tile, board, location) => {
+  if (board.length > 0) {
+    const boardTile = location === 'after' ? board.at(-1).tile : board[0].tile;
+    const boardTileCoordinates = idToCoordinates(boardTile);
+    const tileCoordinates = idToCoordinates(tile);
+    const numberToFollow = location === 'after' ? boardTileCoordinates[1] : boardTileCoordinates[0];
+    const expectedNumber = location === 'after' ? tileCoordinates[0] : tileCoordinates[1];
+    if (numberToFollow === expectedNumber) {
+      return tile;
+    }
+    return tile.split('').reverse().join('');
+  }
+  return tile;
 };
 
 /* GAME STATE */
@@ -102,14 +136,18 @@ const startGame = (players, state) => {
 const moveToBoard = (player, tile, location, position, state) => {
   const stateCopy = structuredClone(state);
   const tileIndex = stateCopy.playersTiles[player].indexOf(tile);
-  const tileFigure = getTile(allTiles, tile, position);
-  if (location === 'first') {
+  if (location === 'before') {
+    const rotatedTile = rotateIfNedeed(tile, stateCopy.board, location);
+    const tileFigure = getTile(allTiles, rotatedTile, position);
     stateCopy.board = [{
-      tileFigure, tile, position, player,
+      tileFigure, tile: rotatedTile, position, player,
     }, ...stateCopy.board];
-  } else { // last
+  } else { // after
+    console.log(stateCopy);
+    const rotatedTile = rotateIfNedeed(tile, stateCopy.board, location);
+    const tileFigure = getTile(allTiles, rotatedTile, position);
     stateCopy.board.push({
-      tileFigure, tile, position, player,
+      tileFigure, tile: rotatedTile, position, player,
     });
   }
   stateCopy.playersTiles[player].splice(tileIndex, 1);
@@ -142,7 +180,44 @@ const logPlayers = (state) => {
 
 const getFirstPlayer = (state) => {
   const stateCopy = structuredClone(state);
-  const choosen = ['66', '55', '44', '33', '22', '11'].map((doubleTile) => Object.values(state.playersTiles).findIndex((pt) => pt.includes(doubleTile)) + 1);
-  stateCopy.turn = choosen.find((index) => index > 0);
+  const choosen = ['66', '55', '44', '33', '22', '11'].map((doubleTile) => Object.values(stateCopy.playersTiles).findIndex((pt) => pt.includes(doubleTile)) + 1);
+  const choosed = choosen.find((index) => index > 0);
+  stateCopy.turn = choosed || Math.floor(Math.round() * stateCopy.players) + 1;
+
+  return stateCopy;
+};
+
+/* IA */
+
+const orderByPriority = (tiles) => tiles.sort((a, b) => {
+  const aCoordinates = idToCoordinates(a);
+  const bCoordinates = idToCoordinates(b);
+  let aPoints = 0;
+  let bPoints = 0;
+  if (aCoordinates[0] === aCoordinates[1]) aPoints += 12;
+  if (bCoordinates[0] === bCoordinates[1]) bPoints += 12;
+  aPoints += (aCoordinates[0] + aCoordinates[1]);
+  bPoints += (bCoordinates[0] + bCoordinates[1]);
+  return aPoints > bPoints ? -1 : 1;
+});
+
+const doMachineStep = (state) => {
+  let stateCopy = structuredClone(state);
+  const { turn, board, playersTiles } = stateCopy;
+  if (board.length === 0) { // Start
+    const selectedTile = orderByPriority(playersTiles[turn])[0];
+    stateCopy = moveToBoard(turn, selectedTile, 'after', 'vertical', stateCopy);
+  } else {
+    const freeNumbersBoard = getFreeNumbersBoard(board);
+    const tilesThatCanFollow = [
+      ...filterTilesThatCanFollow(freeNumbersBoard[0], playersTiles[turn]),
+      ...filterTilesThatCanFollow(freeNumbersBoard[1], playersTiles[turn]),
+    ];
+    if (tilesThatCanFollow.length > 0) {
+      const selectedTile = orderByPriority(tilesThatCanFollow)[0];
+      const position = getFollowPosition(board,selectedTile,1);
+      stateCopy = moveToBoard(turn, selectedTile, 'after', 'vertical', stateCopy);
+    }
+  }
   return stateCopy;
 };
