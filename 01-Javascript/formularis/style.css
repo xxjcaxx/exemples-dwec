@@ -1,0 +1,53 @@
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: auto;
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+
+  label span {
+    font-size: 0.8rem;
+    margin-bottom: 0.3rem;
+  }
+
+  input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    outline: none;
+  }
+
+  input[type="submit"] {
+    background-color: #4caf50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #3e8e41;
+  }
+  
+/*  input:valid {
+border: 2px solid green;
+}
+
+input:invalid {
+border: 2px solid red;
+}*/
+
+input.valid {
+    border: 2px solid green;
+    }
+    
+input.invalid {
+    border: 2px solid red;
+    }

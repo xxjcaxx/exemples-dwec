@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="formularis.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form action="agregar_pokemon.php" method="POST" >
+        <label for="name_english">Nombre (en inglés):</label>
+        <input type="text" id="name_english" name="name_english" required><br>
+  
+        <label for="name_japanese">Nombre (en japonés):</label>
+        <input type="text" id="name_japanese" name="name_japanese" required><br>
+  
+        <label for="name_chinese">Nombre (en chino):</label>
+        <input type="text" id="name_chinese" name="name_chinese" required><br>
+  
+        <label for="name_french">Nombre (en francés):</label>
+        <input type="text" id="name_french" name="name_french" required><br>
+  
+        <label for="type">Tipo:</label>
+        <select id="type" name="type[]" multiple required>
+          <option value="Grass">Grass</option>
+          <option value="Poison">Poison</option>
+          <option value="Fire">Fire</option>
+          <!-- Puedes agregar más opciones aquí -->
+        </select><br>
+  
+        <label for="hp">HP:</label>
+        <input type="number" id="hp" name="hp" required><br>
+  
+        <label for="attack">Ataque:</label>
+        <input type="number" id="attack" name="attack" required><br>
+  
+        <label for="defense">Defensa:</label>
+        <input type="number" id="defense" name="defense" required><br>
+  
+        <label for="sp_attack">Ataque Especial:</label>
+        <input type="number" id="sp_attack" name="sp_attack" required><br>
+  
+        <label for="sp_defense">Defensa Especial:</label>
+        <input type="number" id="sp_defense" name="sp_defense" required><br>
+  
+        <label for="speed">Velocidad:</label>
+        <input type="number" id="speed" name="speed" required><br>
+  
+        <input type="submit" value="Agregar" >
+      </form>
+</body>
+</html>
