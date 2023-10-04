@@ -2,6 +2,7 @@ export {
   getTile, gameTiles, allTiles, shuffleTiles, tileCanFollow, filterTilesThatCanFollow, blackTile,
   gameState, getFreeNumbersBoard, canFollowBoard, startGame, moveToBoard, changeTurn, getFromTileStack,
   logBoard, logPlayers, getFirstPlayer, getFollowPosition, rotateIfNedeed, doMachineStep, orderByPriority,
+  restartGame, calculateWinner, checkFinished
 };
 
 const allTiles = [
@@ -53,12 +54,15 @@ const getTile = (tiles, id, position) => {
   return tiles[x][y];
 };
 
+const boardToArray = (board) => board.map((t) => idToCoordinates(t.tile)).flat();
+
 const tileCanFollow = (number, tile) => idToCoordinates(tile).some((n) => n === number);
 
 const filterTilesThatCanFollow = (number, tiles) => tiles.filter((t) => tileCanFollow(number, t));
 
-const getFreeNumbersBoard = (board) => ([parseInt(board[0].tile.split('')[0], 10), parseInt(board.at(-1).tile.split('')[1], 10)]);
+const getFreeNumbersBoard = (board) => ([boardToArray(board)[0], boardToArray(board).at(-1)]);
 
+// Returns if a tile can follow a position (after or before)
 const canFollowBoard = (board, tile, idx) => {
   let canFollow = false;
   if (idx === 0 || idx === board.length - 1) {
@@ -73,7 +77,8 @@ const canFollowBoard = (board, tile, idx) => {
   return canFollow;
 };
 
-const getFollowPosition = (board, tile, idx) => {
+// Returns a valid position to follow, if can't follow returns false
+const getFollowPosition = (board, tile) => {
   const freeNumbersBoard = getFreeNumbersBoard(board);
   if (board.length === 1) { // Specific 1 tile case
     const followAfter = tileCanFollow(freeNumbersBoard[1], tile);
@@ -84,10 +89,9 @@ const getFollowPosition = (board, tile, idx) => {
       return 'before';
     }
   }
-  if (canFollowBoard(board, tile, idx)) {
-    if (idx === 0 && tileCanFollow(freeNumbersBoard[0], tile)) { return 'before'; }
-    if (idx > 0 && tileCanFollow(freeNumbersBoard[1], tile)) { return 'after'; }
-  }
+  if (tileCanFollow(freeNumbersBoard[1], tile)) { return 'after'; }
+  if (tileCanFollow(freeNumbersBoard[0], tile)) { return 'before'; }
+
   return false;
 };
 
@@ -106,6 +110,11 @@ const rotateIfNedeed = (tile, board, location) => {
   return tile;
 };
 
+const sumTiles = (tiles) => tiles.reduce((total, tile) => {
+  total += (idToCoordinates(tile)[0] + idToCoordinates(tile)[1]);
+  return total;
+}, 0);
+
 /* GAME STATE */
 
 const gameState = () => ({
@@ -119,11 +128,13 @@ const gameState = () => ({
   turn: 1,
   board: [], // { tileFigure, tile, position, player}
   tileStack: [],
+  winner: null,
+  points: [0, 0, 0, 0],
 });
 
 /* Game State Management */
 
-const startGame = (players, state) => {
+function startGame(players, state) {
   const stateCopy = structuredClone(state);
   stateCopy.players = players;
   stateCopy.tileStack = shuffleTiles(gameTiles);
@@ -131,7 +142,17 @@ const startGame = (players, state) => {
     stateCopy.playersTiles[i + 1] = stateCopy.tileStack.splice(0, 7);
   }
   return stateCopy;
-};
+}
+
+function restartGame(state) {
+  const stateCopy = structuredClone(state);
+  stateCopy.tileStack = shuffleTiles(gameTiles);
+  stateCopy.board = [];
+  for (let i = 0; i < stateCopy.players; i++) {
+    stateCopy.playersTiles[i + 1] = stateCopy.tileStack.splice(0, 7);
+  }
+  return stateCopy;
+}
 
 const moveToBoard = (player, tile, location, position, state) => {
   const stateCopy = structuredClone(state);
@@ -143,7 +164,7 @@ const moveToBoard = (player, tile, location, position, state) => {
       tileFigure, tile: rotatedTile, position, player,
     }, ...stateCopy.board];
   } else { // after
-    console.log(stateCopy);
+   // console.log(stateCopy);
     const rotatedTile = rotateIfNedeed(tile, stateCopy.board, location);
     const tileFigure = getTile(allTiles, rotatedTile, position);
     stateCopy.board.push({
@@ -187,6 +208,19 @@ const getFirstPlayer = (state) => {
   return stateCopy;
 };
 
+const calculateWinner = (state) => {
+  const stateCopy = structuredClone(state);
+  const points = Object.values(stateCopy.playersTiles).map(sumTiles);
+  const max = [...points].sort((a, b) => (a > b ? -1 : 1))[0];
+  stateCopy.winner = points.indexOf(max);
+  stateCopy.points = stateCopy.points.map((p, i) => p + points[i]);
+  return stateCopy;
+};
+
+const checkFinished = (state) => Boolean(
+  Object.values(state.playersTiles).find((tiles) => tiles.length === 0)
+  );
+
 /* IA */
 
 const orderByPriority = (tiles) => tiles.sort((a, b) => {
@@ -215,8 +249,8 @@ const doMachineStep = (state) => {
     ];
     if (tilesThatCanFollow.length > 0) {
       const selectedTile = orderByPriority(tilesThatCanFollow)[0];
-      const position = getFollowPosition(board,selectedTile,1);
-      stateCopy = moveToBoard(turn, selectedTile, 'after', 'vertical', stateCopy);
+      const position = getFollowPosition(board, selectedTile, 1);
+      stateCopy = moveToBoard(turn, selectedTile, position, 'vertical', stateCopy);
     }
   }
   return stateCopy;

@@ -16,11 +16,14 @@ body {
     margin: auto;
     }
     
-    #player4 { grid-area: 1 / 2 / 2 / 9; }
+    #player3 { grid-area: 1 / 2 / 2 / 9; }
     #player2 { grid-area: 2 / 1 / 9 / 2; }
     #board { grid-area: 2 / 2 / 9 / 9; background-color: #fefefe; font-size: 2em;}
     #player1 { grid-area: 9 / 2 / 10 / 9; }
-    #player3 { grid-area: 2 / 9 / 9 / 10; }
+    #player4 { grid-area: 2 / 9 / 9 / 10; }
+    #stats { grid-area: 1 / 9 / 2 / 10 ; font-size: 0.5em;}
+    #new_game { grid-area: 9 / 9 / 10 / 10 ;  }
+    #pass { grid-area: 9 / 1 / 9 / 2 ;  }
 
     .player {
         font-size: 2em;

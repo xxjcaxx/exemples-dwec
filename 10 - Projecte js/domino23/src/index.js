@@ -30,11 +30,13 @@ const drawPlayers = (state) => {
 
   document.querySelector('#player1').append(generatePlayerDiv(state.playersTiles[1], 'vertical'));
   document.querySelector('#player2').append(generatePlayerDiv(Array(state.playersTiles[2].length).fill('99'), 'horizontal'));
-  document.querySelector('#player3').append(generatePlayerDiv(Array(state.playersTiles[3].length).fill('99'), 'horizontal'));
-  document.querySelector('#player4').append(generatePlayerDiv(Array(state.playersTiles[4].length).fill('99'), 'vertical'));
+  document.querySelector('#player3').append(generatePlayerDiv(Array(state.playersTiles[3].length).fill('99'), 'vertical'));
+  document.querySelector('#player4').append(generatePlayerDiv(Array(state.playersTiles[4].length).fill('99'), 'horizontal'));
   document.querySelector('#board').innerHTML = '';
   document.querySelector('#board').append(generateBoardDiv(state.board));
   document.querySelector(`#player${state.turn}`).classList.add('turn');
+
+  document.querySelector('#stats').innerHTML = `Turn: Player ${state.turn} Winner: ${state.winner} Points: ${state.points}`;
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -52,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (tileClicked && state.turn === 1) {
       if (state.board.length === 0) {
         state = domino.moveToBoard(1, tileClicked, 'first', 'vertical', state);
+        state = domino.changeTurn(state);
       } else {
         tileChoosen = tileClicked;
       }
@@ -68,10 +71,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (tileClicked) {
       if (tileChoosen) {
        // console.log(tileClicked, tileChoosen, tileIdx);
-        const movePosition = domino.getFollowPosition(state.board, tileChoosen, tileIdx);
+        const canMove = domino.canFollowBoard(state.board, tileChoosen, tileIdx);
        // console.log(movePosition);
-        if (movePosition) {
-          state = domino.moveToBoard(1, tileChoosen, movePosition, 'vertical', state);
+        if (canMove) {
+          const location = tileIdx === 0 ? 'before' : 'after';
+          state = domino.moveToBoard(1, tileChoosen, location, 'vertical', state);
           state = domino.changeTurn(state);
           drawPlayers(state);
         }
@@ -85,4 +89,15 @@ document.addEventListener('DOMContentLoaded', () => {
     drawPlayers(state);
   });
 
+  document.querySelector('#new_game').addEventListener('click', (e) => {
+    state = domino.calculateWinner(state);
+    state = domino.restartGame(state);
+    state = domino.getFirstPlayer(state);
+    drawPlayers(state);
+  });
+
+  document.querySelector('#pass').addEventListener('click', (e) => {
+    state = domino.changeTurn(state);
+    drawPlayers(state);
+  });
 });

@@ -47,15 +47,15 @@ describe('Domino', () => {
       expect(domino.canFollowBoard([{ tileFigure: '🁼', tile: '34', position: 'vertical' }, { tileFigure: '🁒', tile: '45', position: 'horizontal' }], '62', 0)).toBe(false);
     });
 
-    it('should return the best following position', () => { // no va be
-      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }], '35', 0)).toBe('before');
-      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }], '53', 0)).toBe('before');
-      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }], '45', 0)).toBe('after');
-      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }], '54', 0)).toBe('after');
-      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }], '62', 0)).toBe(false);
-      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }, { tileFigure: '🁒', tile: '45', position: 'horizontal' }], '32', 0)).toBe(false);
-      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }, { tileFigure: '🁒', tile: '45', position: 'horizontal' }], '35', 1)).toBe('after');
-      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }, { tileFigure: '🁒', tile: '45', position: 'horizontal' }], '62', 1)).toBe(false);
+    it('should return the best following position', () => {
+      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }], '35')).toBe('before');
+      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }], '53')).toBe('before');
+      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }], '45')).toBe('after');
+      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }], '54')).toBe('after');
+      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }], '62')).toBe(false);
+      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }, { tileFigure: '🁒', tile: '45', position: 'horizontal' }], '32')).toBe('before');
+      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }, { tileFigure: '🁒', tile: '45', position: 'horizontal' }], '35')).toBe('after');
+      expect(domino.getFollowPosition([{ tileFigure: '🁼', tile: '34', position: 'vertical' }, { tileFigure: '🁒', tile: '45', position: 'horizontal' }], '62')).toBe(false);
     });
 
     it('should rotate if needed', () => {
