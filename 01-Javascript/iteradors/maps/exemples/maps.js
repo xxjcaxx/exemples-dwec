@@ -8,7 +8,7 @@ let userRoles = new Map();
 console.log(typeof userRoles); // object
 console.log(userRoles instanceof Map); // true
 
-//// Assignar un valor a un objecte. Es pot concatenar
+//// Assignar un valor a un objecte (clau). Es pot concatenar
 userRoles.set(john, "admin").set(lily, "editor").set(peter, "user");
 
 /// Fer-ho tot en una

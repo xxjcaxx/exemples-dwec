@@ -1,0 +1,27 @@
+#quadrat {
+    width: 400px;
+    height: 400px;
+    border: 2px solid #aaa;
+    border-radius: 5px;
+ }
+ 
+ 
+ #quadrat_dins {
+    width: 200px;
+    height: 100px;
+    margin: 100px 0 0 100px;
+    border: 2px solid #aaa;
+    border-radius: 5px;
+    background-color: tomato;
+ }
+ 
+
+  
+ #quadrat_dins2 {
+    width: 200px;
+    height: 100px;
+    margin: 100px 0 0 100px;
+    border: 2px solid #aaa;
+    border-radius: 5px;
+    background-color: tomato;
+ }
