@@ -10,7 +10,7 @@ const generatePlayerDiv = (playerTiles, position) => {
 };
 
 const generateBoardDiv = (board) => {
-  const tiles = board.map((tile, idx) => `<span id="board-${tile.tile}" data-board_index = "${idx}"> 
+  const tiles = board.map((tile, idx) => `<span id="board-${tile.tile}" data-board_index = "${idx}" class="board-tile-${tile.position}"> 
                                             ${tile.tileFigure}</span>`).join('');
   const div = document.createElement('div');
   div.innerHTML = tiles;

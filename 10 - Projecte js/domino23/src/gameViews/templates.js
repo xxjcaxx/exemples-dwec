@@ -18,4 +18,3 @@ const getBoardTemplate = () => {
   wrapper.innerHTML = template;
   return wrapper.childNodes.values();
 };
-

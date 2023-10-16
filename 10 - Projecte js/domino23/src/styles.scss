@@ -37,3 +37,8 @@ body {
     .turn {
         background-color: aqua;
     }
+
+    #board span.board-tile-vertical{
+        width: 50px;
+       /* position: absolute;*/
+    }
