@@ -2,7 +2,7 @@ export {
   getTile, gameTiles, allTiles, shuffleTiles, tileCanFollow, filterTilesThatCanFollow, blackTile,
   gameState, getFreeNumbersBoard, canFollowBoard, startGame, moveToBoard, changeTurn, getFromTileStack,
   logBoard, logPlayers, getFirstPlayer, getFollowPosition, rotateIfNedeed, doMachineStep, orderByPriority,
-  restartGame, calculateWinner, checkFinished
+  restartGame, calculateWinner, checkFinished,
 };
 
 const allTiles = [
@@ -164,7 +164,6 @@ const moveToBoard = (player, tile, location, position, state) => {
       tileFigure, tile: rotatedTile, position, player,
     }, ...stateCopy.board];
   } else { // after
-   // console.log(stateCopy);
     const rotatedTile = rotateIfNedeed(tile, stateCopy.board, location);
     const tileFigure = getTile(allTiles, rotatedTile, position);
     stateCopy.board.push({
@@ -218,8 +217,8 @@ const calculateWinner = (state) => {
 };
 
 const checkFinished = (state) => Boolean(
-  Object.values(state.playersTiles).find((tiles) => tiles.length === 0)
-  );
+  Object.values(state.playersTiles).find((tiles) => tiles.length === 0),
+);
 
 /* IA */
 
