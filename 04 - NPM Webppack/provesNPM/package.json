@@ -1,4 +1,5 @@
 {
+  "type" :"module",
   "name": "provesnpm",
   "version": "1.0.0",
   "description": "",
@@ -7,8 +8,5 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "jquery": "^3.6.0"
-  }
+  "license": "ISC"
 }
