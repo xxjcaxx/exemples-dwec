@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     function incrementar(){
     state = parseInt(estatDiv.innerText);  //2 Qué passa si l'usuari modifica manualment el número
     state ++;
-   // estatDiv.innerText = state;  //7 Què passa si vull modificar un altre div també o ja no el vull modificar?
+    estatDiv.innerText = state;  //7 Què passa si vull modificar un altre div també o ja no el vull modificar?
   /*  setTimeout(() => {
         estatDiv.innerText = state; // 8 Si passen coses asíncrones pot fallar. La solució són les promeses que ja vorem. 
     }, 1000); */
