@@ -1,0 +1,17 @@
+{
+  "name": "repas12023",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jasmine-browser-runner": "^2.3.0",
+    "jasmine-core": "^5.1.1"
+  },
+  "type": "module"
+}
