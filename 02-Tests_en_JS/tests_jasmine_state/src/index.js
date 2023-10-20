@@ -6,9 +6,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 
     const incrementarBtn = document.querySelector('#incrementar');
     const decrementarBtn =document.querySelector('#decrementar');
-
     const estatDiv =document.querySelector('#estat');
-
     function incrementar(){
     state = parseInt(estatDiv.innerText);  //2 Qué passa si l'usuari modifica manualment el número
     state ++;
@@ -17,7 +15,6 @@ document.addEventListener("DOMContentLoaded",()=>{
         estatDiv.innerText = state; // 8 Si passen coses asíncrones pot fallar. La solució són les promeses que ja vorem. 
     }, 1000); */
     }
-
     function decrementar(){  //3 Cóm puc reutilitzar aquesta funció per decrementar un altre número
         state = state -1;
         estatDiv.innerText = state;
@@ -25,7 +22,6 @@ document.addEventListener("DOMContentLoaded",()=>{
     // 4 Cóm puc fer un test de incrementar i decrementar? Cóm les puc exportar?
     // 5 Cóm puc separar incrementar i decrementar de dins de la funció del DOMContentLoaded? 
     // 6 Cóm puc ficar incrementar i decrementar en un altre fitxer i importar-les?
-
     incrementarBtn.addEventListener('click',()=> incrementar());
     decrementarBtn.addEventListener('click',() =>decrementar());
 
