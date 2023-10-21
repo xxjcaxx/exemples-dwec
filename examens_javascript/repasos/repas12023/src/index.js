@@ -1,8 +1,3 @@
-
-//////// 1 
-import { pokemons } from "./pokedex.js";
-export {resumePokemon, resumeAllPokemons, getBestPokemon, getPokemonWinner, checkTypePokemon, getTypes, generatePokemonDiv, 
-    appendDivPokemonToContainer, fillPokemonContainer, betterThanPokemon}
 /**https://github.com/xxjcaxx/exemples-dwec/blob/master/01-Javascript/iteradors/pokedex.json 
 
 1 Transforma el fitxer anterior en un mòdul que exporte l’array de pokemons i importa en el teu mòdul principal.
@@ -21,8 +16,36 @@ export {resumePokemon, resumeAllPokemons, getBestPokemon, getPokemonWinner, chec
 14 Fes que cada pokemon tinga un botó per mostrar-lo a ell i a tots els que li poden guanyar. 
 15 Fes un botó per ordenar afabéticament els pokemons segons el nom anglés. Aquesta ordenació no altera l’array original. 
 
-16 Fes tests de tot excepte de la 11, 12, 14
+TESTS: Fes tests de tot excepte de la 11, 12, 14
  */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////// 1 
+import { pokemons } from "./pokedex.js";
+export {resumePokemon, resumeAllPokemons, getBestPokemon, getPokemonWinner, checkTypePokemon, getTypes, generatePokemonDiv, 
+    appendDivPokemonToContainer, fillPokemonContainer, betterThanPokemon}
 
 //////// 2
 const resumePokemon = pokemon => ({name: pokemon.name.english, points: Object.values(pokemon.base).reduce((p,c)=> p+c,0)/6});

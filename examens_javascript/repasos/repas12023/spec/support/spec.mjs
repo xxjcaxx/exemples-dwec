@@ -1,15 +1,84 @@
 import { resumePokemon, resumeAllPokemons, getBestPokemon, getPokemonWinner, checkTypePokemon, getTypes, 
     generatePokemonDiv, appendDivPokemonToContainer, fillPokemonContainer, betterThanPokemon } from "../../src/index.js";
-import { pokemons } from "../../src/pokedex.js";
+//import { pokemons } from "../../src/pokedex.js";
+
+const pokemons = [{
+    "id": 1,
+    "name": {
+      "english": "Bulbasaur",
+      "japanese": "フシギダネ",
+      "chinese": "妙蛙种子",
+      "french": "Bulbizarre"
+    },
+    "type": [
+      "Grass",
+      "Poison"
+    ],
+    "base": {
+      "HP": 45,
+      "Attack": 49,
+      "Defense": 49,
+      "Sp. Attack": 65,
+      "Sp. Defense": 65,
+      "Speed": 45
+    }
+  },
+  {
+    "id": 2,
+    "name": {
+      "english": "Ivysaur",
+      "japanese": "フシギソウ",
+      "chinese": "妙蛙草",
+      "french": "Herbizarre"
+    },
+    "type": [
+      "Grass",
+      "Poison"
+    ],
+    "base": {
+      "HP": 60,
+      "Attack": 62,
+      "Defense": 63,
+      "Sp. Attack": 80,
+      "Sp. Defense": 80,
+      "Speed": 60
+    }
+  },
+  {
+    "id": 3,
+    "name": {
+      "english": "Venusaur",
+      "japanese": "フシギバナ",
+      "chinese": "妙蛙花",
+      "french": "Florizarre"
+    },
+    "type": [
+      "Grass",
+      "Poison"
+    ],
+    "base": {
+      "HP": 80,
+      "Attack": 82,
+      "Defense": 83,
+      "Sp. Attack": 100,
+      "Sp. Defense": 100,
+      "Speed": 80
+    }
+  }]
 
 describe("Pokemons", function () {
     describe("Utilitats", function () {
         it("Pokemon resume", function () {
-            expect(resumePokemon(pokemons[0])).toEqual({ name: "Bulbasaur", points: 53 });
+            const result = resumePokemon(pokemons[0]);
+            expect(result).toBeDefined();
+            expect(result).toEqual(jasmine.any(Object));
+            expect(result).toEqual({ name: "Bulbasaur", points: 53 });
         });
         it("All Pokemons resume", function () {
-            expect(resumeAllPokemons(pokemons).length).toBe(pokemons.length);
-            expect(resumeAllPokemons(pokemons)[0]).toEqual({ name: "Bulbasaur", points: 53 });
+            const result = resumeAllPokemons(pokemons);
+            expect(result).toBeInstanceOf(Array);
+            expect(result.length).toBe(pokemons.length);
+            expect(result[0]).toEqual({ name: "Bulbasaur", points: 53 });
         });
         it("Best pokemon", function () {
             let resumePokemons = resumeAllPokemons(pokemons)
@@ -29,23 +98,7 @@ describe("Pokemons", function () {
         it("Get Types", function () {
             expect(getTypes(pokemons)).toEqual([
                 "Grass",
-                "Poison",
-                "Fire",
-                "Flying",
-                "Water",
-                "Bug",
-                "Normal",
-                "Electric",
-                "Ground",
-                "Fairy",
-                "Fighting",
-                "Psychic",
-                "Rock",
-                "Steel",
-                "Ice",
-                "Ghost",
-                "Dragon",
-                "Dark"
+                "Poison"
             ]);
         });
         it("Generate Div ", function () {
