@@ -1,5 +1,5 @@
 import { resumePokemon, resumeAllPokemons, getBestPokemon, getPokemonWinner, checkTypePokemon, getTypes, 
-    generatePokemonDiv, appendDivPokemonToContainer, fillPokemonContainer, betterThanPokemon } from "../../src/index.js";
+    generatePokemonDiv, appendDivPokemonToContainer, fillPokemonContainer, betterThanPokemon } from "../src/index.js";
 //import { pokemons } from "../../src/pokedex.js";
 
 const pokemons = [{

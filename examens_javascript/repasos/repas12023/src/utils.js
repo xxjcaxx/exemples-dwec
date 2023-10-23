@@ -1,3 +1,5 @@
+export {createArray,unFlat,uniqueValues,cartesianProduct,innerJoin,leftJoin};
+
 /* Anem a crear una biblioteca d'utilitats per treballar en arrays 
 
 Cal fer tots els tests

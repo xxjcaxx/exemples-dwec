@@ -3,7 +3,7 @@
   "srcFiles": [],
   "specDir": ".",
   "specFiles": [
-    "spec/**/*[sS]pec.?(m)js"
+    "spec/**/*[sS]pec.?(m)js", "specUtils.mjs"
   ],
   "helpers": [
     "spec/helpers/**/*.?(m)js"
