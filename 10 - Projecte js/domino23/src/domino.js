@@ -1,6 +1,6 @@
 export {
   getTile, gameTiles, allTiles, shuffleTiles, tileCanFollow, filterTilesThatCanFollow, blackTile,
-  gameState, getFreeNumbersBoard, canFollowBoard, startGame, moveToBoard, changeTurn, getFromTileStack,
+  gameState, getFreeNumbersBoard, canFollowBoard, startGame, changeTileChoosen, moveToBoard, changeTurn, getFromTileStack,
   logBoard, logPlayers, getFirstPlayer, getFollowPosition, rotateIfNedeed, doMachineStep, orderByPriority,
   restartGame, calculateWinner, checkFinished,
 };
@@ -130,6 +130,7 @@ const gameState = () => ({
   tileStack: [],
   winner: null,
   points: [0, 0, 0, 0],
+  tileChoosen: null,
 });
 
 /* Game State Management */
@@ -154,8 +155,14 @@ function restartGame(state) {
   return stateCopy;
 }
 
-const moveToBoard = (player, tile, location, position, state) => {
+const changeTileChoosen = (tile, state) => {
   const stateCopy = structuredClone(state);
+  stateCopy.tileChoosen = tile;
+  return stateCopy;
+};
+
+const moveToBoard = (player, tile, location, position, state) => {
+  let stateCopy = structuredClone(state);
   const tileIndex = stateCopy.playersTiles[player].indexOf(tile);
   if (location === 'before') {
     const rotatedTile = rotateIfNedeed(tile, stateCopy.board, location);
@@ -171,6 +178,11 @@ const moveToBoard = (player, tile, location, position, state) => {
     });
   }
   stateCopy.playersTiles[player].splice(tileIndex, 1);
+  if (checkFinished(stateCopy)) { /// /////// Mala decisió, cal solucionar-ho en Observables
+    stateCopy = calculateWinner(stateCopy);
+    stateCopy = restartGame(stateCopy);
+    stateCopy = getFirstPlayer(stateCopy);
+  }
   return stateCopy;
 };
 

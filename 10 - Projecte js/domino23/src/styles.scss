@@ -1,5 +1,4 @@
-// @import "~bootstrap/scss/bootstrap";  // A l'espera de que s'arregle el sass
-
+ @import "~bootstrap/scss/bootstrap";
 body {
 
 }
@@ -18,24 +17,24 @@ body {
     
     #player3 { grid-area: 1 / 2 / 2 / 9; }
     #player2 { grid-area: 2 / 1 / 9 / 2; }
-    #board { grid-area: 2 / 2 / 9 / 9; background-color: #fefefe; font-size: 2em;}
+    #board { grid-area: 2 / 2 / 9 / 9; background-color: #fefefe; font-size: 3em;}
     #player1 { grid-area: 9 / 2 / 10 / 9; }
     #player4 { grid-area: 2 / 9 / 9 / 10; }
-    #stats { grid-area: 1 / 9 / 2 / 10 ; font-size: 0.5em;}
+    #stats { grid-area: 1 / 9 / 2 / 10 ; font-size: 0.7em; padding: 5px;}
     #new_game { grid-area: 9 / 9 / 10 / 10 ;  }
     #pass { grid-area: 9 / 1 / 9 / 2 ;  }
 
     .player {
-        font-size: 2em;
+        font-size: 3em;
         background-color: #f0f0f0;
     }
 
     .board {
-        font-size: 2em;
+        font-size: 3em;
     }
 
     .turn {
-        background-color: aqua;
+        background-color: rgb(0, 255, 187);
     }
 
     #board span.board-tile-vertical{

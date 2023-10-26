@@ -75,6 +75,13 @@ describe('Domino', () => {
       expect(state.tileStack.length).toBe(7);
     });
 
+    it('should change tile choosen', () => {
+      let state = domino.gameState();
+      state = domino.startGame(3, state);
+      state = domino.changeTileChoosen('45', state);
+      expect(state.tileChoosen).toBe('45');
+    });
+
     it('should move a tile', () => {
       let state = domino.gameState();
       state = domino.startGame(3, state);
