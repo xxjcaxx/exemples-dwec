@@ -91,7 +91,7 @@ const drawPlayers = (state) => {
     drawPlayers(state);
   });
 
-  return container;
+  return container.childNodes.values();
 
 };
 

@@ -19,7 +19,7 @@ module.exports = {
       title: 'Domino',
       filename: 'index.html',
       template: 'src/index.html',
-      // favicon: "src/favicon.png"
+       favicon: "src/favicon.ico"
     }),
   ],
 

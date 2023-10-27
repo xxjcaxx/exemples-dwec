@@ -21,7 +21,7 @@
     // Fer que escriga 1, 2, 3 ,4
 
     //////////// En callbacks
-
+/*
     logTimeout = () => {
       setTimeout(() => {
         console.log(1);
@@ -38,7 +38,7 @@
     };
 
     logTimeout();
-
+*/
     //// En promeses  https://javascript.info/promise-chaining
 
     function promesaRandom(n) {
@@ -49,8 +49,8 @@
         }, Math.random() * 1000);
       });
     }
-
-    /* promesaRandom(1)
+/*
+     promesaRandom(1)
       .then((n) => {
         console.log(n);
         return promesaRandom(2);
@@ -67,14 +67,24 @@
         console.log(n);
       });
 
-  
+  */
 
-      */
-    /*Promise.all([
+      
+  /*  Promise.all([
       promesaRandom(1),
       promesaRandom(2),
       promesaRandom(3),
       promesaRandom(4),
     ]).then((n) => console.log(n));*/
+
+  
+    async function encadenarPromeses(n){
+      for(let i=1; i<=n;i++){
+        await promesaRandom(i);
+      }
+    }
+
+    encadenarPromeses(4);
+
   });
 })();
