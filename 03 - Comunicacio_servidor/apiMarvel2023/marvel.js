@@ -1,3 +1,20 @@
+function generateDivCharacterDetails(character){
+  let divCharacter = document.createElement("div");
+  divCharacter.classList.add("col");
+  divCharacter.innerHTML = `
+    <div class="card" style="width: 38rem;">
+        <img src="${character.thumbnail.path}/portrait_fantastic.${character.thumbnail.extension}" class="card-img-top" alt="...">
+         <div class="card-body">
+           <h5 class="card-title">${character.name}</h5>
+         <p class="card-text">${character.description}</p>
+         <ul> ${character.comics.items.map(c => `<li>${c.name}</li>`).join(' ')} </ul>
+          <button href="#" class="btn btn-primary">Return</button>
+          </div>
+        </div>
+    `;
+  return divCharacter;
+}
+
 function generateDivCharacter(character) {
   let divCharacter = document.createElement("div");
   divCharacter.classList.add("col");
@@ -7,10 +24,15 @@ function generateDivCharacter(character) {
          <div class="card-body">
            <h5 class="card-title">${character.name}</h5>
          <p class="card-text">${character.description}</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <button href="#" class="btn btn-primary">Details</button>
           </div>
         </div>
     `;
+    divCharacter.querySelector('button').addEventListener('click',()=>{
+      const container = document.querySelector("#container");
+      container.innerHTML = '';
+      container.append(generateDivCharacterDetails(character));
+    });
   return divCharacter;
 }
 

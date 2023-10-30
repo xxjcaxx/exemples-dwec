@@ -20,39 +20,36 @@ TESTS: Fes tests de tot excepte de la 11, 12, 14
  */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //////// 1 
 import { pokemons } from "./pokedex.js";
 export {resumePokemon, resumeAllPokemons, getBestPokemon, getPokemonWinner, checkTypePokemon, getTypes, generatePokemonDiv, 
     appendDivPokemonToContainer, fillPokemonContainer, betterThanPokemon}
 
 //////// 2
-const resumePokemon = pokemon => ({name: pokemon.name.english, points: Object.values(pokemon.base).reduce((p,c)=> p+c,0)/6});
+const resumePokemon = pokemon => (
+    {name: pokemon.name.english, 
+     points: Object.values(pokemon.base).reduce((p,c)=> p+c,0)/6}
+    );
+
+function resumePokemon2(pokemon){
+    let pokemonResume = {};
+    pokemonResume.name = pokemon.name.english;
+    let contador = 0;
+    for(let point in pokemon.base){
+        contador += pokemon.base[point];
+    }
+    pokemonResume.points = contador/6;
+    return pokemonResume;
+}
 /////// 3
 const resumeAllPokemons = pokemonArray => pokemonArray.map(resumePokemon);
+
+function resumeAllPokemons2(pokemonArray){
+    return pokemonArray.map((p)=> resumePokemon(p));
+}
 ////// 4
-const getBestPokemon = pokemonsResumeArray => [...pokemonsResumeArray].sort((a,b)=> a.points > b.points ? -1 : 1)[0];
+const getBestPokemon = pokemonsResumeArray => 
+    [...pokemonsResumeArray].sort((a,b)=> a.points > b.points ? -1 : 1)[0];
 ///// 5
 const getPokemonWinner = (pokemon1, pokemon2) => resumePokemon(pokemon1).points > resumePokemon(pokemon2).points ? pokemon1 : pokemon2;
 ///// 6

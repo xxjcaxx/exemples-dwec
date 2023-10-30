@@ -91,9 +91,9 @@ describe("Pokemons", function () {
             expect(getPokemonWinner(pokemons[2], pokemons[1])).toEqual(pokemons[2]);
         });
         it("Check type ", function () {
-            expect(checkTypePokemon(pokemons[0], "Grass")).toEqual(true);
-            expect(checkTypePokemon(pokemons[0], "Poison")).toEqual(true);
-            expect(checkTypePokemon(pokemons[0], "Foo")).toEqual(false);
+            expect(checkTypePokemon(pokemons[0], "Grass")).toBe(true);
+            expect(checkTypePokemon(pokemons[0], "Poison")).toBe(true);
+            expect(checkTypePokemon(pokemons[0], "Foo")).toBe(false);
         });
         it("Get Types", function () {
             expect(getTypes(pokemons)).toEqual([
