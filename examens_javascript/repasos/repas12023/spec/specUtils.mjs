@@ -5,7 +5,7 @@ describe("Utils", function () {
         it("createArray should create an array with a generator", function () {
             let arrayCreated = Utils.createArray(10,(array,index)=> array.length*index);
             expect(arrayCreated.length).toBe(10);
-            expect(arrayCreated).toEqual([0,10,20,30,40,50,60,70,80,90,100]);
+            expect(arrayCreated).toEqual([0,10,20,30,40,50,60,70,80,90]);
         });
         it("unFlat should create a 2 dimension array", function () {
             let arrayBase = [1,2,3,4,5,6];
@@ -14,7 +14,7 @@ describe("Utils", function () {
             arrayBase = [1,2,3,4,5,6,7];
             expect(Utils.unFlat(arrayBase,3)).toEqual([[1,2,3],[4,5,6],[7]]);
             expect(Utils.unFlat(arrayBase,2)).toEqual([[1,2],[3,4],[5,6],[7]]);
-            expect(arrayBase).toEqual([1,2,3,4,5,6]); // immutable
+            expect(arrayBase).toEqual([1,2,3,4,5,6,7]); // immutable
         });
         it("uniqueValues should remove repetated in an array", function () {
             let arrayRepeated = [1,1,2,2,3,4,5,6,7,7,1,2];
