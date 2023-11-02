@@ -25,7 +25,7 @@ describe("Utils", function () {
         it("cartesianProduct do all the combinations between two arrays", function () {
             let array1 = [1,2,3];
             let array2 = ['a','b','c'];
-            let expectedResult = [[1,'a'],[2,'b'],[3,'c']];
+            let expectedResult = [[1,'a'],[1,'b'],[1,'c'],[2,'a'],[2,'b'],[2,'c'],[3,'a'],[3,'b'],[3,'c']];
             expect(Utils.cartesianProduct(array1,array2)).toEqual(expectedResult);
             expect(array1).toEqual([1,2,3]);  //immutable
             expect(array2).toEqual(['a','b','c']);
