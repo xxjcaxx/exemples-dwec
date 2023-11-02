@@ -26,7 +26,7 @@ describe("Utils", function () {
             let array1 = [1,2,3];
             let array2 = ['a','b','c'];
             let expectedResult = [[1,'a'],[2,'b'],[3,'c']];
-            expect(Utils.cartesianProduct(array1)(array2)).toEqual(expectedResult);
+            expect(Utils.cartesianProduct(array1,array2)).toEqual(expectedResult);
             expect(array1).toEqual([1,2,3]);  //immutable
             expect(array2).toEqual(['a','b','c']);
         });
@@ -38,7 +38,7 @@ describe("Utils", function () {
                 [{id: '1111JKL', owner: 1},{id: 1, name: 'Fulano'}],
                 [{id: '2222JKL', owner: 2},{id: 2, name: 'Mengano'}]
             ];
-            expect(Utils.innerJoin(cars)(people)).toEqual(expectedResult);
+            expect(Utils.innerJoin(cars,people, (a,b) => a.owner === b.id)).toEqual(expectedResult);
             expect(people).toEqual( [{id: 1, name: 'Fulano'},{id: 2, name: 'Mengano'},{id: 3, name: 'Sotano'}]);  //immutable
             expect(cars).toEqual([{id: '0000JKL', owner: 1},{id: '1111JKL', owner: 1},{id: '2222JKL', owner: 2},{id: '3333JKL', owner: 4}]);
         });
@@ -51,7 +51,7 @@ describe("Utils", function () {
                 [{id: '2222JKL', owner: 2},{id: 2, name: 'Mengano'}],
                 [{id: '3333JKL', owner: 4},null]
             ];
-            expect(Utils.innerJoin(cars)(people)).toEqual(expectedResult);
+            expect(Utils.innerJoin(cars,people,(a,b) => a.owner === b.id)).toEqual(expectedResult);
             expect(people).toEqual( [{id: 1, name: 'Fulano'},{id: 2, name: 'Mengano'},{id: 3, name: 'Sotano'}]);  //immutable
             expect(cars).toEqual([{id: '0000JKL', owner: 1},{id: '1111JKL', owner: 1},{id: '2222JKL', owner: 2},{id: '3333JKL', owner: 4}]);
         });
