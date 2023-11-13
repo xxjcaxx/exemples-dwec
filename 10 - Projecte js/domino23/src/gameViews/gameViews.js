@@ -1,8 +1,8 @@
 import * as domino from '../domino.js';
 import { getBoardTemplate } from './templates.js';
-import { getGame, saveGame, updateGame } from '../services/dominohttp.js';
+import { getGame, saveGame, updateGame, getAllGames } from '../services/dominohttp.js';
 
-export { drawPlayers, generateGame };
+export { drawPlayers, generateGame, generateGameList };
 
 const generatePlayerDiv = (playerTiles, position) => {
   const tiles = playerTiles.map((tile) => `<span id="tile-${tile}">${domino.getTile(domino.allTiles, tile, position)}</span>`).join('');
@@ -101,3 +101,20 @@ const generateGame = async (gameId) => {
   state = domino.getFirstPlayer(state);
   return drawPlayers(state);
 };
+
+
+const generateGameList = () => {
+  const gameListTable = document.createElement('table');
+  getAllGames().then(
+    games => {
+      gameListTable.innerHTML = games.map(g => `<tr>
+        <td>${g.id}</td>
+        <td>${g.player1}</td>
+        <td>${g.player2}</td>
+        <td>${g.player3}</td>
+        <td>${g.player4}</td><td><button class="btn">Play</button></td>
+      </tr>`).join('');
+    }
+  );
+  return gameListTable;
+}

@@ -1,7 +1,7 @@
 import { loginForm } from './views/login.js';
 import { home } from './views/home.js';
 import { registerForm } from './views/register.js';
-import { generateGame } from './gameViews/gameViews.js';
+import { generateGame, generateGameList } from './gameViews/gameViews.js';
 /* import { loginWithToken, logout } from "./services/users.js";
 import { profileForm } from "./pages/profile.js";
 import { detail } from "./pages/detail.js";
@@ -28,6 +28,10 @@ function route(ruta) {
       main.innerHTML = '';
       generateGame(4).then((divs) =>  main.append(...divs));
       break;
+    case '#/allgames':
+        main.innerHTML = '';
+        main.append(generateGameList());
+        break;
     case '#/register':
       main.innerHTML = '';
       main.append(registerForm());
