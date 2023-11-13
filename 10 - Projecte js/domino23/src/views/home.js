@@ -12,7 +12,7 @@ function home(){
       <p class="lead">¿Estás listo para jugar?</p>
       <hr class="my-4">
       <p>Haz clic en el botón de abajo para comenzar.</p>
-      <a class="btn btn-primary btn-lg" href="juego.html" role="button">Comenzar Juego</a>
+      <a class="btn btn-primary btn-lg" href="#/game" role="button">Comenzar Juego</a>
     </div>
   </div>
    `;

@@ -1,9 +1,9 @@
 export {
   loginSupabase, fileRequest, getFileRequest, signUpSupabase, logoutSupabase, recoverPasswordSupabase, getData, updateData, createData,
 };
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN4bWhhbHd3d29ydHp1ZWN6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTkyNjYzMDIsImV4cCI6MjAxNDg0MjMwMn0.6t5wygarFGkpH3N3UjWYmEnoEdDeB2zsfgZevCl9VPo';
 
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJxaG52d2Zvdm1jeHJxcnNtZnhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjYyNzk4MDYsImV4cCI6MTk4MTg1NTgwNn0.jVhmEO__GFSxqRlbzdCxyeb_VxWWD7Bqk9sj3Po8xtM';
-const urlBase = 'https://bqhnvwfovmcxrqrsmfxr.supabase.co';
+const urlBase = 'https://sxmhalwwwortzueczlno.supabase.co';
 const headers = {
   apiKey: SUPABASE_KEY,
   'Content-Type': 'application/json',

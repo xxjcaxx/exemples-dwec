@@ -11,6 +11,8 @@ export { route };
 
 function route(ruta) {
   console.log(ruta);
+  let params = ruta.split('?')[1];
+  ruta = ruta.split('?')[0];
   const main = document.querySelector('#container');
 
   switch (ruta) {
@@ -24,7 +26,7 @@ function route(ruta) {
       break;
     case '#/game':
       main.innerHTML = '';
-      main.append(...generateGame());
+      generateGame(4).then((divs) =>  main.append(...divs));
       break;
     case '#/register':
       main.innerHTML = '';
