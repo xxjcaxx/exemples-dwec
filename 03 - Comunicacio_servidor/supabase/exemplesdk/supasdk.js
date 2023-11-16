@@ -79,6 +79,17 @@ async function supaLike(){
     }
 
     supaChain();
+
+    async function supaAnd(){
+  
+      const { data, count, error } = await client
+      .from('products')
+      .select('*')
+      .neq('id',466)
+        console.log(data, count,error);
+      }
+  
+     supaAnd();
   
 
 document.addEventListener('DOMContentLoaded',()=>{
