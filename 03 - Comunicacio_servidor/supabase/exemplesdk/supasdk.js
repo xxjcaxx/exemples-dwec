@@ -49,7 +49,7 @@ const { count, error } = await client
   console.log(data,error);
 }
 
-//supaCount()
+supaCount()
 
 
 async function supaLike(){
@@ -78,18 +78,7 @@ async function supaLike(){
       console.log(data, count,error);
     }
 
-    supaChain();
-
-    async function supaAnd(){
-  
-      const { data, count, error } = await client
-      .from('products')
-      .select('*')
-      .neq('id',466)
-        console.log(data, count,error);
-      }
-  
-     supaAnd();
+   // supaChain();
   
 
 document.addEventListener('DOMContentLoaded',()=>{
