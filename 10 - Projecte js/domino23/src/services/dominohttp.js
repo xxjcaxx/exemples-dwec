@@ -21,7 +21,7 @@ async function getGame(id) {
   return data[0];
 }
 
-async function getAllGames() {
-  const data = await getData('games', SUPABASE_KEY);
+async function getAllGames(uid) {
+  const data = await getData(`games?player1.eq${uid}&select=*`, SUPABASE_KEY);
   return data;
 }

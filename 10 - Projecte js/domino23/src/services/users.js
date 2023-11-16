@@ -8,7 +8,6 @@ export {
 
 function expirationDate(expires_in) {
   return Math.floor(Date.now() / 1000) + expires_in;
-  localStorage.setItem('expirationDate', expirationDate);
 }
 
 async function loginUser(email, password) {

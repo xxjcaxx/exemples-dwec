@@ -2,16 +2,18 @@ import { loginForm } from './views/login.js';
 import { home } from './views/home.js';
 import { registerForm } from './views/register.js';
 import { generateGame, generateGameList } from './gameViews/gameViews.js';
-/* import { loginWithToken, logout } from "./services/users.js";
-import { profileForm } from "./pages/profile.js";
-import { detail } from "./pages/detail.js";
-import { dataPage } from "./pages/data.js"; */
+import { logout } from './services/users.js';
 
 export { route };
 
 function route(ruta) {
   console.log(ruta);
   let params = ruta.split('?')[1];
+  params = params ? new Map(params.split('&').map((param) => {
+    const paramArray = param.split('=');
+    return [paramArray[0], paramArray[1]];
+  })) : new Map();
+  console.log(params);
   ruta = ruta.split('?')[0];
   const main = document.querySelector('#container');
 
@@ -26,12 +28,12 @@ function route(ruta) {
       break;
     case '#/game':
       main.innerHTML = '';
-      generateGame(4).then((divs) =>  main.append(...divs));
+      generateGame(params.get('id')).then((divs) => main.append(...divs));
       break;
     case '#/allgames':
-        main.innerHTML = '';
-        main.append(generateGameList());
-        break;
+      main.innerHTML = '';
+      main.append(generateGameList());
+      break;
     case '#/register':
       main.innerHTML = '';
       main.append(registerForm());

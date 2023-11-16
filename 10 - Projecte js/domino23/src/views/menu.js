@@ -12,7 +12,10 @@ const menu = () => `<nav class="navbar navbar-expand-lg bg-body-tertiary">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#/allgames">AllGames</a>
+            <a class="nav-link" href="#/game">Current Game</a> <!-- Reparar amb observables -->
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#/allgames">Your Games</a>
           </li>
           <li class="nav-item">
           <a class="nav-link" href="#/login">Login</a>
@@ -20,6 +23,12 @@ const menu = () => `<nav class="navbar navbar-expand-lg bg-body-tertiary">
         <li class="nav-item">
         <a class="nav-link" href="#/register">Register</a>
       </li>
+      <li class="nav-item">
+          <a class="nav-link" href="#/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#/logout">Logout</a>
+        </li>
           <li class="nav-item">
             <a class="nav-link disabled" aria-disabled="true">Disabled</a>
           </li>

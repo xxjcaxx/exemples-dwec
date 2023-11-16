@@ -1,6 +1,8 @@
 import * as domino from '../domino.js';
 import { getBoardTemplate } from './templates.js';
-import { getGame, saveGame, updateGame, getAllGames } from '../services/dominohttp.js';
+import {
+  getGame, saveGame, updateGame, getAllGames,
+} from '../services/dominohttp.js';
 
 export { drawPlayers, generateGame, generateGameList };
 
@@ -104,17 +106,26 @@ const generateGame = async (gameId) => {
 
 
 const generateGameList = () => {
+  const userId = localStorage.getItem('uid');
   const gameListTable = document.createElement('table');
-  getAllGames().then(
-    games => {
-      gameListTable.innerHTML = games.map(g => `<tr>
+  gameListTable.classList.add('table');
+  getAllGames(userId).then(
+    (games) => {
+      gameListTable.innerHTML = games.map((g) => `<tr>
         <td>${g.id}</td>
         <td>${g.player1}</td>
         <td>${g.player2}</td>
         <td>${g.player3}</td>
-        <td>${g.player4}</td><td><button class="btn">Play</button></td>
+        <td>${g.player4}</td><td><button class="btn btn-primary" id="play_${g.id}">Play</button></td>
       </tr>`).join('');
-    }
+    },
   );
+  gameListTable.addEventListener('click', (event) => {
+    const button = event.target;
+    if (button.tagName === 'BUTTON') {
+      const gameId = button.id.split('_')[1];
+      window.location.hash = `#/game?id=${gameId}`;
+    }
+  });
   return gameListTable;
-}
+};

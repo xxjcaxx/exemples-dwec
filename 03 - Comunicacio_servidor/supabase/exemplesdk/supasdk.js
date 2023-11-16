@@ -63,7 +63,23 @@ async function supaLike(){
      
   
   }
-  supaLike();
+
+
+
+  //supaLike();
+
+
+  async function supaChain(){
+  
+    const { data, count, error } = await client
+    .from('products')
+    .select('*')
+    .or('id.eq.464, id.eq.466')
+      console.log(data, count,error);
+    }
+
+    supaChain();
+  
 
 document.addEventListener('DOMContentLoaded',()=>{
 
