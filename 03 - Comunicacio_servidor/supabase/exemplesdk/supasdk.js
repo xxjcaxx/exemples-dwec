@@ -49,7 +49,7 @@ const { count, error } = await client
   console.log(data,error);
 }
 
-//supaCount()
+supaCount()
 
 
 async function supaLike(){
@@ -78,7 +78,7 @@ async function supaLike(){
       console.log(data, count,error);
     }
 
-    supaChain();
+   // supaChain();
   
 
 document.addEventListener('DOMContentLoaded',()=>{
