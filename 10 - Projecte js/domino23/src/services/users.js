@@ -61,6 +61,7 @@ function logout() {
   logoutSupabase(localStorage.getItem('access_token')).then((lOData) => {
     console.log(lOData);
     localStorage.removeItem('access_token');
+    localStorage.removeItem('uid');
   });
 }
 

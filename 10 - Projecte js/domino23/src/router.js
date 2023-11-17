@@ -28,7 +28,13 @@ function route(ruta) {
       break;
     case '#/game':
       main.innerHTML = '';
-      generateGame(params.get('id')).then((divs) => main.append(...divs));
+      if (params.get('id')) {
+        generateGame(params.get('id')).then((divs) => main.append(...divs));
+      } else if (localStorage.getItem('gameId')) {
+        window.location.hash = `#/game?id=${localStorage.getItem('gameId')}`;
+      } else {
+        window.location.hash = '#/';
+      }
       break;
     case '#/allgames':
       main.innerHTML = '';
@@ -49,5 +55,7 @@ function route(ruta) {
     case '':
       window.location.hash = '#/';
       break;
+    default:
+      window.location.hash = '#/';
   }
 }

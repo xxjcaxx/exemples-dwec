@@ -74,7 +74,7 @@ const drawPlayers = (state) => {
     state = domino.doMachineStep(state);
     state = domino.changeTurn(state);
     updateGame(state, localStorage.getItem('gameId'));
-    window.location.hash = `#/game?random=${Math.floor(Math.random() * 1000)}`;
+    window.location.hash = `#/game?id=${localStorage.getItem('gameId')}&random=${Math.floor(Math.random() * 1000)}`;
   });
 
   container.querySelector('#new_game').addEventListener('click', (e) => {
@@ -82,13 +82,13 @@ const drawPlayers = (state) => {
     state = domino.restartGame(state);
     state = domino.getFirstPlayer(state);
     updateGame(state, localStorage.getItem('gameId'));
-    window.location.hash = `#/game?random=${Math.floor(Math.random() * 1000)}`;
+    window.location.hash = `#/game?id=${localStorage.getItem('gameId')}&random=${Math.floor(Math.random() * 1000)}`;
   });
 
   container.querySelector('#pass').addEventListener('click', (e) => {
     state = domino.changeTurn(state);
     updateGame(state, localStorage.getItem('gameId'));
-    window.location.hash = `#/game?random=${Math.floor(Math.random() * 1000)}`;
+    window.location.hash = `#/game?id=${localStorage.getItem('gameId')}&random=${Math.floor(Math.random() * 1000)}`;
   });
 
   return container.childNodes.values();
@@ -105,30 +105,34 @@ const generateGame = async (gameId) => {
 };
 
 const generateGameList = () => {
-  const userId = localStorage.getItem('uid');
-  const gameListTable = document.createElement('table');
-  gameListTable.classList.add('table');
-  getAllGames(userId).then(
-    (games) => {
-      gameListTable.innerHTML = games.map((g) => `<tr>
+  const generateTable = (games) => {
+    const gameListTable = document.createElement('table');
+    gameListTable.classList.add('table');
+    gameListTable.innerHTML = games.map((g) => `<tr>
         <td>${g.id}</td>
         <td>${g.player1}</td>
         <td>${g.player2}</td>
         <td>${g.player3}</td>
         <td>${g.player4}</td><td><button class="btn btn-primary" id="play_${g.id}">Play</button></td>
       </tr>`).join('');
-    },
-  );
-  gameListTable.addEventListener('click', (event) => {
-    const button = event.target;
-    if (button.tagName === 'BUTTON') {
-      const gameId = button.id.split('_')[1];
-      window.location.hash = `#/game?id=${gameId}`;
-    }
-  });
+    gameListTable.addEventListener('click', (event) => {
+      const button = event.target;
+      if (button.tagName === 'BUTTON') {
+        const gameId = button.id.split('_')[1];
+        window.location.hash = `#/game?id=${gameId}`;
+      }
+    });
+    return gameListTable;
+  };
+
+  const userId = localStorage.getItem('uid');
+
   const gameListDiv = document.createElement('div');
   gameListDiv.classList.add('yourgamesdiv');
-  gameListDiv.append(gameListTable);
+  const gameListTable = document.createElement('div');
+  gameListTable.innerHTML = '<h2>Your Games</h2>';
+  const gameAvailableTable = document.createElement('div');
+  gameAvailableTable.innerHTML = '<h2>Available Games</h2>';
   const newGamePlayersInput = document.createElement('input');
   newGamePlayersInput.placeholder = 'Players (2-4)';
   const newGameButton = document.createElement('button');
@@ -137,36 +141,16 @@ const generateGameList = () => {
     const nPlayers = newGamePlayersInput.value ? parseInt(newGamePlayersInput.value) : 4;
     const createdGame = await saveGame(
       { player1: userId },
-      domino.startGame(nPlayers, domino.gameState()));
+      domino.startGame(nPlayers, domino.gameState()),
+    );
     window.location.hash = `#/game?id=${createdGame[0].id}`;
   });
-  const availableGameListTable = document.createElement('table');
-  availableGameListTable.classList.add('table');
-  getAvailableGames(userId).then(
-    (games) => {
-      availableGameListTable.innerHTML = games.map((g) => `<tr>
-        <td>${g.id}</td>
-        <td>${g.player1}</td>
-        <td>${g.player2}</td>
-        <td>${g.player3}</td>
-        <td>${g.player4}</td><td><button class="btn btn-primary" id="play_${g.id}">Play</button></td>
-      </tr>`).join('');
-    },
-  );
-  availableGameListTable.addEventListener('click', (event) => {
-    const button = event.target;
-    if (button.tagName === 'BUTTON') {
-      const gameId = button.id.split('_')[1];
-      window.location.hash = `#/game?id=${gameId}`;
-    }
-  });
+  gameListDiv.append(gameListTable, newGamePlayersInput, newGameButton, gameAvailableTable);
 
-
-  gameListDiv.append(newGamePlayersInput, newGameButton, availableGameListTable);
-
-
-
-
+  if (userId) {
+    getAllGames(userId).then((games) => gameListTable.append(generateTable(games)));
+    getAvailableGames(userId).then((games) => gameAvailableTable.append(generateTable(games)));
+  }
 
   return gameListDiv;
 };

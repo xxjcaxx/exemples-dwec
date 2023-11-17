@@ -3,7 +3,7 @@ import {
 } from './http.js';
 
 export {
-  saveGame, getGame, updateGame, getAllGames, getAvailableGames
+  saveGame, getGame, updateGame, getAllGames, getAvailableGames,
 };
 
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN4bWhhbHd3d29ydHp1ZWN6bG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTkyNjYzMDIsImV4cCI6MjAxNDg0MjMwMn0.6t5wygarFGkpH3N3UjWYmEnoEdDeB2zsfgZevCl9VPo';
@@ -19,7 +19,7 @@ function saveGame(players, state) {
 }
 
 function updateGame(state, gameId) {
-  updateData(`games?id=eq.${gameId}`, SUPABASE_KEY, { player1: Math.floor(Math.random() * 1000), game_state: state });
+  updateData(`games?id=eq.${gameId}`, SUPABASE_KEY, { game_state: state });
 }
 
 async function getGame(id) {
@@ -33,6 +33,7 @@ async function getAllGames(uid) {
 }
 
 async function getAvailableGames(uid) {
-  const data = await getData(`games?player1.neq.${uid}&select=*`, SUPABASE_KEY);
+  let data = await getData('games?started.eq.false&select=*', SUPABASE_KEY);
+  data = data.filter((game) => game.player1 != uid && game.player1 != uid && game.player1 != uid && game.player1 != uid);
   return data;
 }

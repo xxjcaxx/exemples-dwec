@@ -79,7 +79,27 @@ async function supaLike(){
     }
 
    // supaChain();
+
+   
+
+   async function supaNeq(){
   
+    const { data, count, error } = await client
+    .from('products')
+    .select('*')
+    .neq('id',464)
+    .neq('id',466)
+      console.log(data, count,error);
+    }
+
+    supaNeq();
+
+
+
+
+
+
+
 
 document.addEventListener('DOMContentLoaded',()=>{
 
