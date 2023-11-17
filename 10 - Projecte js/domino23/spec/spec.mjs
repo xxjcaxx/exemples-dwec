@@ -9,6 +9,8 @@ import {
 */
 
 import * as domino from '../src/domino.js';
+import * as supaBase from '../src/services/http.js';
+import * as credentials from './credentials.js';
 
 describe('Domino', () => {
   describe('Generation', () => {
@@ -88,6 +90,7 @@ describe('Domino', () => {
       const tile = state.playersTiles[1][3] = '35';
       const tile2 = state.playersTiles[1][4] = '53';
       state = domino.moveToBoard(1, tile, 'last', 'vertical', state);
+      console.log(state);
       expect(state.playersTiles[1].length).toBe(6);
       expect(state.board.length).toBe(1);
       expect(state.board[0].tileFigure).toBe(domino.getTile(domino.allTiles, tile, 'vertical'));
@@ -133,6 +136,31 @@ describe('Domino', () => {
   describe('IA', () => {
     it('Sort by Priority', () => {
       expect(domino.orderByPriority(['55', '66', '11', '12', '34', '00', '56'])).toEqual(['66', '55', '11', '00', '56', '34', '12']);
+    });
+  });
+});
+
+describe('HTTP', () => {
+  describe('Supabase', () => {
+    it('supaRequest should return data from supabase', async () => {
+      const result = supaBase.supaRequest(`${supaBase.urlBase}/rest/v1/games`, 'GET', { ...supaBase.headers, Authorization: `Bearer ${supaBase.SUPABASE_KEY}` });
+      expect(result.catch((error) => console.log(error))).toBeInstanceOf(Promise);
+      expect(await result).toBeInstanceOf(Object);
+      expect(await result).toBeInstanceOf(Array);
+    });
+    it('loginSupabase should return login token', async () => {
+      const result = supaBase.loginSupabase(credentials.email, credentials.password);
+      expect(result.catch((error) => console.log(error))).toBeInstanceOf(Promise);
+      expect(await result).toBeInstanceOf(Object);
+      const keys = Object.keys(await result);
+      expect(keys).toContain('access_token');
+      expect(keys).toContain('user');
+    });
+    it('getData should get data from supabase', async () => {
+      const result = supaBase.getData('games', supaBase.SUPABASE_KEY);
+      expect(result.catch((error) => console.log(error))).toBeInstanceOf(Promise);
+      expect(await result).toBeInstanceOf(Object);
+      expect(await result).toBeInstanceOf(Array);
     });
   });
 });

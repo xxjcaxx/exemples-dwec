@@ -7,7 +7,9 @@ import {
 export { drawPlayers, generateGame, generateGameList };
 
 const generatePlayerDiv = (playerTiles, position) => {
-  const tiles = playerTiles.map((tile) => `<span id="tile-${tile}">${domino.getTile(domino.allTiles, tile, position)}</span>`).join('');
+  const tiles = playerTiles.map((tile) => `
+  <span id="tile-${tile}">${domino.getTile(domino.allTiles, tile, position)}</span>
+  `).join('');
   const div = document.createElement('div');
   div.innerHTML = tiles;
   return div;
@@ -70,24 +72,24 @@ const drawPlayers = (state) => {
     }
   });
 
-  container.querySelector('#machine_step').addEventListener('click', (e) => {
+  container.querySelector('#machine_step').addEventListener('click', async (e) => {
     state = domino.doMachineStep(state);
     state = domino.changeTurn(state);
-    updateGame(state, localStorage.getItem('gameId'));
+    await updateGame(state, localStorage.getItem('gameId'));
     window.location.hash = `#/game?id=${localStorage.getItem('gameId')}&random=${Math.floor(Math.random() * 1000)}`;
   });
 
-  container.querySelector('#new_game').addEventListener('click', (e) => {
+  container.querySelector('#new_game').addEventListener('click', async (e) => {
     state = domino.calculateWinner(state);
     state = domino.restartGame(state);
     state = domino.getFirstPlayer(state);
-    updateGame(state, localStorage.getItem('gameId'));
+    await updateGame(state, localStorage.getItem('gameId'));
     window.location.hash = `#/game?id=${localStorage.getItem('gameId')}&random=${Math.floor(Math.random() * 1000)}`;
   });
 
-  container.querySelector('#pass').addEventListener('click', (e) => {
+  container.querySelector('#pass').addEventListener('click', async (e) => {
     state = domino.changeTurn(state);
-    updateGame(state, localStorage.getItem('gameId'));
+    await updateGame(state, localStorage.getItem('gameId'));
     window.location.hash = `#/game?id=${localStorage.getItem('gameId')}&random=${Math.floor(Math.random() * 1000)}`;
   });
 
@@ -97,10 +99,11 @@ const drawPlayers = (state) => {
 const generateGame = async (gameId) => {
   let state;
   state = (await getGame(gameId)).game_state;
+  // console.log(state);
   localStorage.setItem('gameId', gameId);
   domino.logBoard(state);
   domino.logPlayers(state);
-  state = domino.getFirstPlayer(state);
+
   return drawPlayers(state);
 };
 
@@ -141,7 +144,7 @@ const generateGameList = () => {
     const nPlayers = newGamePlayersInput.value ? parseInt(newGamePlayersInput.value) : 4;
     const createdGame = await saveGame(
       { player1: userId },
-      domino.startGame(nPlayers, domino.gameState()),
+      domino.getFirstPlayer(domino.startGame(nPlayers, domino.gameState())),
     );
     window.location.hash = `#/game?id=${createdGame[0].id}`;
   });

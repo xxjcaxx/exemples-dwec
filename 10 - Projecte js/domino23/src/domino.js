@@ -229,7 +229,9 @@ const calculateWinner = (state) => {
 };
 
 const checkFinished = (state) => Boolean(
-  Object.values(state.playersTiles).find((tiles) => tiles.length === 0),
+  Object.entries(state.playersTiles).find(
+    ([player, tiles]) => tiles.length === 0 && player <= state.players,
+  ),
 );
 
 /* IA */
