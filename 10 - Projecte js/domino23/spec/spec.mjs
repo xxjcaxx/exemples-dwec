@@ -82,6 +82,19 @@ describe('Domino', () => {
       state = domino.startGame(4, state);
       let stateRotated = domino.rotateGame(state, 1);
       expect(stateRotated.playersTiles['1']).toEqual(state.playersTiles['4']);
+      expect(stateRotated.playersTiles['2']).toEqual(state.playersTiles['1']);
+      expect(stateRotated.playersTiles['3']).toEqual(state.playersTiles['2']);
+      expect(stateRotated.playersTiles['4']).toEqual(state.playersTiles['3']);
+      stateRotated = domino.rotateGame(state, 2);
+      expect(stateRotated.playersTiles['1']).toEqual(state.playersTiles['3']);
+      expect(stateRotated.playersTiles['2']).toEqual(state.playersTiles['4']);
+      expect(stateRotated.playersTiles['3']).toEqual(state.playersTiles['1']);
+      expect(stateRotated.playersTiles['4']).toEqual(state.playersTiles['2']);
+      state = domino.startGame(3, state);
+      stateRotated = domino.rotateGame(state, 1);
+      expect(stateRotated.playersTiles['1']).toEqual(state.playersTiles['3']);
+      expect(stateRotated.playersTiles['2']).toEqual(state.playersTiles['1']);
+      expect(stateRotated.playersTiles['3']).toEqual(state.playersTiles['2']);
     });
 
     it('should change tile choosen', () => {

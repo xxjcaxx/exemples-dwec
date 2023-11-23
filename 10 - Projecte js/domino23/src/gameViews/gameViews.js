@@ -1,10 +1,19 @@
 import * as domino from '../domino.js';
 import { getBoardTemplate } from './templates.js';
 import {
-  getGame, saveGame, updateGame, getAllGames, getAvailableGames,
+  getGame, saveGame, updateGame, updateGamePlayers, getAllGames, getAvailableGames,
 } from '../services/dominohttp.js';
 
 export { drawPlayers, generateGame, generateGameList };
+
+const getRotation = (players, uid) => 4 - players.findIndex((player) => player === uid);
+const playerIsInGame = (players, uid) => players.indexOf(uid) >= 0;
+const addPlayer = (players, uid) => {
+  const playersCopy = [...players];
+  playersCopy[players.indexOf(null)] = uid;
+  return playersCopy;
+};
+
 
 const generatePlayerDiv = (playerTiles, position) => {
   const tiles = playerTiles.map((tile) => `
@@ -23,31 +32,35 @@ const generateBoardDiv = (board) => {
   return div;
 };
 
-const drawPlayers = (state) => {
+const drawPlayers = (state, players) => {
   const container = document.createElement('div');
   container.append(...getBoardTemplate());
-  container.querySelector('#player1').append(generatePlayerDiv(state.playersTiles[1], 'vertical'));
-  container.querySelector('#player2').append(generatePlayerDiv(Array(state.playersTiles[2].length).fill('99'), 'horizontal'));
-  container.querySelector('#player3').append(generatePlayerDiv(Array(state.playersTiles[3].length).fill('99'), 'vertical'));
-  container.querySelector('#player4').append(generatePlayerDiv(Array(state.playersTiles[4].length).fill('99'), 'horizontal'));
+  const rotation = getRotation(players, localStorage.getItem('uid'));
+  //console.log({rotation});
+  const rotatedState = domino.rotateGame(state, rotation);
+  //console.log(rotatedState, localStorage.getItem('uid'));
+  container.querySelector('#mainPlayer').append(generatePlayerDiv(rotatedState.playersTiles[1], 'vertical'));
+  container.querySelector('#playerLeft').append(generatePlayerDiv(Array(rotatedState.playersTiles[2].length).fill('99'), 'horizontal'));
+  container.querySelector('#playerTop').append(generatePlayerDiv(Array(rotatedState.playersTiles[3].length).fill('99'), 'vertical'));
+  container.querySelector('#playerRight').append(generatePlayerDiv(Array(rotatedState.playersTiles[4].length).fill('99'), 'horizontal'));
   container.querySelector('#board').append(generateBoardDiv(state.board));
-  container.querySelector(`#player${state.turn}`).classList.add('turn');
+  container.querySelector(`#${['mainPlayer','playerLeft','playerTop','playerRight'][rotatedState.turn - 1]}`).classList.add('turn');
 
   container.querySelector('#stats').innerHTML = `Turn: Player ${state.turn} Winner: ${state.winner} Points: ${state.points}`;
 
-  container.querySelector('#player1').addEventListener('click', (e) => {
+  container.querySelector('#mainPlayer').addEventListener('click', async (e) => {
     const tileClicked = e.target.id.split('-')[1];
-    if (tileClicked && state.turn === 1) {
+    if (tileClicked && rotatedState.turn === 1) {
       if (state.board.length === 0) {
-        state = domino.moveToBoard(1, tileClicked, 'first', 'vertical', state);
+        state = domino.moveToBoard(state.turn, tileClicked, 'first', 'vertical', state);
         state = domino.changeTurn(state);
+        await updateGame(state, localStorage.getItem('gameId'));
+        window.location.hash = `#/game?id=${localStorage.getItem('gameId')}&random=${Math.floor(Math.random() * 1000)}`;
       } else {
         state = domino.changeTileChoosen(tileClicked, state);
+        drawPlayers(state, players);
       }
-
-      drawPlayers(state);
-      domino.logPlayers(state);
-      domino.logBoard(state);
+     
     }
   });
 
@@ -60,10 +73,12 @@ const drawPlayers = (state) => {
         const canMove = domino.canFollowBoard(state.board, state.tileChoosen, tileIdx);
         if (canMove) {
           const location = tileIdx === 0 ? 'before' : 'after';
-          state = domino.moveToBoard(1, state.tileChoosen, location, 'vertical', state);
+          state = domino.moveToBoard(state.turn, state.tileChoosen, location, 'vertical', state);
           state = domino.changeTurn(state);
           state = domino.changeTileChoosen(null, state);
+
           await updateGame(state, localStorage.getItem('gameId'));
+
           window.location.hash = `#/game?id=${localStorage.getItem('gameId')}&random=${Math.floor(Math.random() * 1000)}`;
         }
       }
@@ -94,16 +109,18 @@ const drawPlayers = (state) => {
   return container.childNodes.values();
 };
 
-
 const generateGame = async (gameId) => {
-  let state;
-  state = (await getGame(gameId)).game_state;
+  let { game_state: state, players } = await getGame(gameId);
+  const uid = localStorage.getItem('uid');
   // console.log(state);
   localStorage.setItem('gameId', gameId);
+  if (!playerIsInGame(players, uid)) {
+    players = addPlayer(players, uid);
+    updateGamePlayers(players, gameId);
+  }
   domino.logBoard(state);
   domino.logPlayers(state);
-
-  return drawPlayers(state);
+  return drawPlayers(state, players);
 };
 
 const generateGameList = () => {
@@ -112,10 +129,10 @@ const generateGameList = () => {
     gameListTable.classList.add('table');
     gameListTable.innerHTML = games.map((g) => `<tr>
         <td>${g.id}</td>
-        <td>${g.player1}</td>
-        <td>${g.player2}</td>
-        <td>${g.player3}</td>
-        <td>${g.player4}</td><td><button class="btn btn-primary" id="play_${g.id}">Play</button></td>
+        <td>${g.players[0]}</td>
+        <td>${g.players[1]}</td>
+        <td>${g.players[2]}</td>
+        <td>${g.players[3]}</td><td><button class="btn btn-primary" id="play_${g.id}">Play</button></td>
       </tr>`).join('');
     gameListTable.addEventListener('click', (event) => {
       const button = event.target;

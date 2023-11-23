@@ -15,11 +15,11 @@ body {
     margin: auto;
     }
     
-    #player3 { grid-area: 1 / 2 / 2 / 9; }
-    #player2 { grid-area: 2 / 1 / 9 / 2; }
+    #playerTop { grid-area: 1 / 2 / 2 / 9; }
+    #playerLeft { grid-area: 2 / 1 / 9 / 2; }
     #board { grid-area: 2 / 2 / 9 / 9; background-color: #fefefe; font-size: 3em;}
-    #player1 { grid-area: 9 / 2 / 10 / 9; }
-    #player4 { grid-area: 2 / 9 / 9 / 10; }
+    #mainPlayer { grid-area: 9 / 2 / 10 / 9; }
+    #playerRight { grid-area: 2 / 9 / 9 / 10; }
     #stats { grid-area: 1 / 9 / 2 / 10 ; font-size: 0.7em; padding: 5px;}
     #new_game { grid-area: 9 / 9 / 10 / 10 ;  }
     #pass { grid-area: 9 / 1 / 9 / 2 ;  }

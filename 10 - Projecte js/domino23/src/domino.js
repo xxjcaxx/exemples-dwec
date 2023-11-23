@@ -158,12 +158,12 @@ function restartGame(state) {
 
 function rotateGame(state, rotation) {
   const stateCopy = structuredClone(state);
-  for (let playerIndex = 1; playerIndex < 5; playerIndex++) {
-    stateCopy.playersTiles[`${playerIndex}`] = state[`${(playerIndex + rotation) % state.players}`];
-    console.log(playerIndex, (playerIndex + rotation) % state.players);
+  for (let playerIndex = 1; playerIndex <= state.players; playerIndex++) {
+    stateCopy.playersTiles[`${(playerIndex - 1 + rotation) % state.players + 1}`] = state.playersTiles[`${playerIndex}`];
   }
+  stateCopy.turn = (state.turn - 1 + rotation) % state.players + 1;
   stateCopy.rotation = rotation;
-  console.log(stateCopy,state);
+  //console.log(stateCopy,state);
   return stateCopy;
 }
 
