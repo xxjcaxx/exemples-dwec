@@ -1,6 +1,6 @@
 export {
   getTile, gameTiles, allTiles, shuffleTiles, tileCanFollow, filterTilesThatCanFollow, blackTile,
-  gameState, getFreeNumbersBoard, canFollowBoard, startGame, changeTileChoosen, moveToBoard, changeTurn, getFromTileStack,
+  gameState, rotateGame, getFreeNumbersBoard, canFollowBoard, startGame, changeTileChoosen, moveToBoard, changeTurn, getFromTileStack,
   logBoard, logPlayers, getFirstPlayer, getFollowPosition, rotateIfNedeed, doMachineStep, orderByPriority,
   restartGame, calculateWinner, checkFinished,
 };
@@ -131,6 +131,7 @@ const gameState = () => ({
   winner: null,
   points: [0, 0, 0, 0],
   tileChoosen: null,
+  rotation: 0,
 });
 
 /* Game State Management */
@@ -152,6 +153,17 @@ function restartGame(state) {
   for (let i = 0; i < stateCopy.players; i++) {
     stateCopy.playersTiles[i + 1] = stateCopy.tileStack.splice(0, 7);
   }
+  return stateCopy;
+}
+
+function rotateGame(state, rotation) {
+  const stateCopy = structuredClone(state);
+  for (let playerIndex = 1; playerIndex < 5; playerIndex++) {
+    stateCopy.playersTiles[`${playerIndex}`] = state[`${(playerIndex + rotation) % state.players}`];
+    console.log(playerIndex, (playerIndex + rotation) % state.players);
+  }
+  stateCopy.rotation = rotation;
+  console.log(stateCopy,state);
   return stateCopy;
 }
 

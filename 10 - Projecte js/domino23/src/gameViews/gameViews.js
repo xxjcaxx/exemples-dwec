@@ -43,7 +43,6 @@ const drawPlayers = (state) => {
         state = domino.changeTurn(state);
       } else {
         state = domino.changeTileChoosen(tileClicked, state);
-        // console.log(tileClicked, state.tileChoosen);
       }
 
       drawPlayers(state);
@@ -52,21 +51,20 @@ const drawPlayers = (state) => {
     }
   });
 
-  container.querySelector('#board').addEventListener('click', (e) => {
+  container.querySelector('#board').addEventListener('click', async (e) => {
     const tileClicked = e.target.id.split('-')[1];
     const tileIdx = parseInt(e.target.dataset.board_index, 10);
-    // console.log(tileClicked, state.tileChoosen, tileIdx);
+
     if (tileClicked) {
       if (state.tileChoosen) {
-        // console.log(tileClicked, tileChoosen, tileIdx);
         const canMove = domino.canFollowBoard(state.board, state.tileChoosen, tileIdx);
-        // console.log(movePosition);
         if (canMove) {
           const location = tileIdx === 0 ? 'before' : 'after';
           state = domino.moveToBoard(1, state.tileChoosen, location, 'vertical', state);
           state = domino.changeTurn(state);
           state = domino.changeTileChoosen(null, state);
-          drawPlayers(state);
+          await updateGame(state, localStorage.getItem('gameId'));
+          window.location.hash = `#/game?id=${localStorage.getItem('gameId')}&random=${Math.floor(Math.random() * 1000)}`;
         }
       }
     }
@@ -95,6 +93,7 @@ const drawPlayers = (state) => {
 
   return container.childNodes.values();
 };
+
 
 const generateGame = async (gameId) => {
   let state;

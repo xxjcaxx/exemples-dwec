@@ -77,6 +77,13 @@ describe('Domino', () => {
       expect(state.tileStack.length).toBe(7);
     });
 
+    it('rotateGame should rotate a game', () => {
+      let state = domino.gameState();
+      state = domino.startGame(4, state);
+      let stateRotated = domino.rotateGame(state, 1);
+      expect(stateRotated.playersTiles['1']).toEqual(state.playersTiles['4']);
+    });
+
     it('should change tile choosen', () => {
       let state = domino.gameState();
       state = domino.startGame(3, state);
