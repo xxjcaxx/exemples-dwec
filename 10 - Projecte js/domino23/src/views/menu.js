@@ -29,6 +29,9 @@ const menu = () => `<nav class="navbar navbar-expand-lg bg-body-tertiary">
         <li class="nav-item">
           <a class="nav-link" href="#/logout">Logout</a>
         </li>
+        <li class="nav-item">
+        <a class="nav-link" href="#/profile">Profile</a>
+      </li>
           <li class="nav-item">
             <a class="nav-link disabled" aria-disabled="true">Disabled</a>
           </li>

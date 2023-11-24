@@ -3,6 +3,7 @@ import { home } from './views/home.js';
 import { registerForm } from './views/register.js';
 import { generateGame, generateGameList } from './gameViews/gameViews.js';
 import { logout } from './services/users.js';
+import { profileForm } from './views/profile.js';
 
 export { route };
 

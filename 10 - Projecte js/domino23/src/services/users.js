@@ -17,6 +17,7 @@ async function loginUser(email, password) {
     console.log(dataLogin);
     localStorage.setItem('access_token', dataLogin.access_token);
     localStorage.setItem('uid', dataLogin.user.id);
+    localStorage.setItem('email', dataLogin.user.email);
     localStorage.setItem('expirationDate', expirationDate(dataLogin.expires_in));
     status.success = true;
   } catch (err) {
@@ -99,7 +100,6 @@ async function getProfile() {
       responseGet[0].avatar_blob = URL.createObjectURL(imageBlob);
     }
   }
-
   return responseGet;
 }
 

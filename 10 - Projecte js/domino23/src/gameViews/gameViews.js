@@ -36,15 +36,13 @@ const drawPlayers = (state, players) => {
   const container = document.createElement('div');
   container.append(...getBoardTemplate());
   const rotation = getRotation(players, localStorage.getItem('uid'));
-  //console.log({rotation});
   const rotatedState = domino.rotateGame(state, rotation);
-  //console.log(rotatedState, localStorage.getItem('uid'));
   container.querySelector('#mainPlayer').append(generatePlayerDiv(rotatedState.playersTiles[1], 'vertical'));
   container.querySelector('#playerLeft').append(generatePlayerDiv(Array(rotatedState.playersTiles[2].length).fill('99'), 'horizontal'));
   container.querySelector('#playerTop').append(generatePlayerDiv(Array(rotatedState.playersTiles[3].length).fill('99'), 'vertical'));
   container.querySelector('#playerRight').append(generatePlayerDiv(Array(rotatedState.playersTiles[4].length).fill('99'), 'horizontal'));
   container.querySelector('#board').append(generateBoardDiv(state.board));
-  container.querySelector(`#${['mainPlayer','playerLeft','playerTop','playerRight'][rotatedState.turn - 1]}`).classList.add('turn');
+  container.querySelector(`#${['mainPlayer', 'playerLeft', 'playerTop', 'playerRight'][rotatedState.turn - 1]}`).classList.add('turn');
 
   container.querySelector('#stats').innerHTML = `Turn: Player ${state.turn} Winner: ${state.winner} Points: ${state.points}`;
 
@@ -60,7 +58,6 @@ const drawPlayers = (state, players) => {
         state = domino.changeTileChoosen(tileClicked, state);
         drawPlayers(state, players);
       }
-     
     }
   });
 
