@@ -1,50 +1,68 @@
- @import "~bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/bootstrap";
 body {
-
 }
 
-
 #container {
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(10, 1fr);
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
-    height: 100vh;
-    width: 100vh;
-    margin: auto;
-    }
-    
-    #playerTop { grid-area: 1 / 2 / 2 / 9; }
-    #playerLeft { grid-area: 2 / 1 / 9 / 2; }
-    #board { grid-area: 2 / 2 / 9 / 9; background-color: #fefefe; font-size: 3em;}
-    #mainPlayer { grid-area: 9 / 2 / 10 / 9; }
-    #playerRight { grid-area: 2 / 9 / 9 / 10; }
-    #stats { grid-area: 1 / 9 / 2 / 10 ; font-size: 0.7em; padding: 5px;}
-    #new_game { grid-area: 9 / 9 / 10 / 10 ;  }
-    #pass { grid-area: 9 / 1 / 9 / 2 ;  }
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  height: 100vh;
+  width: 100vh;
+  margin: auto;
+}
 
-    .player {
-        font-size: 3em;
-        background-color: #f0f0f0;
-    }
+#playerTop {
+  grid-area: 1 / 2 / 2 / 9;
+}
+#playerLeft {
+  grid-area: 2 / 1 / 9 / 2;
+}
+#board {
+  grid-area: 2 / 2 / 9 / 9;
+  background-color: #fefefe;
+  font-size: 3em;
+}
+#mainPlayer {
+  grid-area: 9 / 2 / 10 / 9;
+}
+#playerRight {
+  grid-area: 2 / 9 / 9 / 10;
+}
+#stats {
+  grid-area: 1 / 9 / 2 / 10;
+  font-size: 0.7em;
+  padding: 5px;
+}
+#new_game {
+  grid-area: 9 / 9 / 10 / 10;
+}
+#pass {
+  grid-area: 9 / 1 / 9 / 2;
+}
 
-    .board {
-        font-size: 3em;
-    }
+.player {
+  font-size: 3em;
+  background-color: #f0f0f0;
+}
 
-    .turn {
-        background-color: rgb(0, 255, 187);
-    }
+.board {
+  font-size: 3em;
+}
 
-    #board span.board-tile-vertical{
-        width: 50px;
-       /* position: absolute;*/
-    }
+.turn {
+  background-color: rgb(0, 255, 187);
+}
 
-    div.formulari_centrat{
-        grid-area: 1 / 2 / 9 / 9;
-    }
-    div.yourgamesdiv{
-        grid-area: 1 / 2 / 9 / 9;
-    }
+#board span.board-tile-vertical {
+  width: 50px;
+  /* position: absolute;*/
+}
+
+div.formulari_centrat {
+  grid-area: 1 / 2 / 9 / 9;
+}
+div.yourgamesdiv {
+  grid-area: 1 / 2 / 9 / 9;
+}
