@@ -3,6 +3,7 @@ import { getBoardTemplate } from './templates.js';
 import {
   getGame, saveGame, updateGame, updateGamePlayers, getAllGames, getAvailableGames,
 } from '../services/dominohttp.js';
+import { generateDominoCanvas } from './dominoCanvas.js';
 
 export { drawPlayers, generateGame, generateGameList };
 
@@ -27,35 +28,10 @@ const generateBoardDiv = (board) => {
   const tiles = board.map((tile, idx) => `<span id="board-${tile.tile}" data-board_index = "${idx}" class="board-tile-${tile.position}"> 
                                             ${tile.tileFigure}</span>`).join('');
   const div = document.createElement('div');
-  div.innerHTML = tiles;
+ // div.innerHTML = tiles;
 
-
-
-  const canvas = document.createElement('canvas');
-  canvas.width = 400;
-  canvas.height = 400;
-  div.append(canvas);
-  const ctx = canvas.getContext('2d');
-  const tileSize = 50; // Tamaño de cada ficha
-  ctx.font = `50px system-ui`;
-
-  function drawBoard() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    let x = 0;
-    let y = tileSize; 
-
-    for (let i = 0; i < board.length; i++) {
-      ctx.fillText(board[i].tileFigure, x, y);
-      x += ctx.measureText(board[i].tileFigure).width -8;
-    }
-  }
-  
-
-  drawBoard();
-
-
-
+  const dominoCanvas = generateDominoCanvas(board,{width: 450, height: 400});
+  div.append(dominoCanvas);
   return div;
 };
 
