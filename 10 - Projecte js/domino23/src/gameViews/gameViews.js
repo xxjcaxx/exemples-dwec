@@ -3,6 +3,7 @@ import { getBoardTemplate } from './templates.js';
 import {
   getGame, saveGame, updateGame, updateGamePlayers, getAllGames, getAvailableGames,
 } from '../services/dominohttp.js';
+import { generateDominoCanvas } from './dominoCanvas.js';
 
 export { drawPlayers, generateGame, generateGameList };
 
@@ -27,12 +28,17 @@ const generateBoardDiv = (board) => {
   const tiles = board.map((tile, idx) => `<span id="board-${tile.tile}" data-board_index = "${idx}" class="board-tile-${tile.position}"> 
                                             ${tile.tileFigure}</span>`).join('');
   const div = document.createElement('div');
-  div.innerHTML = tiles;
+ // div.innerHTML = tiles;
+
+  const dominoCanvas = generateDominoCanvas(board,{width: 450, height: 400});
+  div.append(dominoCanvas);
   return div;
 };
 
-const drawPlayers = (state, players) => {
-  const container = document.createElement('div');
+const drawPlayers = (container, state, players) => {
+  // const container = document.createElement('div');
+  // container.append(...getBoardTemplate());
+  container.innerHTML = '';
   container.append(...getBoardTemplate());
   const rotation = getRotation(players, localStorage.getItem('uid'));
   const rotatedState = domino.rotateGame(state, rotation);
@@ -55,7 +61,8 @@ const drawPlayers = (state, players) => {
         window.location.hash = `#/game?id=${localStorage.getItem('gameId')}&random=${Math.floor(Math.random() * 1000)}`;
       } else {
         state = domino.changeTileChoosen(tileClicked, state);
-        drawPlayers(state, players);
+        await updateGame(state, localStorage.getItem('gameId'));
+        window.location.hash = `#/game?id=${localStorage.getItem('gameId')}&random=${Math.floor(Math.random() * 1000)}`;
       }
     }
   });
@@ -105,18 +112,37 @@ const drawPlayers = (state, players) => {
   return container.childNodes.values();
 };
 
-const generateGame = async (gameId) => {
-  let { game_state: state, players } = await getGame(gameId);
-  const uid = localStorage.getItem('uid');
-  // console.log(state);
-  localStorage.setItem('gameId', gameId);
-  if (!playerIsInGame(players, uid)) {
-    players = addPlayer(players, uid);
-    updateGamePlayers(players, gameId);
-  }
-  domino.logBoard(state);
-  domino.logPlayers(state);
-  return drawPlayers(state, players);
+const generateGame = (container, gameId) => {
+  container.innerHTML = '';
+  container.append(...getBoardTemplate());
+  let currentTurn = 0;
+
+  const getAndDrawGame = () => {
+    getGame(gameId).then(({ game_state: state, players }) => {
+      const uid = localStorage.getItem('uid');
+      // console.log(state);
+      localStorage.setItem('gameId', gameId);
+      if (!playerIsInGame(players, uid)) {
+        players = addPlayer(players, uid);
+        updateGamePlayers(players, gameId);
+      }
+
+      if (currentTurn !== state.turn) {
+        domino.logBoard(state);
+        domino.logPlayers(state);
+        drawPlayers(container, state, players);
+        currentTurn = state.turn;
+      }
+    });
+  };
+
+  getAndDrawGame();
+
+  setInterval(() => {
+    getAndDrawGame();
+  }, 1000);
+
+  return container;
 };
 
 const generateGameList = () => {

@@ -275,7 +275,7 @@ const doMachineStep = (state) => {
     if (tilesThatCanFollow.length > 0) {
       const selectedTile = orderByPriority(tilesThatCanFollow)[0];
       const position = getFollowPosition(board, selectedTile, 1);
-      stateCopy = moveToBoard(turn, selectedTile, position, 'vertical', stateCopy);
+      stateCopy = moveToBoard(turn, selectedTile, position, 'horizontal', stateCopy);
     }
   }
   return stateCopy;
