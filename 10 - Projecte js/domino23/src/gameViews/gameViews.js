@@ -14,7 +14,6 @@ const addPlayer = (players, uid) => {
   return playersCopy;
 };
 
-
 const generatePlayerDiv = (playerTiles, position) => {
   const tiles = playerTiles.map((tile) => `
   <span id="tile-${tile}">${domino.getTile(domino.allTiles, tile, position)}</span>
