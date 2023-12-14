@@ -28,9 +28,9 @@ const generateBoardDiv = (board) => {
   const tiles = board.map((tile, idx) => `<span id="board-${tile.tile}" data-board_index = "${idx}" class="board-tile-${tile.position}"> 
                                             ${tile.tileFigure}</span>`).join('');
   const div = document.createElement('div');
- // div.innerHTML = tiles;
+  // div.innerHTML = tiles;
 
-  const dominoCanvas = generateDominoCanvas(board,{width: 450, height: 400});
+  const dominoCanvas = generateDominoCanvas(board, { width: 450, height: 400 });
   div.append(dominoCanvas);
   return div;
 };
@@ -120,6 +120,7 @@ const generateGame = (container, gameId) => {
   const getAndDrawGame = () => {
     getGame(gameId).then(({ game_state: state, players }) => {
       const uid = localStorage.getItem('uid');
+
       // console.log(state);
       localStorage.setItem('gameId', gameId);
       if (!playerIsInGame(players, uid)) {
@@ -149,13 +150,16 @@ const generateGameList = () => {
   const generateTable = (games) => {
     const gameListTable = document.createElement('table');
     gameListTable.classList.add('table');
-    gameListTable.innerHTML = games.map((g) => `<tr>
+    console.log(games);
+    gameListTable.innerHTML = games.map((g) => { 
+      console.log(g.players);
+      return `<tr>
         <td>${g.id}</td>
-        <td>${g.players[0]}</td>
-        <td>${g.players[1]}</td>
-        <td>${g.players[2]}</td>
-        <td>${g.players[3]}</td><td><button class="btn btn-primary" id="play_${g.id}">Play</button></td>
-      </tr>`).join('');
+        <td>${g.players[0] ? g.players[0].full_name : ''}</td>
+        <td>${g.players[1] ? g.players[1].full_name : ''}</td>
+        <td>${g.players[2] ? g.players[2].full_name : ''}</td>
+        <td>${g.players[3] ? g.players[3].full_name : ''}</td><td><button class="btn btn-primary" id="play_${g.id}">Play</button></td>
+      </tr>`; }).join('');
     gameListTable.addEventListener('click', (event) => {
       const button = event.target;
       if (button.tagName === 'BUTTON') {

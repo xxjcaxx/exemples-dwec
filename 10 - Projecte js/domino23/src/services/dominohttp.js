@@ -31,9 +31,8 @@ async function updateGame(state, gameId) {
 
 async function updateGamePlayers(players, gameId) {
   const token = localStorage.getItem('access_token');
-  await updateData(`games?id=eq.${gameId}`, token, { players: players });
+  await updateData(`games?id=eq.${gameId}`, token, { players });
 }
-
 
 async function getGame(id) {
   const token = localStorage.getItem('access_token');
@@ -43,7 +42,17 @@ async function getGame(id) {
 
 async function getAllGames(uid) {
   const token = localStorage.getItem('access_token');
-  const data = await getData(`games?or=(player1.eq.${uid},player2.eq.${uid},player3.eq.${uid},player4.eq.${uid})&select=*`, token);
+  let data = await getData(`games?or=(player1.eq.${uid},player2.eq.${uid},player3.eq.${uid},player4.eq.${uid})&select=*`, token);
+  const players = [...new Set(data.map((game) => game.players)
+    .flat().filter((p) => p))].map((player) => getData(`profiles?id=eq.${player}&select=*`, token));
+  const playersProfiles = Object.fromEntries((await Promise.all(players)).flat().map((p) => [p.id, p]));
+  // console.log(playersProfiles);
+  data = data.map(game => {
+    let players = game.players.map(p => playersProfiles[p]);
+    game.players = players;
+    return game;
+  });
+ // console.log(data);
   return data;
 }
 
