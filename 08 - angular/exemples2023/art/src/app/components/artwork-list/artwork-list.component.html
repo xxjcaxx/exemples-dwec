@@ -1,0 +1,17 @@
+<div class="container">
+<h1>Artworks List</h1>
+    <div class="row">
+    @for (artwork of quadres; track artwork.id) {
+        <div class="col">
+          <app-artwork [artwork]="artwork" (likeChanged)="toggleLike($event, artwork)"></app-artwork>
+          </div>
+    }
+    <table class="table">
+      <tbody>
+        @for (artwork of quadres; track artwork.id) {
+              <tr app-artwork-row [artwork]="artwork"></tr>
+        }
+        </tbody>
+    </table>
+</div>
+</div>
