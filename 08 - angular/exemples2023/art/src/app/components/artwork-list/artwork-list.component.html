@@ -1,10 +1,10 @@
 <div class="container">
 <h1>Artworks List</h1>
     <div class="row">
-    @for (artwork of quadres; track artwork.id) {
+    @for (artwork of quadres | artworkFilter:filter; track artwork.id) {
         <div class="col">
           <app-artwork [artwork]="artwork" (likeChanged)="toggleLike($event, artwork)"></app-artwork>
-          </div>
+        </div>
     }
     <table class="table">
       <tbody>

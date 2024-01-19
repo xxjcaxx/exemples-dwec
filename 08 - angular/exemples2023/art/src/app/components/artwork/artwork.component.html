@@ -1,5 +1,6 @@
-
+{{id}}
     <div class="card" style="width: 18rem;">
+      
         <img src="https://www.artic.edu/iiif/2/{{artwork.image_id}}/full/843,/0/default.jpg" class="card-img-top" alt="...">
         <div class="heart-icon" (mouseover)="mouseover = true" (mouseleave)="mouseover = false" (click)="toggleLike()">
           {{ artwork.like || mouseover ? '♥' : '♡'}}
@@ -7,7 +8,7 @@
         <div class="card-body">
           <h5 class="card-title">{{artwork.title}}</h5>
           <p class="card-text" [innerHTML]="artwork.description"></p>
-          <a href="#" class="btn btn-primary">Details</a>
+          <a [routerLink]="['/artwork',artwork.id]" class="btn btn-primary">Details</a>
 
         </div>
       </div>
