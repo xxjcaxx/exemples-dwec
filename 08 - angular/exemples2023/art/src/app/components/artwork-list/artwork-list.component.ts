@@ -10,8 +10,8 @@ import { debounceTime, filter } from 'rxjs';
 @Component({
   selector: 'app-artwork-list',
   standalone: true,
-  imports: [ArtworkComponent, 
-    ArtworkRowComponent, 
+  imports: [ArtworkComponent,
+    ArtworkRowComponent,
     ArtworkFilterPipe
   ],
   templateUrl: './artwork-list.component.html',
@@ -19,7 +19,7 @@ import { debounceTime, filter } from 'rxjs';
 })
 export class ArtworkListComponent implements OnInit  {
 
-  constructor(private artService: ApiServiceService, 
+  constructor(private artService: ApiServiceService,
     private filterService: FilterService
     ){
   }
@@ -28,9 +28,9 @@ export class ArtworkListComponent implements OnInit  {
     this.artService.getArtWorks()
     .subscribe((artworkList: IArtwork[]) => this.quadres = artworkList);
     this.filterService.searchFilter.pipe(
-      filter(f=> f.length> 4 || f.length ===0),
+      //filter(f=> f.length> 4 || f.length ===0),
       debounceTime(500)
-      ).subscribe(filter => this.filter = filter);
+      ).subscribe(filter => this.artService.filterArtWorks(filter));
   }
 
   toggleLike($event: boolean, artwork: IArtwork){
@@ -40,5 +40,5 @@ export class ArtworkListComponent implements OnInit  {
 
   quadres: IArtwork[] = [];
   filter: string = '';
- 
+
 }

@@ -20,24 +20,28 @@
             <a class="nav-link" href="#">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Login</a>
+            <a class="nav-link" [routerLink]="['userManagement','login']">Login</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Register</a>
+            <a class="nav-link" [routerLink]="['userManagement','register']">Register</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Log Out</a>
+            <a class="nav-link" [routerLink]="['userManagement','logout']">Log Out</a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link disabled" aria-disabled="true">Disabled</a>
           </li>
         </ul>
+        <a class="navbar-brand" href="#">
+          <img [src]="user?.avatar_url || defaultImage" [alt]="user?.full_name" width="30" height="24">
+        </a>
+
         <form class="d-flex" role="search">
-          <input 
-          class="form-control me-2" 
-          type="search" 
-          placeholder="Search" 
+          <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
           aria-label="Search"
           name = "search"
           [(ngModel)]="filter"

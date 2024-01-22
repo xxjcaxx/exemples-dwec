@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FilterService } from '../../services/filter.service';
+import { UsersService } from '../../services/users.service';
+import { IUser } from '../../interfaces/user';
 
 @Component({
   selector: 'app-header',
@@ -10,16 +12,25 @@ import { FilterService } from '../../services/filter.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit{
 
-  constructor(private filterService: FilterService){}
+  constructor(private filterService: FilterService, private usersService :UsersService){}
+
+  ngOnInit(): void {
+      this.usersService.userSubject.subscribe(user => this.user = user);
+      this.usersService.isLogged();
+  }
+
+  user: IUser | null = null;
+  defaultImage: string = 'assets/avatarPlaceholder.jpg'
 
   filter: string='';
 
   changeFilter($event: Event){
       $event.preventDefault();
       this.filterService.searchFilter.next(this.filter)
-      
   }
+
+
 
 }

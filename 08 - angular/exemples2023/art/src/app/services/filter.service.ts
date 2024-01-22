@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,5 +7,5 @@ import { BehaviorSubject } from 'rxjs';
 export class FilterService {
 
   constructor() { }
-  public searchFilter: BehaviorSubject<string> = new BehaviorSubject('');
+  public searchFilter: Subject<string> = new Subject();
 }
