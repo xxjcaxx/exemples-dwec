@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IArtwork } from '../interfaces/i-artwork';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subject, map } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, from, map, mergeMap, toArray } from 'rxjs';
 
 const url = `https://api.artic.edu/api/v1/artworks`;
 
@@ -34,6 +34,20 @@ export class ApiServiceService {
         this.artworksSubject.next(artworks);
     }
     );
+  }
+
+  public getArtworksFromIDs(artworkList: string[]): Observable<IArtwork[]>{
+
+    from(artworkList).pipe(
+      mergeMap(artwork_id =>{
+        return  this.http.get<{ data: IArtwork[] }>(`${url}/${artwork_id}`).pipe(
+          map(response => response.data)
+        )
+      }),
+      toArray()
+    ).subscribe(artworks => this.artworksSubject.next(artworks.flat()))
+
+    return this.artworksSubject;
   }
 
 

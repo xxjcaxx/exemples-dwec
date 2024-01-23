@@ -19,13 +19,16 @@ export class UsersService {
   }
 
   userSubject: Subject<IUser> = new Subject;
+  favoritesSubject: Subject<{id:number,uid:string,artwork_id:string}[]> = new Subject;
 
   async login(email: string, password: string):Promise<boolean>{
         let session = await this.supaClient.auth.getSession();
         let data, error;
 
-        if(session.session.data){
-          data = session.session.data;
+        console.log(session);
+
+        if(session.data.session){
+          data = session.data.session;
         }
         else{
           session = await this.supaClient.auth.signInWithPassword({
@@ -72,8 +75,6 @@ export class UsersService {
   async isLogged(){
     let {data,error} = await this.supaClient.auth.getSession();
     if(data.session){
-
-
       this.getProfile(data.session.user.id)
     }
   }
@@ -81,6 +82,29 @@ export class UsersService {
   async logout(){
     const { error } = await this.supaClient.auth.signOut();
     this.userSubject.next(emptyUser);
+  }
+
+  getFavorites(uid:string):void{
+    let promiseFavorites: Promise<{data: {id:number,uid:string,artwork_id:string}[]}> = this.supaClient
+    .from('favorites')
+    .select("*")
+    .eq('uid', uid);
+
+    promiseFavorites.then((data)=> this.favoritesSubject.next(data.data));
+  }
+
+  async setFavorite(artwork_id:string): Promise<any>{
+
+    console.log('setfavorite', artwork_id);
+
+
+    let {data,error} = await this.supaClient.auth.getSession();
+    let promiseFavorites: Promise<boolean> = this.supaClient
+    .from('favorites')
+    .insert({uid: data.session.user.id, artwork_id});
+
+
+    promiseFavorites.then(()=>this.getFavorites(data.session.user.id));
   }
 
 
