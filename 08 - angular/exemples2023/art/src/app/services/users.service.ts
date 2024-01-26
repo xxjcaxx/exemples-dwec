@@ -24,9 +24,6 @@ export class UsersService {
   async login(email: string, password: string):Promise<boolean>{
         let session = await this.supaClient.auth.getSession();
         let data, error;
-
-        console.log(session);
-
         if(session.data.session){
           data = session.data.session;
         }
@@ -38,10 +35,10 @@ export class UsersService {
           data = session.data;
           error = session.error;
           if(error){
-            throw error;
+         //   throw error;
+         return false
           }
         }
-
         if(data.user != null){
           this.getProfile(data.user.id);
           return true;

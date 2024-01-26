@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit{
   }
 
   user: IUser | null = null;
-  defaultImage: string = 'assets/avatarPlaceholder.jpg'
+  defaultImage: string = 'assets/logo.svg'
 
   filter: string='';
 

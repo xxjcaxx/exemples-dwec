@@ -30,10 +30,13 @@ export class ArtworkListComponent implements OnInit {
     console.log(this.onlyFavorites);
 
     if (this.onlyFavorites != 'favorites') {
-      this.artService.getArtWorks()
+      this.artService.getArtWorks().pipe(
+        // demanar i marcar les favorites
+      )
         .subscribe((artworkList: IArtwork[]) => this.quadres = artworkList);
     }
     else {
+      // Demanar les favorites
       this.artService.getArtworksFromIDs(['3752', '11294', '6010'])
         .subscribe((artworkList: IArtwork[]) => this.quadres = artworkList);
     }

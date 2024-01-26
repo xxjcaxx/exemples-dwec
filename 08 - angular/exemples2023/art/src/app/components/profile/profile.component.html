@@ -1,0 +1,37 @@
+<section class="container text-center text-lg-start">
+ <form [formGroup]="formulario" >
+<div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1"></span>
+    <input formControlName="username"
+    type="text" class="form-control" placeholder="Username" aria-label="Username"
+      aria-describedby="basic-addon1" 
+      [ngClass]="usernameNoValid ? 'is-invalid': 'is-valid'"
+      
+      />
+  </div>
+  <div class="input-group mb-3">
+    <input formControlName="full_name" type="text" class="form-control" placeholder="Full name" 
+    aria-label="fullname"
+      aria-describedby="basic-addon2" />
+    <span class="input-group-text" id="basic-addon2"></span>
+  </div>
+  <label for="basic-url" class="form-label">Your vanity URL</label>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
+    <input formControlName="website" type="text" class="form-control" 
+    id="basic-url" aria-describedby="basic-addon3" 
+    name="website"
+    />
+  </div>
+
+</form>
+@if (!formulario.valid) {
+    <div  >
+        No valid
+      </div>
+}
+
+
+<div>{{formulario.value | json}} </div>
+<div>{{formulario.get('website')?.valid}} </div>
+  </section>

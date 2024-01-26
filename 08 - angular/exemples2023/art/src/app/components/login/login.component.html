@@ -22,7 +22,7 @@
             ">
           <div class="card-body p-5 shadow-5 text-center">
             <h2 class="fw-bold mb-5">Sign up now</h2>
-            <form>
+            <form  #loginForm="ngForm" novalidate>
               <!-- 2 column grid layout with text inputs for the first and last names -->
 
               @if(mode === 'register'){
@@ -44,8 +44,23 @@
 
               <!-- Email input -->
               <div class="form-outline mb-4">
-                <input name="email" [(ngModel)]="email" type="email" id="form3Example3" class="form-control" />
+                <input minlength="5"
+                maxlength="600"
+               name="email" 
+               [(ngModel)]="email" 
+               type="email" 
+               id="form3Example3" 
+               class="form-control" 
+               #emailModel="ngModel"
+               [ngClass]="{'is-valid': emailModel.valid && emailModel.dirty}"
+               />
                 <label class="form-label" for="form3Example3">Email address</label>
+                @if (emailModel.touched && emailModel.invalid){
+                  <div class="alert alert-danger">
+                    Email requerido (entre 5 y 60 caracteres)</div>
+
+                }
+    
               </div>
 
               <!-- Password input -->
@@ -73,6 +88,11 @@
 
 
             </form>
+
+            <div>Touched: {{ loginForm.touched }}</div>
+   <div>Valid: {{ loginForm.valid }}</div>
+   <div>Value: {{ loginForm.value | json }}</div>
+   <div>Descripción: {{loginForm.control.get('email')?.value | json}}</div>
           </div>
         </div>
       </div>
