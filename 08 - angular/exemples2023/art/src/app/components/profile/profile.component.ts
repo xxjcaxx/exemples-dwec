@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -8,6 +8,9 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { UsersService } from '../../services/users.service';
+import { IUser } from '../../interfaces/user';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -16,11 +19,30 @@ import {
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
+
+  constructor(private formBuilder: FormBuilder, private userService: UsersService) {
+    this.crearFormulario();
+  }
+
   formulario!: FormGroup;
+
+  ngOnInit(): void {
+    this.userService.isLogged();
+    this.userService.userSubject
+    .pipe(map((p:IUser) => {return {
+      id: p.id, 
+      username: p.username, 
+      full_name: p.full_name,
+      avatar_url: p.avatar_url,
+      website: p.website
+    }}))
+    .subscribe(profile => this.formulario.setValue(profile))
+  }
 
   crearFormulario() {
     this.formulario = this.formBuilder.group({
+      id: [''],
       username: [
         '',
         [
@@ -42,9 +64,7 @@ export class ProfileComponent {
     );
   }
 
-  constructor(private formBuilder: FormBuilder) {
-    this.crearFormulario();
-  }
+
 }
 
 function websiteValidator(pattern: string): ValidatorFn {
