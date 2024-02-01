@@ -5,7 +5,7 @@ import { IUser } from '../interfaces/user';
 import { environment } from '../../environments/environment';
 
 
-const emptyUser: IUser = {id: '0', avatar_url: 'none', full_name: 'none', username: 'none' }
+const emptyUser: IUser = {id: '0', avatar_url: 'assets/logo.svg', full_name: 'none', username: 'none' }
 
 @Injectable({
   providedIn: 'root'
