@@ -75,10 +75,12 @@ async function updateProfile(profile) {
 
   console.log(formImg);
 
-  const avatarResponse = await fileRequest(`/storage/v1/object/avatars/avatar${uid}.png`, formImg, access_token);
+  /*const avatarResponse = await fileRequest(`/storage/v1/object/avatars/avatar${uid}.png`, formImg, access_token);
 
   // console.log(avatarResponse);
   profile.avatar_url = avatarResponse.urlAvatar;
+  */
+  profile.avatar_url = "sfasfasdfasfasdfasdfasd";
   delete profile.avatar;
 
   const responseUpdate = await updateData(`profiles?id=eq.${uid}&select=*`, access_token, profile);
@@ -93,7 +95,7 @@ async function getProfile() {
   console.log(responseGet);
   const { avatar_url } = responseGet[0];
   responseGet[0].avatar_blob = false;
-  if (avatar_url) {
+  if (avatar_url && false) {
     const imageBlob = await getFileRequest(avatar_url, access_token);
     console.log(imageBlob);
     if (imageBlob instanceof Blob) {

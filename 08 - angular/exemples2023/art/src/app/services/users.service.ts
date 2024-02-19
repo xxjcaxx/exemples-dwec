@@ -113,7 +113,7 @@ export class UsersService {
     await this.supaClient
     .from('profiles')
     .update({avatar_url: ''+Math.random()})
-    .eq('id',uid);
+    .eq('id',uid).select();
   }
 
 
