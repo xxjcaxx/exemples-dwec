@@ -26,11 +26,14 @@ export class ProfileComponent implements OnInit {
   }
 
   formulario!: FormGroup;
+  uid: string ='';
 
   ngOnInit(): void {
     this.userService.isLogged();
     this.userService.userSubject
-    .pipe(map((p:IUser) => {return {
+    .pipe(map((p:IUser) => {
+      this.uid = p.id
+      return {
       id: p.id, 
       username: p.username, 
       full_name: p.full_name,
@@ -62,6 +65,12 @@ export class ProfileComponent implements OnInit {
       this.formulario.get('username')!.invalid &&
       this.formulario.get('username')!.touched
     );
+  }
+
+  updateAvatarURL(){
+    console.log('avatar component');
+    
+    this.userService.setavatar_url(this.uid)
   }
 
 

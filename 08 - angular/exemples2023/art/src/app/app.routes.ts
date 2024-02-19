@@ -6,7 +6,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 
 export const routes: Routes = [
   {path: 'artworks', component: ArtworkListComponent},
-  {path: 'artworks/:onlyFavorites', component: ArtworkListComponent},
+  //{path: 'artworks/:onlyFavorites', component: ArtworkListComponent},
+  {path: 'artworks/page/:page', component: ArtworkListComponent},
   {path: 'artwork/:id', component: ArtworkComponent},
   {path: 'profile', component: ProfileComponent},
   {path: 'favorites', redirectTo: 'artworks/favorites'},

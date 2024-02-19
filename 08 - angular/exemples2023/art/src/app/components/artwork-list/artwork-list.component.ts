@@ -26,9 +26,11 @@ export class ArtworkListComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
-    console.log(this.onlyFavorites);
+  @Input() page?: string;
 
+  ngOnInit(): void {
+    console.log("Favorites?",this.onlyFavorites);
+    console.log("page?",this.page);
     if (this.onlyFavorites != 'favorites') {
       this.artService.getArtWorks().pipe(
         // demanar i marcar les favorites

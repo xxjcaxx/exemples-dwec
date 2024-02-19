@@ -59,9 +59,12 @@ export class UsersService {
       ).subscribe(async (profile:{data: IUser[]}) =>{
         this.userSubject.next(profile.data[0]);
         const avatarFile = profile.data[0].avatar_url.split('/').at(-1);
-        const { data, error } = await this.supaClient.storage.from('avatars').download(avatarFile);
-        const url = URL.createObjectURL(data)
-        profile.data[0].avatar_url = url;
+        if(avatarFile){
+          //const { data, error } = await this.supaClient.storage.from('avatars').download(avatarFile);
+          //const url = URL.createObjectURL(data)
+          //profile.data[0].avatar_url = url;
+        }
+
         this.userSubject.next(profile.data[0]);
       }
 
@@ -102,6 +105,15 @@ export class UsersService {
 
 
     promiseFavorites.then(()=>this.getFavorites(data.session.user.id));
+  }
+
+
+  async setavatar_url(uid:string){
+    console.log(uid);
+    await this.supaClient
+    .from('profiles')
+    .update({avatar_url: ''+Math.random()})
+    .eq('id',uid);
   }
 
 
