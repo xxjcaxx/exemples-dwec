@@ -1,0 +1,27 @@
+v: 0
+micros:
+  - name: projecte
+    src: ./projecte
+    engine: static
+    primary: true
+    commands:
+      - npm run build
+    serve: dist
+    dev: npm run dev -- --port $PORT
+  - name: test
+    src: ./webtests
+    engine: static
+    path: testing
+    serve: .
+    public_routes:
+      - "/lib" 
+  - name: source_code
+    src: ./projecte/src
+    engine: static
+    path: src
+    serve: .
+  - name: specs
+    src: ./projecte/spec
+    engine: static
+    path: spec
+    serve: .
