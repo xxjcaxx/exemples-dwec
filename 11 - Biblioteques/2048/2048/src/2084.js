@@ -87,3 +87,14 @@ export function moveBoard(board) {
     return rotateMatrix(rotatedBoard, 4-directions[direction]);
   };
 }
+
+/**
+ * @description Insertar un número en una posició lliure aleatoria
+ * @param {Array<number>} board 
+ * @returns 
+ */
+export function insertRandomNumber(board){
+    return function(number){
+
+    }
+}
