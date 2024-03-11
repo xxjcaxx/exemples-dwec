@@ -1,6 +1,14 @@
-/** @module 2048 */
+/** 
+ * Aquesta biblioteca proporciona varies funcions per jugar al 2048
+ * Tan sols implementa la generació del tauler i el càlcul dels moviments
+ * No fa res relacionat amb l'interfície gràfica ni el càlcul de punts.
+ * 
+ * En realitat, sols tens que utilitzar la funció {@link moveBoard}
+ * 
+ * @module 2048 */
 
-/** Aquesta funció genera un tauler aleatori amb 2 2 
+/** 
+ * @description Aquesta funció genera un tauler aleatori amb 2 2 
  * @param {number} size - Mida del tauler
  * @return {Array.<Array.<number>>}
 */
@@ -9,7 +17,8 @@ export function generate2048Board(size = 4) {
   return new Array(size).fill(0).map(() => new Array(size).fill(0));
 }
 
-/** Aquesta funció rep un tauler buit i retorna una funció que accepta un número per a posar-ho 2 vegades en el tauler
+/** 
+ * @description Aquesta funció rep un tauler buit i retorna una funció que accepta un número per a posar-ho 2 vegades en el tauler
  * @param {Array<number>} board
  * @returns {Function}
  */
@@ -28,9 +37,8 @@ export function randomPlace(board) {
   };
 }
 
-/** Aquesta funció mou un array unidimensional cap al final, si troba dos números iguals els suma i els coloca cap al final
- * La funció sols fa un moviment i retorna el resultat d'aquest moviment. Si el moviment no suposa cap canvi, retorna sols una còpia de l'array original
- * Sempre retorna una copia, no muta l'array original
+/** 
+ *  @description Aquesta funció mou un array unidimensional cap al final, si troba dos números iguals els suma i els coloca cap al final La funció sols fa un moviment i retorna el resultat d'aquest moviment. Si el moviment no suposa cap canvi, retorna sols una còpia de l'array original Sempre retorna una copia, no muta l'array original
  * @param {Array<number>} array
  * @return {Array<number>}
  */
@@ -49,7 +57,8 @@ export function moveRow(array) {
   return row;
 }
 
-/** Aquesta funció rota una matriu n vegades en el sentit de les agulles del rellotge 
+/**   
+ * @description Aquesta funció rota una matriu n vegades en el sentit de les agulles del rellotge 
  * @param {Array.<Array.<number>>} matrix
  * @param {number} n_rotations
  * @return {Array.<Array.<number>>}
@@ -62,9 +71,8 @@ export function rotateMatrix(matrix, n_rotations) {
   return result;
 }
 
-/** Aquesta funció rep un tauler i retorna una funció per moure en alguna de les 4 direccions possibles
- * El moviment desplaça tots els números cap a un costat, sempre que ocupen posicions amb 0.
- * En cas de trobar 2 números iguals i en el mateix eix del moviment, retorna la suma. i la col·loca sobre el número més pròxim al destí del moviment
+/**  
+ * @description Aquesta funció rep un tauler i retorna una funció per moure en alguna de les 4 direccions possibles El moviment desplaça tots els números cap a un costat, sempre que ocupen posicions amb 0. En cas de trobar 2 números iguals i en el mateix eix del moviment, retorna la suma. i la col·loca sobre el número més pròxim al destí del moviment
  * @param {Array.<Array.<number>>} board
  * @return {Array.<Array.<number>>}
  */
