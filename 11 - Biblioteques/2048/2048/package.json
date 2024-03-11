@@ -7,10 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-     "test": "jasmine"
+    "test": "jasmine"
   },
   "devDependencies": {
     "jasmine": "^5.1.0",
+    "jsdoc-to-markdown": "^8.0.1",
     "vite": "^5.1.4"
   }
 }
