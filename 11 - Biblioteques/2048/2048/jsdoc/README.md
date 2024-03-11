@@ -5,8 +5,9 @@ Aquesta biblioteca proporciona varies funcions per jugar al 2048
 Tan sols implementa la generació del tauler i el càlcul dels moviments
 No fa res relacionat amb l'interfície gràfica ni el càlcul de punts.
 
-En realitat, sols tens que utilitzar la funció [moveBoard](moveBoard)
+En realitat, sols tens que utilitzar la funció
 
+**See**: moveBoard  
 
 * [2048](#module_2048)
     * [.generate2048Board(size)](#module_2048.generate2048Board) ⇒ <code>Array.&lt;Array.&lt;number&gt;&gt;</code>

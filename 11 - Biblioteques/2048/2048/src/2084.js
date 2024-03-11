@@ -3,7 +3,7 @@
  * Tan sols implementa la generació del tauler i el càlcul dels moviments
  * No fa res relacionat amb l'interfície gràfica ni el càlcul de punts.
  * 
- * En realitat, sols tens que utilitzar la funció {@link moveBoard}
+ * Algunes funcions són auxiliars i es deixen exportades per si són d'utilitat i per fer tests
  * 
  * @module 2048 */
 
