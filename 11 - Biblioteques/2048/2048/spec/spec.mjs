@@ -1,4 +1,4 @@
-import { generate2048Board, randomPlace, moveBoard, moveRow, rotateMatrix } from "../src/2084.js";
+import { generate2048Board, randomPlace, moveBoard, moveRow, rotateMatrix, sumRow, getCellsAvailable, insertRandomNumber } from "../src/main.js";
 
 describe('2048 functions', () => {
     describe('Generation', () => {
@@ -45,7 +45,7 @@ describe('2048 functions', () => {
         });
         it('moveRow should move an array to the rigth',()=>{
             let row1 = [2,0,0,2]; let row1_step = [0,2,0,2];
-            let row2 = [2,4,4,2]; let row2_step = [0,2,8,2];
+            let row2 = [2,4,4,2]; let row2_step = [2,4,4,2];
             let row3 = [0,2,2,0]; let row3_step = [0,0,2,2];
             let row4 = [0,0,0,4]; let row4_step = [0,0,0,4];
             let row5 = [0,0,2,4]; let row5_step = [0,0,2,4];
@@ -58,35 +58,51 @@ describe('2048 functions', () => {
             expect(moveRow(row5)).toEqual(row5_step);
             expect(moveRow(row6)).toEqual(row6_step);
 
-        })
+        });
+        it('sumRow sum  an array to the rigth',()=>{
+            let row1 = [2,0,0,2]; let row1_step = [2,0,0,2];
+            let row2 = [2,4,4,2]; let row2_step = [2,0,8,2];
+            let row3 = [0,0,2,2]; let row3_step = [0,0,0,4];
+            let row4 = [0,0,0,4]; let row4_step = [0,0,0,4];
+            let row5 = [0,0,2,4]; let row5_step = [0,0,2,4];
+            let row6 = [4,2,2,0]; let row6_step = [4,0,4,0];
+
+            expect(sumRow(row1)).toEqual(row1_step);
+            expect(sumRow(row2)).toEqual(row2_step);
+            expect(sumRow(row3)).toEqual(row3_step);
+            expect(sumRow(row4)).toEqual(row4_step);
+            expect(sumRow(row5)).toEqual(row5_step);
+            expect(sumRow(row6)).toEqual(row6_step);
+
+        });
         it('Should move a board in a direction', () => {
             let board = [
                 [0,0,2,0],
                 [0,4,0,4],
                 [0,0,2,0],
-                [0,0,0,0]];
+                [0,0,4,0]];
             let rigthBoard = [
                 [0,0,0,2],
                 [0,0,0,8],
                 [0,0,0,2],
-                [0,0,0,0]
+                [0,0,0,4]
             ]; 
             let leftBoard = [
                 [2,0,0,0],
                 [8,0,0,0],
                 [2,0,0,0],
-                [0,0,0,0]
+                [4,0,0,0]
             ]; 
             let upBoard = [
                 [0,4,4,4],
-                [0,0,0,0],
+                [0,0,4,0],
                 [0,0,0,0],
                 [0,0,0,0]
             ]; 
             let downBoard = [
                 [0,0,0,0],
                 [0,0,0,0],
-                [0,0,0,0],
+                [0,0,4,0],
                 [0,4,4,4]
             ]; 
 
@@ -96,6 +112,29 @@ describe('2048 functions', () => {
             expect(moveBoard(board)('down')).toEqual(downBoard);
             expect(moveBoard(board)('down')).not.toBe(board)
 
+        });
+
+        it('getCellsAvailable should return cells available',()=>{
+            let board = [
+                [0,0,2,0],
+                [0,4,0,4],
+                [0,0,2,0],
+                [0,0,4,0]];
+            expect(getCellsAvailable(board)).toEqual([0,1,3,4,6,8,9,11,12,13,15]);
+        });
+
+        it('insertRandomNumber should insert a number i a random free cell',()=>{
+            let board = [
+                [0,8,2,16],
+                [2,4,2,4],
+                [4,4,2,8],
+                [4,2,4,32]];
+            let expectedboard = [
+                [2,8,2,16],
+                [2,4,2,4],
+                [4,4,2,8],
+                [4,2,4,32]];
+            expect(insertRandomNumber(board)(2)).toEqual(expectedboard);
         });
 
     });

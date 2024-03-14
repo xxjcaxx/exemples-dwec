@@ -38,7 +38,7 @@ export function randomPlace(board) {
 }
 
 /** 
- *  @description Aquesta funció mou un array unidimensional cap al final, si troba dos números iguals els suma i els coloca cap al final La funció sols fa un moviment i retorna el resultat d'aquest moviment. Si el moviment no suposa cap canvi, retorna sols una còpia de l'array original Sempre retorna una copia, no muta l'array original
+ *  @description Aquesta funció mou un array unidimensional cap al final. La funció sols fa un moviment i retorna el resultat d'aquest moviment. Si el moviment no suposa cap canvi, retorna sols una còpia de l'array original Sempre retorna una copia, no muta l'array original
  * @param {Array<number>} array
  * @return {Array<number>}
  */
@@ -49,11 +49,24 @@ export function moveRow(array) {
       row[i + 1] = row[i];
       row[i] = 0;
     }
+  }
+  return row;
+}
+
+/** 
+ * @description Aquesta funció, si troba dos números iguals els suma i els coloca cap al final La funció sols fa un moviment i retorna el resultat d'aquest moviment. Si el moviment no suposa cap canvi, retorna sols una còpia de l'array original Sempre retorna una copia, no muta l'array original
+ * @param {Array<number>} array
+ * @return {Array<number>}
+ */
+export function sumRow(array){
+  const row = [...array];
+  for (let i = row.length - 1; i >= 0; i--) {
     if (row[i] !== 0 && row[i + 1] === row[i]) {
       row[i + 1] = row[i] * 2;
       row[i] = 0;
     }
   }
+
   return row;
 }
 
@@ -84,17 +97,35 @@ export function moveBoard(board) {
     for (let i = 0; i < 3; i++) {
         rotatedBoard = rotatedBoard.map(moveRow);
     }
+    rotatedBoard = rotatedBoard.map(sumRow);
+    // Hi ha un màxim de 3 moviments
+       for (let i = 0; i < 3; i++) {
+        rotatedBoard = rotatedBoard.map(moveRow);
+    }
     return rotateMatrix(rotatedBoard, 4-directions[direction]);
   };
 }
 
 /**
+ * @description Retorna la llista de posicions on hi ha un 0 i es pot ficar un número
+ * @param {Array.<Array.<number>>} board 
+ * @returns {Array<number>} cellsAvailable
+ */
+export function getCellsAvailable(board){
+  return board.flat().map((n,index)=> n !== 0 ? -1 : index).filter(n => n>=0);
+}
+
+/**
  * @description Insertar un número en una posició lliure aleatoria
- * @param {Array<number>} board 
- * @returns 
+ * @param {Array.<Array.<number>>} board 
+ * @returns {Array.<Array.<number>>} board
  */
 export function insertRandomNumber(board){
     return function(number){
-
+      let result = structuredClone(board);
+      const cellsAvailable = getCellsAvailable(board);
+      const pos1 = cellsAvailable[Math.floor(Math.random()*cellsAvailable.length)];
+      result[Math.floor(pos1 / board.length)][pos1 % board.length] = number;
+      return result;
     }
 }
