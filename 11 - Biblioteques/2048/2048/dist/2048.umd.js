@@ -48,7 +48,7 @@
   }
   function moveBoard(board) {
     return function(direction) {
-      const directions = { rigth: 0, left: 2, up: 1, down: 3 };
+      const directions = { right: 0, left: 2, up: 1, down: 3 };
       let rotatedBoard = rotateMatrix(board, directions[direction]);
       for (let i = 0; i < 3; i++) {
         rotatedBoard = rotatedBoard.map(moveRow);

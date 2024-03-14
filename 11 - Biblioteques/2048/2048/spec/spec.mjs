@@ -106,7 +106,7 @@ describe('2048 functions', () => {
                 [0,4,4,4]
             ]; 
 
-            expect(moveBoard(board)('rigth')).toEqual(rigthBoard);
+            expect(moveBoard(board)('right')).toEqual(rigthBoard);
             expect(moveBoard(board)('left')).toEqual(leftBoard);
             expect(moveBoard(board)('up')).toEqual(upBoard);
             expect(moveBoard(board)('down')).toEqual(downBoard);
