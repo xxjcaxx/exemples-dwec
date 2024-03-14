@@ -1,56 +1,80 @@
-function c(r = 4) {
-  return new Array(r).fill(0).map(() => new Array(r).fill(0));
+function generate2048Board(size = 4) {
+  return new Array(size).fill(0).map(() => new Array(size).fill(0));
 }
-function h(r) {
-  return function(n) {
-    const t = r.length ** 2;
-    let o = Math.floor(Math.random() * t), e = o;
-    for (; o === e; )
-      e = Math.floor(Math.random() * t);
-    const l = structuredClone(r);
-    return l[Math.floor(o / r.length)][o % r.length] = n, l[Math.floor(e / r.length)][e % r.length] = n, l;
+function randomPlace(board) {
+  return function(number) {
+    const maxPosition = board.length ** 2;
+    let pos1 = Math.floor(Math.random() * maxPosition);
+    let pos2 = pos1;
+    while (pos1 === pos2) {
+      pos2 = Math.floor(Math.random() * maxPosition);
+    }
+    const boardCopy = structuredClone(board);
+    boardCopy[Math.floor(pos1 / board.length)][pos1 % board.length] = number;
+    boardCopy[Math.floor(pos2 / board.length)][pos2 % board.length] = number;
+    return boardCopy;
   };
 }
-function u(r) {
-  const n = [...r];
-  for (let t = n.length - 1; t >= 0; t--)
-    n[t] !== 0 && n[t + 1] === 0 && (n[t + 1] = n[t], n[t] = 0);
-  return n;
+function moveRow(array) {
+  const row = [...array];
+  for (let i = row.length - 1; i >= 0; i--) {
+    if (row[i] !== 0 && row[i + 1] === 0) {
+      row[i + 1] = row[i];
+      row[i] = 0;
+    }
+  }
+  return row;
 }
-function i(r) {
-  const n = [...r];
-  for (let t = n.length - 1; t >= 0; t--)
-    n[t] !== 0 && n[t + 1] === n[t] && (n[t + 1] = n[t] * 2, n[t] = 0);
-  return n;
+function sumRow(array) {
+  const row = [...array];
+  for (let i = row.length - 1; i >= 0; i--) {
+    if (row[i] !== 0 && row[i + 1] === row[i]) {
+      row[i + 1] = row[i] * 2;
+      row[i] = 0;
+    }
+  }
+  return row;
 }
-function a(r, n) {
-  let t = structuredClone(r);
-  for (let o = 0; o < n; o++)
-    t = t[0].map((e, l) => t.map((f) => f[l]).reverse());
-  return t;
+function rotateMatrix(matrix, n_rotations) {
+  let result = structuredClone(matrix);
+  for (let i = 0; i < n_rotations; i++) {
+    result = result[0].map((col, X) => result.map((row) => row[X]).reverse());
+  }
+  return result;
 }
-function m(r) {
-  return function(n) {
-    const t = { rigth: 0, left: 2, up: 1, down: 3 };
-    let o = a(r, t[n]);
-    for (let e = 0; e < 3; e++)
-      o = o.map(u);
-    o = o.map(i);
-    for (let e = 0; e < 3; e++)
-      o = o.map(u);
-    return a(o, 4 - t[n]);
+function moveBoard(board) {
+  return function(direction) {
+    const directions = { rigth: 0, left: 2, up: 1, down: 3 };
+    let rotatedBoard = rotateMatrix(board, directions[direction]);
+    for (let i = 0; i < 3; i++) {
+      rotatedBoard = rotatedBoard.map(moveRow);
+    }
+    rotatedBoard = rotatedBoard.map(sumRow);
+    for (let i = 0; i < 3; i++) {
+      rotatedBoard = rotatedBoard.map(moveRow);
+    }
+    return rotateMatrix(rotatedBoard, 4 - directions[direction]);
   };
 }
-function s(r) {
-  return function(n) {
+function getCellsAvailable(board) {
+  return board.flat().map((n, index) => n !== 0 ? -1 : index).filter((n) => n >= 0);
+}
+function insertRandomNumber(board) {
+  return function(number) {
+    let result = structuredClone(board);
+    const cellsAvailable = getCellsAvailable(board);
+    const pos1 = cellsAvailable[Math.floor(Math.random() * cellsAvailable.length)];
+    result[Math.floor(pos1 / board.length)][pos1 % board.length] = number;
+    return result;
   };
 }
 export {
-  c as generate2048Board,
-  s as insertRandomNumber,
-  m as moveBoard,
-  u as moveRow,
-  h as randomPlace,
-  a as rotateMatrix,
-  i as sumRow
+  generate2048Board,
+  getCellsAvailable,
+  insertRandomNumber,
+  moveBoard,
+  moveRow,
+  randomPlace,
+  rotateMatrix,
+  sumRow
 };
