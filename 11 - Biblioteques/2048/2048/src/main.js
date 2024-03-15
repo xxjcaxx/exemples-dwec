@@ -8,7 +8,7 @@
  * @module 2048 */
 
 /** 
- * @description Aquesta funció genera un tauler aleatori amb 2 2 
+ * @description Aquesta funció genera un tauler aleatori, retorna una matriu bidimensional 
  * @param {number} size - Mida del tauler
  * @return {Array.<Array.<number>>}
 */
@@ -19,11 +19,16 @@ export function generate2048Board(size = 4) {
 
 /** 
  * @description Aquesta funció rep un tauler buit i retorna una funció que accepta un número per a posar-ho 2 vegades en el tauler
- * @param {Array<number>} board
- * @returns {Function}
+ * @param {Array.<Array.<number>>} board
+ * @returns {function}
  */
 export function randomPlace(board) {
-  return function (number) {
+  /**
+   * @description Aquesta funció retornada per randomPlace accepta un número y retorna el tauler amb el número posicionat aleatoriament 2 vegades.
+   * @param {number}
+   * @returns {Array.<Array.<number>>}
+   */
+  return function placeNumber(number) {
     const maxPosition = board.length ** 2;
     let pos1 = Math.floor(Math.random() * maxPosition);
     let pos2 = pos1;
@@ -97,9 +102,9 @@ export function moveBoard(board) {
     for (let i = 0; i < 3; i++) {
         rotatedBoard = rotatedBoard.map(moveRow);
     }
-    rotatedBoard = rotatedBoard.map(sumRow);
+    rotatedBoard = rotatedBoard.map(sumRow); // Es suma una vegada nomes
     // Hi ha un màxim de 3 moviments
-       for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i++) {
         rotatedBoard = rotatedBoard.map(moveRow);
     }
     return rotateMatrix(rotatedBoard, 4-directions[direction]);
