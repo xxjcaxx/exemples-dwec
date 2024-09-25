@@ -6,15 +6,23 @@ function calcPower(pokemon){
 }
 
 function renderPokemons(pokemons){
-  let divPokemons = pokemons
-      .map((p) =>  `<div id="pokemon-${p.id}" data-type="pokemonCard">
+  const pokemonsContainer = document.createElement('div')
+  pokemons
+      .forEach((p) => { 
+        const HTMLPokemon = `<div id="pokemon-${p.id}" data-type="pokemonCard">
             <h3>${p.name.english}</h3>
             <p>Type: ${p.type}</p>
             <p>Power: ${p.power} </p>
-            </div>`
+            </div>`;
+          const divPokemon = document.createElement('div');
+          divPokemon.innerHTML = HTMLPokemon;
+          
+          pokemonsContainer.append(divPokemon.firstElementChild);
+          }
       )
-      .join('');
-      return divPokemons;
+    
+  
+      return pokemonsContainer;
 }
 
 // Modificar per a que mostre els superiors al que fem click
@@ -30,15 +38,14 @@ function renderPokemons(pokemons){
         return pCopy
       })
 
-    contenedor.innerHTML = renderPokemons(pokemonsPower);
+    contenedor.append(renderPokemons(pokemonsPower));
 
     contenedor.addEventListener('click',(event)=>{
       if(event.target.dataset.type === 'pokemonCard'){
         let idBase = event.target.id.split('-')[1];
         let powerBase = pokemonsPower.find(p => p.id == idBase).power;
-        contenedor.innerHTML = renderPokemons(
-          pokemonsPower.filter(p => p.power >= powerBase)
-        )
+        contenedor.append(renderPokemons(  pokemonsPower.filter(p => p.power >= powerBase)));
+       
         
       }
       
