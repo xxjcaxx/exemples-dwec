@@ -1,4 +1,8 @@
+import './styles.scss'
+import * as bootstrap from 'bootstrap'
+
 import { pokemons } from "./iteradors.js";
+import pokemonplaceholder from './imgs/pokemonplaceholder.jpg';
 
 function calcPower(pokemon){
   const poders = Object.values(pokemon.base);
@@ -10,7 +14,7 @@ function renderPokemons(pokemons){
   pokemons
       .forEach((p) => { 
         const HTMLPokemon = `<div id="pokemon-${p.id}" data-type="pokemonCard">
-           <img src="./imgs/${p.image}" class="img-fluid" alt="${p.name.english}">
+           <img src="${p.image ? `./imgs/${p.image}` : pokemonplaceholder}" class="img-fluid" alt="${p.name.english}">
         <h3>${p.name.english}</h3>
             <p>Type: ${p.type}</p>
             <p>Power: ${p.power} </p>
