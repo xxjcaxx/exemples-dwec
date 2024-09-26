@@ -1,9 +1,0 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-
-div.dama-black, div.dama-white {
-    font-size: min(7vh, 7vw);
-   
-}
