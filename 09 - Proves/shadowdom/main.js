@@ -29,6 +29,7 @@ const plantillaFormulario = `
             id="nombre"
             placeholder="Ingresa tu nombre"
             required
+            name="nombre"
           />
         </div>
 
@@ -41,6 +42,7 @@ const plantillaFormulario = `
             id="email"
             placeholder="Ingresa tu correo electrónico"
             required
+            name="correo"
           />
         </div>
 
@@ -84,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <button type="button" >Dark</button>
 `;
   shadow.appendChild(span);
-  console.log(styles);
+  //console.log(styles);
 
   ///////// El formulario reactivo
 
@@ -97,14 +99,16 @@ document.addEventListener("DOMContentLoaded", () => {
     connectedCallback() {
       const templateFormulario = document.createElement('template');
       templateFormulario.innerHTML = plantillaFormulario;
-      const formularioContent = templateFormulario.content;
+      const formularioContentFragment = templateFormulario.content;
       const shadowRoot = this.attachShadow({ mode: "closed" });
-      shadowRoot.append(formularioContent.cloneNode(true));
-      fromEvent( formularioContent.querySelector("#formularioReactivo"),'keyup')
+      const formularioContent = formularioContentFragment.cloneNode(true);
+      shadowRoot.append(formularioContent);
+
+      
+      fromEvent( shadowRoot,'keyup')
       .pipe(
-        map((event) => new FormData(event.target)),
-        tap(form=> console.log(form)
-        ),
+        map((event) => new FormData(shadowRoot.querySelector('#formularioReactivo'))),
+       // tap(form=> console.log(form)),
         distinctUntilChanged(
           (previous,current)=> 
           [...previous.entries()]
