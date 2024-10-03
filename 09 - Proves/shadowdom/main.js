@@ -1,6 +1,18 @@
 import * as bootstrap from "bootstrap";
 import "./styles.scss";
 import styles from "./styles.scss?inline";
+import {
+  BehaviorSubject,
+  Subject,
+  combineLatest,
+  filter,
+  withLatestFrom,
+  map,
+  tap,
+  fromEvent,
+  debounceTime,
+  distinctUntilChanged,
+} from "rxjs";
 
 const plantillaFormulario = `
     <div class="container mt-5">
@@ -36,7 +48,9 @@ const plantillaFormulario = `
         <button type="submit" class="btn btn-primary">Enviar</button>
       </form>
       <div>
-        <p><strong>Valor Nombre:</strong> <span id="nombre-output"></span></p>
+        <p><strong>Valor Nombre:</strong> 
+        <span id="nombre-output"></span>
+        </p>
         <p>
           <strong>Valor Correo Electrónico:</strong>
           <span id="email-output"></span>
@@ -78,21 +92,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     constructor() {
       super();
-
+      this.datosFormularioSubject = new Subject();
     }
     connectedCallback() {
       const templateFormulario = document.createElement('template');
       templateFormulario.innerHTML = plantillaFormulario;
-      const templateFormularioContent = templateFormulario.content;
+      const formularioContent = templateFormulario.content;
       const shadowRoot = this.attachShadow({ mode: "closed" });
-      shadowRoot.append(templateFormularioContent.cloneNode(true));
+      shadowRoot.append(formularioContent.cloneNode(true));
+      fromEvent( formularioContent.querySelector("#formularioReactivo"),'keyup')
+      .pipe(
+        map((event) => new FormData(event.target)),
+        tap(form=> console.log(form)
+        ),
+        distinctUntilChanged(
+          (previous,current)=> 
+          [...previous.entries()]
+          .every(
+            ([key, value], index) => 
+              value === [...current.entries()][index][1]
+          )),
+        debounceTime(200)
+      ).subscribe(values => console.log(values)
+      )
+     
     }
 
   }
 
   customElements.define("custom-formularioreactivo", formularioReactivo);
-
-  document.querySelector("#reactividad").innerHTML = "";
 
   document.querySelector("#reactividad").innerHTML = `
   <custom-formularioreactivo>
