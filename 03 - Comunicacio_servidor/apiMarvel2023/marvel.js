@@ -1,5 +1,12 @@
 const apiKey = "09186f978ec0616e9dba9c4ac4b0c4bb";
 
+/*
+Millores:
+Fer funcionar el  return dels personatges
+Fer funcionar les fotos dels comics
+Fer funcionar el buscador
+*/
+
 function generateDivCharacterDetails(character) {
   let divCharacter = document.createElement("div");
   divCharacter.classList.add("col");
@@ -51,7 +58,7 @@ function generateDivCharacter(character) {
 function generatePaginationButtons(data) {
   const {offset, limit, total, count } = data;
   const currentPage = offset / limit;
-  const nPages = Math.ceil(total / count);
+  const nPages = Math.ceil(total / limit);
   const divButtons = document.createElement("div");
   divButtons.innerHTML = `
     <div
@@ -72,21 +79,29 @@ function generatePaginationButtons(data) {
   .map((v,i,pages)=>  Math.abs(pages[i+1] - v) > 1 ? [v,-1] : v)
   .flat();
 
-  //console.log(visiblePages, currentPage, nPages);
+  console.log(visiblePages, currentPage, nPages);
   
   for(let i of visiblePages){
     const pageButton = document.createElement('div');
     pageButton.innerHTML = `<button type="button" class="btn btn-primary" data-page="${i}">${i}</button>`;
-    
+    const button = pageButton.firstElementChild;
+
     if(i === currentPage){
-      pageButton.firstElementChild.classList.add("active");
+      button.classList.add("active");
     }
     if(i === -1){
-      pageButton.firstElementChild.classList.add("disabled");
-      pageButton.firstElementChild.innerText = '...';
+      button.classList.add("disabled");
+      button.innerText = '...';
     }
+
     buttonsGroup.append(pageButton.firstElementChild);
   }
+
+  buttonsGroup.addEventListener('click',(event)=>{
+    const pageClicked = event.target.dataset.page;      
+    getAndRenderCharacters(limit,limit*pageClicked);
+  });
+
   divButtons.append(buttonsGroup);
   return divButtons;
 }
@@ -99,27 +114,28 @@ async function fetchAPI(url, apiKey, limit, offset) {
   return data.data;
 }
 
-function getCharacters() {
+function getCharacters(limit,offset) {
   return fetchAPI(
     "https://gateway.marvel.com/v1/public/characters",
     apiKey,
-    20,
-    440
+    limit,
+    offset
   );
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function getAndRenderCharacters(offset,limit){
   const container = document.querySelector("#container");
   const buttonsPlace = document.querySelector('#navbarSupportedContent div');
-
-  getCharacters().then((data) => {
+  container.innerHTML = "";
+  buttonsPlace.innerHTML ="";
+  getCharacters(offset,limit).then((data) => {
     for (let character of data.results) {
       container.append(generateDivCharacter(character));
-
     }
     buttonsPlace.append(generatePaginationButtons(data));
   });
+}
 
- 
-
+document.addEventListener("DOMContentLoaded", () => {
+  getAndRenderCharacters(20,0);
 });
