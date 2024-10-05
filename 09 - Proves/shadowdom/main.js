@@ -117,8 +117,13 @@ document.addEventListener("DOMContentLoaded", () => {
               value === [...current.entries()][index][1]
           )),
         debounceTime(200)
-      ).subscribe(values => console.log(values)
-      )
+      ).subscribe(values => {
+        const customEvent = new CustomEvent('formChanged', {
+          bubbles: true,
+          detail: { message: 'Form changed', values }
+      });
+      this.dispatchEvent(customEvent);
+      });
      
     }
 
@@ -131,6 +136,10 @@ document.addEventListener("DOMContentLoaded", () => {
     <span slot="titulo">Formulario reactivo con el titulo en slot</slot>
   </custom-formularioreactivo>
   `;
+
+  document.querySelector("#reactividad").addEventListener('formChanged',event=>{
+    console.log(event.detail);
+  });
 
   // Obtenemos el "estado" del formulario:
 
