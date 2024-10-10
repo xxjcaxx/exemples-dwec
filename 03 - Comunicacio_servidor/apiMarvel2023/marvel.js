@@ -1,5 +1,5 @@
 const apiKey = "09186f978ec0616e9dba9c4ac4b0c4bb";
-const state = {currentPage: 0, offset: 0, limit: 20};
+const state = { currentPage: 0, offset: 0, limit: 20 };
 /*
 Millores:
 Fer funcionar el  return dels personatges
@@ -10,11 +10,25 @@ Fer funcionar el buscador
 function generateDivCharacterDetails(character) {
   let divCharacter = document.createElement("div");
   divCharacter.classList.add("col");
+
+  // Obtenir imatges:
+  imageURL = "book-cover-placeholder.png";
+  fetch(
+    `${character.thumbnail.path}/portrait_fantastic.${character.thumbnail.extension}`
+  )
+    .then((response) =>
+      response.status == 200 ? response : Promise.reject(response.status)
+    )
+    .then((response) => response.blob())
+    .then((imageBlob) => {
+      imageURL = URL.createObjectURL(imageBlob);
+
+     
+
+
   divCharacter.innerHTML = `
     <div class="card" style="width: 38rem;">
-        <img src="${character.thumbnail.path}/portrait_fantastic.${
-    character.thumbnail.extension
-  }" class="card-img-top" alt="...">
+        <img src="${imageURL}" class="card-img-top" alt="...">
          <div class="card-body">
            <h5 class="card-title">${character.name}</h5>
          <p class="card-text">${character.description}</p>
@@ -31,12 +45,12 @@ function generateDivCharacterDetails(character) {
         </div>
     `;
 
-           divCharacter.querySelector('#return').addEventListener('click',()=>{
-            getAndRenderCharacters(state.limit,state.offset,'')
-           });
+  divCharacter.querySelector("#return").addEventListener("click", () => {
+    getAndRenderCharacters(state.limit, state.offset, "");
+  });
 
-          // character.comics.items.forEach(async (c,i)=>{
-         /*   (async ()=>{
+  // character.comics.items.forEach(async (c,i)=>{
+  /*   (async ()=>{
               for(let i=0; i< character.comics.items.length; i++){
                 await fetchAPI(character.comics.items[i].resourceURI,apiKey,1,0).then(comicData => {
                   console.log(i,comicData.results[0]);
@@ -47,21 +61,21 @@ function generateDivCharacterDetails(character) {
                   }
             })()*/
 
-            const arrayPromises = character.comics.items.map(async(c,i)=>
-              fetchAPI(character.comics.items[i].resourceURI,apiKey,1,0)
-            ); 
-            Promise.all(arrayPromises).then(arrayComics => {
-              arrayComics.forEach((c,i)=>{
-                console.log(i,c.results[0]);
-                divCharacter.querySelector(`#comic_${i} img`)
-                .src = `${c.results[0].thumbnail.path}/portrait_fantastic.${c.results[0].thumbnail.extension}`
-        
-              })
-            });
-              
-        
-          // });
+  const arrayPromises = character.comics.items.map(async (c, i) =>
+    fetchAPI(character.comics.items[i].resourceURI, apiKey, 1, 0)
+  );
+  Promise.all(arrayPromises).then((arrayComics) => {
+    arrayComics.forEach((c, i) => {
+      console.log(i, c.results[0]);
+      divCharacter.querySelector(
+        `#comic_${i} img`
+      ).src = `${c.results[0].thumbnail.path}/portrait_fantastic.${c.results[0].thumbnail.extension}`;
+    });
+  });
 
+  // });
+})
+.catch((error) => console.log(error));
   return divCharacter;
 }
 
@@ -87,7 +101,7 @@ function generateDivCharacter(character) {
 }
 
 function generatePaginationButtons(data) {
-  const {offset, limit, total, count } = data;
+  const { offset, limit, total, count } = data;
   const currentPage = offset / limit;
   const nPages = Math.ceil(total / limit);
   const divButtons = document.createElement("div");
@@ -102,37 +116,40 @@ function generatePaginationButtons(data) {
       </div>
     </div>
   `;
-  const buttonsGroup = divButtons.querySelector('#buttonsGroup');
+  const buttonsGroup = divButtons.querySelector("#buttonsGroup");
   const visiblePages = Array(nPages)
-  .fill(0)
-  .map((v,i)=> i)
-  .filter(v=> (v < 3) || (v > (currentPage-3) && (v < currentPage +3)) || (v > nPages - 4) )
-  .map((v,i,pages)=>  Math.abs(pages[i+1] - v) > 1 ? [v,-1] : v)
-  .flat();
+    .fill(0)
+    .map((v, i) => i)
+    .filter(
+      (v) =>
+        v < 3 || (v > currentPage - 3 && v < currentPage + 3) || v > nPages - 4
+    )
+    .map((v, i, pages) => (Math.abs(pages[i + 1] - v) > 1 ? [v, -1] : v))
+    .flat();
 
   console.log(visiblePages, currentPage, nPages);
-  
-  for(let i of visiblePages){
-    const pageButton = document.createElement('div');
+
+  for (let i of visiblePages) {
+    const pageButton = document.createElement("div");
     pageButton.innerHTML = `<button type="button" class="btn btn-primary" data-page="${i}">${i}</button>`;
     const button = pageButton.firstElementChild;
 
-    if(i === currentPage){
+    if (i === currentPage) {
       button.classList.add("active");
     }
-    if(i === -1){
+    if (i === -1) {
       button.classList.add("disabled");
-      button.innerText = '...';
+      button.innerText = "...";
     }
 
     buttonsGroup.append(pageButton.firstElementChild);
   }
 
-  buttonsGroup.addEventListener('click',(event)=>{
+  buttonsGroup.addEventListener("click", (event) => {
     const pageClicked = event.target.dataset.page;
     state.currentPage = pageClicked;
-    state.offset = limit*pageClicked;
-    getAndRenderCharacters(limit,limit*pageClicked,'');
+    state.offset = limit * pageClicked;
+    getAndRenderCharacters(limit, limit * pageClicked, "");
   });
 
   divButtons.append(buttonsGroup);
@@ -141,13 +158,15 @@ function generatePaginationButtons(data) {
 
 async function fetchAPI(url, apiKey, limit, offset, nameStartsWith) {
   let response = await fetch(
-    `${url}${nameStartsWith != '' ? `?nameStartsWith=${nameStartsWith}&` : '?'}limit=${limit}&offset=${offset}&apikey=${apiKey}`
+    `${url}${
+      nameStartsWith != "" ? `?nameStartsWith=${nameStartsWith}&` : "?"
+    }limit=${limit}&offset=${offset}&apikey=${apiKey}`
   );
   let data = await response.json();
   return data.data;
 }
 
-function getCharacters(limit,offset,nameStartsWith) {
+function getCharacters(limit, offset, nameStartsWith) {
   return fetchAPI(
     "https://gateway.marvel.com/v1/public/characters",
     apiKey,
@@ -157,13 +176,12 @@ function getCharacters(limit,offset,nameStartsWith) {
   );
 }
 
-
-function getAndRenderCharacters(offset,limit,nameStartsWith){
+function getAndRenderCharacters(offset, limit, nameStartsWith) {
   const container = document.querySelector("#container");
-  const buttonsPlace = document.querySelector('#navbarSupportedContent div');
+  const buttonsPlace = document.querySelector("#navbarSupportedContent div");
   container.innerHTML = "";
-  buttonsPlace.innerHTML ="";
-  getCharacters(offset,limit,nameStartsWith).then((data) => {
+  buttonsPlace.innerHTML = "";
+  getCharacters(offset, limit, nameStartsWith).then((data) => {
     for (let character of data.results) {
       container.append(generateDivCharacter(character));
     }
@@ -172,12 +190,12 @@ function getAndRenderCharacters(offset,limit,nameStartsWith){
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  getAndRenderCharacters(20,0,'');
+  getAndRenderCharacters(20, 0, "");
 
-  document.querySelector('#searchButton').addEventListener('click',event=>{
+  document.querySelector("#searchButton").addEventListener("click", (event) => {
     event.preventDefault();
-    const searchInput = document.querySelector('#searchInput');
+    const searchInput = document.querySelector("#searchInput");
     console.log(searchInput.value);
-    getAndRenderCharacters(20,0,searchInput.value);
+    getAndRenderCharacters(20, 0, searchInput.value);
   });
 });
