@@ -1,5 +1,5 @@
 const apiKey = "09186f978ec0616e9dba9c4ac4b0c4bb";
-
+const state = {currentPage: 0, offset: 0, limit: 20};
 /*
 Millores:
 Fer funcionar el  return dels personatges
@@ -22,14 +22,45 @@ function generateDivCharacterDetails(character) {
          ${character.comics.items
            .map(
              (c, i) => `<div class="col" id="comic_${i}">${c.name}
-                                                  <img src="book-cover-placeholder.png">   
-                                              </div>`
+                        <img src="book-cover-placeholder.png">   
+                        </div>`
            )
            .join(" ")} </div>
-          <button href="#" class="btn btn-primary">Return</button>
+          <button id="return" href="#" class="btn btn-primary">Return</button>
           </div>
         </div>
     `;
+
+           divCharacter.querySelector('#return').addEventListener('click',()=>{
+            getAndRenderCharacters(state.limit,state.offset,'')
+           });
+
+          // character.comics.items.forEach(async (c,i)=>{
+         /*   (async ()=>{
+              for(let i=0; i< character.comics.items.length; i++){
+                await fetchAPI(character.comics.items[i].resourceURI,apiKey,1,0).then(comicData => {
+                  console.log(i,comicData.results[0]);
+                  divCharacter.querySelector(`#comic_${i} img`)
+                  .src = `${comicData.results[0].thumbnail.path}/portrait_fantastic.${comicData.results[0].thumbnail.extension}`
+          
+                });
+                  }
+            })()*/
+
+            const arrayPromises = character.comics.items.map(async(c,i)=>
+              fetchAPI(character.comics.items[i].resourceURI,apiKey,1,0)
+            ); 
+            Promise.all(arrayPromises).then(arrayComics => {
+              arrayComics.forEach((c,i)=>{
+                console.log(i,c.results[0]);
+                divCharacter.querySelector(`#comic_${i} img`)
+                .src = `${c.results[0].thumbnail.path}/portrait_fantastic.${c.results[0].thumbnail.extension}`
+        
+              })
+            });
+              
+        
+          // });
 
   return divCharacter;
 }
@@ -98,37 +129,41 @@ function generatePaginationButtons(data) {
   }
 
   buttonsGroup.addEventListener('click',(event)=>{
-    const pageClicked = event.target.dataset.page;      
-    getAndRenderCharacters(limit,limit*pageClicked);
+    const pageClicked = event.target.dataset.page;
+    state.currentPage = pageClicked;
+    state.offset = limit*pageClicked;
+    getAndRenderCharacters(limit,limit*pageClicked,'');
   });
 
   divButtons.append(buttonsGroup);
   return divButtons;
 }
 
-async function fetchAPI(url, apiKey, limit, offset) {
+async function fetchAPI(url, apiKey, limit, offset, nameStartsWith) {
   let response = await fetch(
-    `${url}?limit=${limit}&offset=${offset}&apikey=${apiKey}`
+    `${url}${nameStartsWith != '' ? `?nameStartsWith=${nameStartsWith}&` : '?'}limit=${limit}&offset=${offset}&apikey=${apiKey}`
   );
   let data = await response.json();
   return data.data;
 }
 
-function getCharacters(limit,offset) {
+function getCharacters(limit,offset,nameStartsWith) {
   return fetchAPI(
     "https://gateway.marvel.com/v1/public/characters",
     apiKey,
     limit,
-    offset
+    offset,
+    nameStartsWith
   );
 }
 
-function getAndRenderCharacters(offset,limit){
+
+function getAndRenderCharacters(offset,limit,nameStartsWith){
   const container = document.querySelector("#container");
   const buttonsPlace = document.querySelector('#navbarSupportedContent div');
   container.innerHTML = "";
   buttonsPlace.innerHTML ="";
-  getCharacters(offset,limit).then((data) => {
+  getCharacters(offset,limit,nameStartsWith).then((data) => {
     for (let character of data.results) {
       container.append(generateDivCharacter(character));
     }
@@ -137,5 +172,12 @@ function getAndRenderCharacters(offset,limit){
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  getAndRenderCharacters(20,0);
+  getAndRenderCharacters(20,0,'');
+
+  document.querySelector('#searchButton').addEventListener('click',event=>{
+    event.preventDefault();
+    const searchInput = document.querySelector('#searchInput');
+    console.log(searchInput.value);
+    getAndRenderCharacters(20,0,searchInput.value);
+  });
 });
