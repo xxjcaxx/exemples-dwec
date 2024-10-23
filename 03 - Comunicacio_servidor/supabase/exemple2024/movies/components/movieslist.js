@@ -9,7 +9,7 @@ function generateMovieRow(movie) {
         </td>`
     )
     .join(" ");
-  return `<tr>${arrayTDs}</tr>`;
+  return `<tr>${arrayTDs}<td><a href="#/movie/${movie.id}">Link</a></td></tr>`;
 }
 
 function generateMoviesList(moviesList) {
@@ -20,6 +20,7 @@ function generateMoviesList(moviesList) {
         <tr>
           <th>Títol original</th>
           <th>Data de llançament</th>
+          <th>Link</th>
         </tr>
       </thead>
       ${moviesList.map(generateMovieRow).join(" ")}

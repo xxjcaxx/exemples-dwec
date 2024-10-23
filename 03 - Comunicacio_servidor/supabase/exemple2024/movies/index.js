@@ -1,6 +1,6 @@
 import { generateMoviesList } from "./components/movieslist";
 import { getMovies } from "./services/supaservice";
-
+import { router } from "./router";
 
 async function getAndRenderMovies(container){
     container.append(generateMoviesList(await getMovies()))
@@ -8,7 +8,14 @@ async function getAndRenderMovies(container){
 
 document.addEventListener('DOMContentLoaded', ()=>{
     const moviesContainer = document.querySelector('#moviesContainer');
-    getAndRenderMovies(moviesContainer);
+    //getAndRenderMovies(moviesContainer);
+
+    router(window.location.hash, moviesContainer);
+
+    window.addEventListener("hashchange", () => {
+       router(window.location.hash, moviesContainer);
+       });
+       
 
     const loginButton = document.querySelector('#loginButton');
     loginButton.addEventListener('click', async(event)=>{
