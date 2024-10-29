@@ -13,20 +13,19 @@ import {
   debounceTime,
   distinctUntilChanged,
   interval,
-  merge
+  merge,
 } from "rxjs";
 
 const _ = {
   compose:
     (...fns) =>
-      (x) =>
-        fns.reduceRight((v, f) => f(v), x),
+    (x) =>
+      fns.reduceRight((v, f) => f(v), x),
   asyncCompose:
     (...fns) =>
-      (x) =>
-        fns.reduceRight(async (v, f) => f(await v), x),
+    (x) =>
+      fns.reduceRight(async (v, f) => f(await v), x),
   curriedMap: (func) => (array) => array.map(func),
-
 };
 
 const plantillaFormulario = `
@@ -105,89 +104,83 @@ document.addEventListener("DOMContentLoaded", () => {
 
   ///////// El formulario reactivo
   const createCustomFormComponent = ({
-    tag, 
-    template, 
-    keyUpFunction // Object destructuring
+    tag,
+    template,
+    keyUpFunction, // Object destructuring
   }) => {
     class customComponent extends HTMLElement {
       constructor() {
         super();
-        this.dataSubject = new Subject();  // La manera de obtener datos del padre
+        this.dataSubject = new Subject(); // La manera de obtener datos del padre
       }
       connectedCallback() {
-        const templateComponent = document.createElement('template');
+        const templateComponent = document.createElement("template");
         templateComponent.innerHTML = template;
         const shadowRoot = this.attachShadow({ mode: "closed" });
 
         // Este paso es redundante e innecesario en este caso ya que estamos creando la plantilla dinámicamente
-        // Lo dejamos para dejar la referencia a las funciones en un mismo ejemplo. 
+        // Lo dejamos para dejar la referencia a las funciones en un mismo ejemplo.
         const contentFragment = templateComponent.content;
         const content = contentFragment.cloneNode(true);
         shadowRoot.append(content);
 
-        // El evento de keyup tratado de forma reactiva 
-        this.keyUpSubscription = fromEvent(shadowRoot, 'keyup')
+        // El evento de keyup tratado de forma reactiva
+        this.keyUpSubscription = fromEvent(shadowRoot, "keyup")
           .pipe(
-            map((event) => new FormData(shadowRoot.querySelector('form'))),
-            distinctUntilChanged(
-              (previous, current) =>
-                [...previous.entries()]
-                  .every(
-                    ([key, value], index) =>
-                      value === [...current.entries()][index][1]
-                  )),
+            map((event) => new FormData(shadowRoot.querySelector("form"))),
+            distinctUntilChanged((previous, current) =>
+              [...previous.entries()].every(
+                ([key, value], index) =>
+                  value === [...current.entries()][index][1]
+              )
+            ),
             debounceTime(200)
-          ).subscribe(values => {
+          )
+          .subscribe((values) => {
             // Evento para informar al componente padre de un cambio
-            const customEvent = new CustomEvent('formChanged', {
+            const customEvent = new CustomEvent("formChanged", {
               bubbles: true,
-              detail: { message: 'Form changed', values }
+              detail: { message: "Form changed", values },
             });
             this.dispatchEvent(customEvent);
             // Implementar la reactividad en el mismo formulario
             keyUpFunction(shadowRoot)(values);
           });
 
-          // Atender a los datos externos
-        this.dataSubscription = this.dataSubject.subscribe(data => {
-          [...shadowRoot.querySelectorAll('input')]
-          .forEach(input => input.value = data[input.name]);
-          shadowRoot.dispatchEvent(new KeyboardEvent('keyup'));
+        // Atender a los datos externos
+        this.dataSubscription = this.dataSubject.subscribe((data) => {
+          [...shadowRoot.querySelectorAll("input")].forEach(
+            (input) => (input.value = data[input.name])
+          );
+          shadowRoot.dispatchEvent(new KeyboardEvent("keyup"));
         });
       }
-
-
 
       disconnectedCallback() {
         this.keyUpSubscription.unsubscribe();
         this.dataSubscription.unsubscribe();
       }
-
     }
     customElements.define(tag, customComponent);
-  }
+  };
 
+  createCustomFormComponent({
+    // Al pasar un objeto como parámetro, podemos asignar los nombres de los atributos y desordenarlos.
+    tag: "custom-formularioreactivo",
+    template: plantillaFormulario,
+    keyUpFunction: (shadowRoot) => (values) => {
+      [...values].forEach(([key, value]) => {
+        shadowRoot.querySelector(`#${key}-output`).innerText = value;
+      });
+    },
+  });
 
-
-
-  createCustomFormComponent(
-    {  // Al pasar un objeto como parámetro, podemos asignar los nombres de los atributos y desordenarlos.
-      tag: 'custom-formularioreactivo',
-      template: plantillaFormulario,
-      keyUpFunction: (shadowRoot) => (values) => {
-        [...values].forEach(([key, value]) => {
-          shadowRoot.querySelector(`#${key}-output`).innerText = value;
-        });
-      }
-    }
-  )
-
-  const customFormulario = document.createElement('custom-formularioreactivo');
+  const customFormulario = document.createElement("custom-formularioreactivo");
 
   // Crear el span con el slot="titulo"
-  const spanTitulo = document.createElement('span');
-  spanTitulo.setAttribute('slot', 'titulo');
-  spanTitulo.textContent = 'Formulario reactivo con el titulo en slot';
+  const spanTitulo = document.createElement("span");
+  spanTitulo.setAttribute("slot", "titulo");
+  spanTitulo.textContent = "Formulario reactivo con el titulo en slot";
 
   // Añadir el span al custom element
   customFormulario.appendChild(spanTitulo);
@@ -195,17 +188,136 @@ document.addEventListener("DOMContentLoaded", () => {
   // Insertar el custom element en el DOM
   document.querySelector("#reactividad").appendChild(customFormulario);
 
-  // Atender al evento 
-  document.querySelector("#reactividad").addEventListener('formChanged', event => {
-    console.log(event.detail);
-  });
+  // Atender al evento
+  document
+    .querySelector("#reactividad")
+    .addEventListener("formChanged", (event) => {
+     // console.log(event.detail);
+    });
 
-  interval(1000).pipe(
-    map(i=>({nombre: i, email: i}))
-  )
-  .subscribe(customFormulario.dataSubject)
+  interval(1000)
+    .pipe(map((i) => ({ nombre: i, email: i })))
+    .subscribe(customFormulario.dataSubject);
 
   // Obtenemos el "estado" del formulario:
 
   const formulario = document.querySelector("#formularioReactivo");
 });
+
+class customBadge extends HTMLElement {
+  #contentDiv; // Esto será inicializado
+
+  static observedAttributes = ["content"];
+  constructor() {
+    super();
+  }
+  connectedCallback() {
+    if (!this.#contentDiv) {
+      this.#contentDiv = document.createElement("span");
+      this.#contentDiv.className = "badge";
+    }
+    const shadowRoot = this.attachShadow({ mode: "closed" });
+    const style= document.createElement('style');
+    style.textContent = `
+            .badge-container {
+                position: relative;
+                display: inline-block;
+            }
+            .badge {
+                position: absolute;
+                top: 0;
+                right: 0;
+                background-color: red;
+                color: white;
+                border-radius: 50%;
+                padding: 0.2em 0.5em;
+                font-size: 0.75em;
+                font-weight: bold;
+            }
+    `
+    // Insertamos antes de los hijos que ya tiene, en vez de innerHTML
+    const badgeContainer = document.createElement('div');
+    badgeContainer.classList.add('badge-container')
+    const slot = document.createElement('slot');
+    badgeContainer.append(slot, this.#contentDiv);
+    shadowRoot.append(style);
+    shadowRoot.append(badgeContainer);
+
+    this.update();
+  }
+  attributeChangedCallback() {
+    this.update();
+  }
+  update() {
+    if (this.#contentDiv)
+      this.#contentDiv.textContent = this.getAttribute("content");
+  }
+}
+
+customElements.define("custom-badge", customBadge);
+
+interval(1000)
+.subscribe(numero=> {
+  document.querySelector('custom-badge').setAttribute('content',numero);
+});
+
+
+class CustomInput extends HTMLElement {
+  constructor() {
+      super();
+      this.input = document.createElement('input');
+      this.shadowContainer = document.createElement('div');
+
+  }
+  connectedCallback() {
+      // Emitir evento personalizado con un callback para actualizar `value`
+      console.log('input');
+      setTimeout(()=>{this.dispatchEvent(new CustomEvent('init', {
+        bubbles: true,
+        detail: {
+            updateValue:  (newValue) =>{
+              console.log(this)
+              this.input.value = newValue;
+            }
+        }
+    }));},0)
+      
+
+    this.append(this.shadowContainer);
+    //this.shadowContainer.append(this.input)
+    const shadowRoot = this.shadowContainer.attachShadow({ mode: "closed" });
+    shadowRoot.append(this.input);
+  }
+}
+
+customElements.define('custom-input', CustomInput);
+
+
+class CustomApp extends HTMLElement {
+  constructor() {
+      super();
+  }
+  connectedCallback() {
+    console.log('app');
+  this.addEventListener('init',(event)=>{
+    console.log(event);
+    event.detail.updateValue('Updated value');
+  });
+  }
+}
+
+customElements.define('custom-app', CustomApp);
+
+class CustomDiv extends HTMLElement {
+  constructor() {
+      super();
+  }
+  connectedCallback() {
+    console.log('custom-div');
+  this.addEventListener('init',(event)=>{
+    console.log('custom-div',event);
+  });
+  }
+}
+
+customElements.define('custom-div', CustomDiv);
