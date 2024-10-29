@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .querySelector("#reactividad")
     .addEventListener("formChanged", (event) => {
-     // console.log(event.detail);
+      // console.log(event.detail);
     });
 
   interval(1000)
@@ -217,7 +217,7 @@ class customBadge extends HTMLElement {
       this.#contentDiv.className = "badge";
     }
     const shadowRoot = this.attachShadow({ mode: "closed" });
-    const style= document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = `
             .badge-container {
                 position: relative;
@@ -234,11 +234,11 @@ class customBadge extends HTMLElement {
                 font-size: 0.75em;
                 font-weight: bold;
             }
-    `
+    `;
     // Insertamos antes de los hijos que ya tiene, en vez de innerHTML
-    const badgeContainer = document.createElement('div');
-    badgeContainer.classList.add('badge-container')
-    const slot = document.createElement('slot');
+    const badgeContainer = document.createElement("div");
+    badgeContainer.classList.add("badge-container");
+    const slot = document.createElement("slot");
     badgeContainer.append(slot, this.#contentDiv);
     shadowRoot.append(style);
     shadowRoot.append(badgeContainer);
@@ -256,68 +256,86 @@ class customBadge extends HTMLElement {
 
 customElements.define("custom-badge", customBadge);
 
-interval(1000)
-.subscribe(numero=> {
-  document.querySelector('custom-badge').setAttribute('content',numero);
+interval(1000).subscribe((numero) => {
+  document.querySelector("custom-badge").setAttribute("content", numero);
 });
 
+document.addEventListener("DOMContentLoaded", () => {
 
-class CustomInput extends HTMLElement {
-  constructor() {
+  class CustomInput extends HTMLElement {
+    constructor() {
       super();
-      this.input = document.createElement('input');
-      this.shadowContainer = document.createElement('div');
+      this.input = document.createElement("input");
+      this.shadowContainer = document.createElement("div");
+    }
 
+    update = (newValue) => {
+      this.input.value = newValue.get(this.input.name);
+    };
+
+    connectedCallback() {
+        this.input.name = this.getAttribute('name');
+      requestAnimationFrame(() => {
+        this.dispatchEvent(
+          new CustomEvent("init", {
+            bubbles: true,
+            detail: {
+              setObservable: (newValue) => {
+                this.stateSubscription = newValue.subscribe(this.update);
+              },
+              requestedValue: this.input.name
+            },
+          })
+        );
+      });
+      this.append(this.shadowContainer);
+      const shadowRoot = this.shadowContainer.attachShadow({ mode: "closed" });
+      shadowRoot.append(this.input);
+    }
+
+    disconnectedCallback() {
+      this.stateSubscription.unsubscribe();
+    }
   }
-  connectedCallback() {
-      // Emitir evento personalizado con un callback para actualizar `value`
-      console.log('input');
-      setTimeout(()=>{this.dispatchEvent(new CustomEvent('init', {
-        bubbles: true,
-        detail: {
-            updateValue:  (newValue) =>{
-              console.log(this)
-              this.input.value = newValue;
-            }
-        }
-    }));},0)
-      
 
-    this.append(this.shadowContainer);
-    //this.shadowContainer.append(this.input)
-    const shadowRoot = this.shadowContainer.attachShadow({ mode: "closed" });
-    shadowRoot.append(this.input);
-  }
-}
+  customElements.define("custom-input", CustomInput);
 
-customElements.define('custom-input', CustomInput);
-
-
-class CustomApp extends HTMLElement {
-  constructor() {
+  class CustomApp extends HTMLElement {
+    constructor() {
       super();
-  }
-  connectedCallback() {
-    console.log('app');
-  this.addEventListener('init',(event)=>{
-    console.log(event);
-    event.detail.updateValue('Updated value');
-  });
-  }
-}
+      this.$context = new BehaviorSubject(new Map());
+    }
+    connectedCallback() {
+      console.log("app");
 
-customElements.define('custom-app', CustomApp);
+      this.initSubscription = fromEvent(this, "init")
+        .pipe(
+          withLatestFrom(this.$context),
+          map(([event, context]) => {
+            console.log(event, context);
+            const newContext = structuredClone(context).set(
+              event.detail.requestedValue,
+              "Initial Value"
+            );
+            return newContext;
+          }),
+          tap((newContext) => event.detail.setObservable(this.$context))
+        )
+        .subscribe((c) => this.$context.next(c));
+    }
+    disconnectedCallback() {
+      this.initSubscription?.unsubscribe();
+    }
+  }
 
-class CustomDiv extends HTMLElement {
-  constructor() {
+  customElements.define("custom-app", CustomApp);
+
+  class CustomDiv extends HTMLElement {
+    constructor() {
       super();
+    }
+    connectedCallback() {}
   }
-  connectedCallback() {
-    console.log('custom-div');
-  this.addEventListener('init',(event)=>{
-    console.log('custom-div',event);
-  });
-  }
-}
 
-customElements.define('custom-div', CustomDiv);
+  customElements.define("custom-div", CustomDiv);
+});
