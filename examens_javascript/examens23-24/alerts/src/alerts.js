@@ -72,7 +72,7 @@ function route(uri) {
            
             interval = manageAlerts(
                 'https://api-v3.mbta.com/alerts?sort=-created_at&filter%5Bactivity%5D=BOARD%2CEXIT%2CRIDE',
-                100000,
+                1000,
                 alerts => {
                     container.innerHTML = '';
                     container.append(renderAlerts(alerts))

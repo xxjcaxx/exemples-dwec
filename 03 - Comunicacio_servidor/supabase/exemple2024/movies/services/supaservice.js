@@ -17,8 +17,8 @@ async function getMovies(){
 }
 
 
-async function getMovie(id){
-    const token = localStorage.getItem('token');
+async function getMovie(id,token){
+   // const token = localStorage.getItem('token');
    const response = await fetch(`${url}movies?id=eq.${id}&select=*`,{
         method: "get",
         headers: {

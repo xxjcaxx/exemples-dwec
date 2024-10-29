@@ -23,12 +23,14 @@ async function router(route, container){
             console.log('login');
             break;
         case 'movie':
-            const movie = await getMovie(routeID);
+            const movie = await getMovie(routeID,localStorage.getItem('token'));
             console.log(movie);
             
             const movieDiv = await generateMovieDetail(movie[0]);
             container.innerHTML='';
             container.append(movieDiv);
             break;
+        default: 
+            window.location.hash = '#/movies'
     }
 }
