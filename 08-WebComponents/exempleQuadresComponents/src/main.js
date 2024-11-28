@@ -12,6 +12,7 @@ class ArtworkComponent extends HTMLElement {
 
   constructor() {
     super();
+    this.like = false;
   }
 
   connectedCallback() {
@@ -22,10 +23,25 @@ class ArtworkComponent extends HTMLElement {
     <img src="${img_url}" alt="${title}" class="card-image" />
   </div>
   <div class="card-content">
+    <span class="like">🖤</span>
     <h2 class="card-title">${title}</h2>
     <p class="card-description">${description}</p>
   </div>
 </div>`;
+
+  const likeButton = this.querySelector('.like'); 
+  likeButton.addEventListener('click',()=>{
+    this.like = !this.like;
+    likeButton.innerHTML = this.like ? '❤️' : '🖤';
+    this.dispatchEvent(
+      new CustomEvent("like", {
+        bubbles: true,
+        detail: {
+          like: this.like
+        },
+      })
+    );
+  });
   }
 
   disconnectedCallback() {
@@ -63,5 +79,10 @@ document.addEventListener("DOMContentLoaded",()=>{
       getArtWorks)
       ('https://api.artic.edu/api/v1/artworks');
 
+
+      document.addEventListener('like',(event)=>{
+        console.log(event.detail);
+        
+      })
 });
 
