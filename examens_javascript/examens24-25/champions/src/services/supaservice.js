@@ -9,7 +9,7 @@ const headers = {
 };
 
 const fetchTable = (urlBase) => (fields)=> (search) => (table) =>
-  fetch(`${urlBase}${table}?select=${fields}${search ? '&'+search : ''}`, { headers })
+  fetch(`${urlBase}${table}?select=${fields}${search ? '&'+search : ''}`, {method:'GET', headers })
     .then(async (response) => {
       //console.log(response.ok);
       if (!response.ok) {
