@@ -1,0 +1,128 @@
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #e9ecef;
+  
+}
+
+
+#players {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; 
+  justify-content: center; 
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+
+.sticker {
+  width: 250px;
+  padding: 20px;
+
+  border: 5px solid #FFD700; /* Dorado */
+  border-radius: 15px;
+  background: linear-gradient(135deg, #fff 15%, #FFD700 90%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.sticker img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.sticker h2 {
+  margin: 10px 0 5px;
+  font-size: 20px;
+  color: #333;
+}
+
+.sticker p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #555;
+  display: flex;
+  align-items: center;
+}
+
+.sticker .highlight {
+  font-weight: bold;
+  color: #000;
+  margin-right: 10px;
+}
+.dotted-line {
+  flex-grow: 1; 
+  border-bottom: 1px dotted #000;
+  margin: 0 10px; 
+}
+
+.sticker .field {
+  background-color: #E0E0E0;
+  padding: 5px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+
+
+#teams {
+  display: flex;
+  overflow-x: auto; 
+  gap: 20px; 
+  padding: 20px;
+  background: linear-gradient(180deg, #fff 10%, #FFD700 90%);
+  border: 5px solid #FFD700;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%; 
+}
+
+.team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 120px; /* Tamaño fijo para cada equipo */
+  flex-shrink: 0;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.team img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.team p {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+
+.team-info-header{
+  display: flex; /* Hacemos que los elementos se alineen en fila */
+  justify-content: flex-start; /* Alinea los elementos a la izquierda */
+  align-items: flex-start; /* Alinea los elementos verticalmente al centro */
+  width: 100%; 
+}
+
+.statistics {
+  flex: 1; /* El div de statistics ocupará el espacio restante */
+  padding: 10px; /* Puedes añadir padding para que se vea más espaciado */
+  height: 300px;
+}
