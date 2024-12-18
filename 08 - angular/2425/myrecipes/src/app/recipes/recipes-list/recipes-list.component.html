@@ -1,18 +1,14 @@
 <div class="container">
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-        <div class="col">
-@for (recipe of recipes; track $index) {
+    <div class="row g-4">
 
-    <div class="card" style="width: 18rem;">
-        <img src={{recipe.strMealThumb}} class="card-img-top" alt={{recipe.strMeal}}>
-        <div class="card-body">
-          <h5 class="card-title">{{$index}}{{recipe.strMeal}}</h5>
-          <p class="card-text">{{recipe.strInstructions}}</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    
-}
+      
+@for (recipe of recipes; track $index) {
+  <div class="col">
+<app-recipe-card [recipe]="recipe"
+></app-recipe-card>
 </div>
+
+}
+
 </div>
 </div>
