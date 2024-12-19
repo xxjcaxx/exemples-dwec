@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="row g-4">
+
+      
+@for (recipe of recipes; track $index) {
+  <div class="col">
+<app-recipe-card [recipe]="recipe"
+></app-recipe-card>
+</div>
+
+}
+
+</div>
+</div>
