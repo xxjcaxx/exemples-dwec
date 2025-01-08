@@ -1,6 +1,9 @@
 <div class="container">
     <div class="row g-4">
 
+      @for (item of characters?.results; track $index) {
+        <p>{{item.name}}</p>
+      }
       
 @for (recipe of recipes; track $index) {
   <div class="col">
@@ -9,6 +12,8 @@
 </div>
 
 }
+
+
 
 </div>
 </div>
