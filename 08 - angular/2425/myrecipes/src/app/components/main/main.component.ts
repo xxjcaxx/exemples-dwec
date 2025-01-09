@@ -4,7 +4,7 @@ import { RecipeTableComponent } from '../../recipes/recipe-table/recipe-table.co
 
 @Component({
   selector: 'app-main',
-  imports: [RecipesListComponent, RecipeTableComponent],
+  imports: [RecipesListComponent,],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'
 })
