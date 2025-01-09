@@ -14,6 +14,24 @@ export class SupabasewebsocketService {
   }
 
 
+  getChannel(){
+    const currentUser = Math.random()+"";
+
+    const channel = this.supabase
+    .channel('schema-db-changes')
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'shared_recipes_events',
+        filter: 'shared_recipe=eq.1',
+      },
+      (payload:any) => console.log(payload)
+    )
+    .subscribe();
+
+  }
   
 
 }
