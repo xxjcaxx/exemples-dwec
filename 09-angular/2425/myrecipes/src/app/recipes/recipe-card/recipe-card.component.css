@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;700&display=swap');
+
+
+
+h3 {
+    font-size: 1.5em;
+  font-family: 'Poppins', sans-serif; /* Fuente principal */
+}
+
+p {
+    font-family: 'Poppins', sans-serif;   
+}
+
+
+  
+
+h5{
+
+    font-size: 2rem;
+    color: #333;
+
+  font-family: 'Dancing Script', cursive; /* Fuente para títulos */
+}

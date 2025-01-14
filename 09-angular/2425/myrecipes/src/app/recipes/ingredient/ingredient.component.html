@@ -2,6 +2,6 @@
   <img [src]="ingredient?.blobimg" class="card-img-top" [alt]="ingredient?.strIngredient">
   <div class="card-body">
     <h5 class="card-title">{{ingredient?.strIngredient}}</h5>
-    <p class="card-text">{{ingredient?.strDescription}}</p>
+    <p class="card-text">{{ingredient?.strDescription | slice: 0 : 100}}</p>
   </div>
 </div>

@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;700&display=swap');
+
+
+
+h3 {
+    font-size: 1.5em;
+  font-family: 'Poppins', sans-serif; /* Fuente principal */
+}
+
+p {
+    font-family: 'Poppins', sans-serif;   
+}
+
+h2 {
+    /* Tipografía */
+    font-size: 4.5rem;
+    font-weight: bold;
+    line-height: 1.2;
+  
+    /* Colores */
+    color: #4A4A4A; /* Suave tono gris */
+    background: linear-gradient(135deg, #FFDAC1 0%, #ff4314 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  
+    /* Sombras */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  
+    /* Bordes y subrayado decorativo */
+    border-bottom: 4px solid transparent;
+  
+  border-image: linear-gradient(135deg, #FFDAC1 0%, #ff4314 100%) 1;
+    padding-bottom: 0.2rem;
+  
+    /* Espaciado */
+    margin: 1rem 0;
+  
+    /* Transformaciones sutiles */
+    transform: translateY(0);
+    transition: transform 0.3s ease, text-shadow 0.3s ease;
+  
+    /* Ajustes de alineación */
+    text-align: center;
+  }
+  
+  h2:hover {
+    /* Efecto de flotación */
+    transform: translateY(-5px);
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+
+h2{
+
+  font-family: 'Dancing Script', cursive; /* Fuente para títulos */
+}

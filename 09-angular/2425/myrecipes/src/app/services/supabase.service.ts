@@ -39,7 +39,7 @@ export class SupabaseService {
 
 
   getMeals(search?: string): Observable<IRecipe[]>{
-    return this.getDataObservable('meals',{idMeal: search});
+    return this.getDataObservable('meals',search ? {idMeal: search}: undefined);
   }
 
   getIngredients(ids: (string | null)[]): Observable<Ingredient>{

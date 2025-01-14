@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { Ingredient } from '../ingredient';
+import { SlicePipe } from '@angular/common';
 
 @Component({
   selector: 'app-ingredient',
-  imports: [],
+  imports: [SlicePipe],
   templateUrl: './ingredient.component.html',
   styleUrl: './ingredient.component.css'
 })
