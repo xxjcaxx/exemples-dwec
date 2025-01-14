@@ -17,17 +17,19 @@ export class SupabaseService {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
   }
 
-  getDataObservable(table: string, search?: Object, ids?: string[]): Observable<any[]> {
-    return from(this.getData(table, search, ids));
+  getDataObservable<T>(table: string, search?: Object, ids?: string[], idField?: string): Observable<T[]> {
+    return from(this.getData(table, search, ids, idField));
   }
 
-  async getData(table: string, search?: Object, ids?: string[]): Promise<any[]> {
+  async getData(table: string, search?: Object, ids?: string[], idField?: string): Promise<any[]> {
     let query = this.supabase.from(table).select('*');
     if (search) {
       query = query?.match(search);
     }
     if (ids) {
-      query = query?.in('idIngredient', ids);
+      console.log(idField);
+
+      query = query?.in(idField ? idField : 'id', ids);
     }
     const { data, error } = await query
     if (error) {
@@ -43,8 +45,7 @@ export class SupabaseService {
   }
 
   getIngredients(ids: (string | null)[]): Observable<Ingredient>{
-
-    return this.getDataObservable('ingredients', undefined, ids.filter(id => id !== null) as string[])
+    return this.getDataObservable<Ingredient>('ingredients', undefined, ids.filter(id => id !== null) as string[], 'idIngredient')
     .pipe(
       mergeMap(ingredients =>
         from(ingredients).pipe(
@@ -61,11 +62,9 @@ export class SupabaseService {
         )
       )
     );
-
-
-
-
   }
+
+
 
 
 
