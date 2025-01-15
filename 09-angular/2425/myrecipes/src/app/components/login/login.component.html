@@ -1,0 +1,57 @@
+<div class="container">
+    <h1>Login</h1>
+  <form #loginForm="ngForm" >
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="email"
+        pattern=".*@.*"
+        class="form-control"
+        required
+        id="exampleInputEmail1"
+        aria-describedby="emailHelp"
+        #emailInput="ngModel"
+        [ngClass]="{
+          'is-valid': emailInput.touched && emailInput.valid,
+          'is-invalid': emailInput.touched && !emailInput.valid
+        }"
+      />
+      @if ( emailInput.touched && !emailInput.valid) {
+        <div
+        class="alert alert-danger">
+        Email requerit en arroba</div>
+      }
+
+      <div id="emailHelp" class="form-text">
+        We'll never share your email with anyone else.
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <input type="password" class="form-control" id="exampleInputPassword1" 
+      name="password"
+      [(ngModel)]="password"
+      #passwordInput="ngModel"
+      required
+      [ngClass]="{
+        'is-valid': passwordInput.touched && passwordInput.valid,
+        'is-invalid': passwordInput.touched && !passwordInput.valid
+      }"
+      />
+    </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+    @if(loginForm.valid){
+        <button type="submit" class="btn btn-primary" (click)="sendLogin()">Login</button>
+    }
+    @if ( error) {
+      <div
+      class="alert alert-danger">
+     {{error}}</div>
+    }
+  </form>
+</div>
