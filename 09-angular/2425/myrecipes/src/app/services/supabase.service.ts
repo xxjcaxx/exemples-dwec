@@ -47,9 +47,8 @@ export class SupabaseService {
   getIngredients(ids: (string | null)[]): Observable<Ingredient>{
     return this.getDataObservable<Ingredient>('ingredients', undefined, ids.filter(id => id !== null) as string[], 'idIngredient')
     .pipe(
-      mergeMap(ingredients =>
-        from(ingredients).pipe(
-          mergeMap(async ingredient => {
+      mergeMap(ingredients => from(ingredients)),
+      mergeMap(async ingredient => {
             const { data, error } = await this.supabase
               .storage
               .from('recipes')
@@ -59,9 +58,8 @@ export class SupabaseService {
             }
             return ingredient;
           })
-        )
+        
       )
-    );
   }
 
 

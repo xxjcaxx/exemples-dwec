@@ -19,7 +19,7 @@ h2 {
   
     /* Colores */
     color: #4A4A4A; /* Suave tono gris */
-    background: linear-gradient(135deg, #FFDAC1 0%, #ff4314 100%);
+    background: linear-gradient(135deg, #FFBF69 0%, #FF9F1C 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -30,7 +30,7 @@ h2 {
     /* Bordes y subrayado decorativo */
     border-bottom: 4px solid transparent;
   
-  border-image: linear-gradient(135deg, #FFDAC1 0%, #ff4314 100%) 1;
+  border-image: linear-gradient(135deg, #FFBF69 0%, #FF9F1C 100%) 1;
     padding-bottom: 0.2rem;
   
     /* Espaciado */
