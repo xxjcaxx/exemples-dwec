@@ -1,0 +1,57 @@
+<div class="container">
+    <h1>Register</h1>
+  <form [formGroup]="registerForm" >
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <input
+        type="email"
+        name="email"
+        formControlName="email"
+        class="form-control"
+        id="exampleInputEmail1"
+        aria-describedby="emailHelp"
+        [ngClass]="emailNotValid ? 'is-invalid': 'is-valid'"
+
+      />
+      @if(emailNotValid){
+        <div
+        class="alert alert-danger">
+        Email requerit en arroba</div>
+      }
+   
+      
+
+      <div id="emailHelp" class="form-text">
+        We'll never share your email with anyone else.
+      </div>
+    </div>
+    <div class="mb-3" formGroupName="passwords" [ngClass]="crossPasswordsNotValid ? 'bg-warning' : 'bg-success'">
+
+        {{registerForm.get('passwords')?.status}}
+
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <input type="password2" class="form-control" id="exampleInputPassword1" 
+      name="password"
+      formControlName="password"
+      [ngClass]="password1NotValid"
+      />
+      <label for="exampleInputPassword1" class="form-label">Repeat Password</label>
+      <input type="password2" class="form-control" id="exampleInputPassword2" 
+      name="password2"
+      formControlName="password2"
+      [ngClass]="password2NotValid"
+      />
+    </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+  
+        <button type="submit" class="btn btn-primary" >Login</button>
+  
+      <div
+      class="alert alert-danger">
+     {{error}}</div>
+    
+  </form>
+</div>

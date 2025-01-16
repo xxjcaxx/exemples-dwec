@@ -6,6 +6,7 @@ import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.com
 import { SharedRecipesListComponent } from './recipes/shared-recipes-list/shared-recipes-list.component';
 import { SharedRecipesComponent } from './recipes/shared-recipes/shared-recipes.component';
 import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 
 export const routes: Routes = [
     {path: 'home', component: HomeComponent},
@@ -15,6 +16,7 @@ export const routes: Routes = [
     {path: 'sharedrecipes', component: SharedRecipesListComponent},
     {path: 'sharedrecipes/:id', component: SharedRecipesComponent},
     {path: 'login', component: LoginComponent},
+    {path: 'register', component: RegisterComponent},
     {path: '**', pathMatch: 'full', redirectTo: 'home'}
 
 ];

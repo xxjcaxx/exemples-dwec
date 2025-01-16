@@ -107,6 +107,8 @@ export class SupabaseService {
   
   }
 
+  /////// TODO Register
+
   loggedSubject = new BehaviorSubject(false);
 
   async isLogged(){
