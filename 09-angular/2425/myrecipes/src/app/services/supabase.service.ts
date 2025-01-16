@@ -94,24 +94,17 @@ export class SupabaseService {
     email,
     password
   })).pipe(
+    map(({ data, error }) => {
+        if (error) {
+          throw error; 
+        }
+        return data;
+      }),
     tap(()=>this.isLogged())
   );
 
-
-
   return loginResult;
   
-  
-  /*.pipe(
-    map(({data,error})=>data)
-
-  );*/
-
-
-    /*let { data, error } = await this.supabase.auth.signInWithPassword({
-      email,
-      password
-    });*/
   }
 
   loggedSubject = new BehaviorSubject(false);

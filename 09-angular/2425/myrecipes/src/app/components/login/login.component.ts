@@ -19,11 +19,12 @@ export class LoginComponent {
 
 
   sendLogin(){
-    this.supaService.login(this.email,this.password).subscribe(loginData => {
-      if(loginData.error){
-        this.error = loginData.error.message;
-      }
-    })
+    this.supaService.login(this.email,this.password).subscribe(
+      {next: logindata => console.log(logindata),
+        complete: ()=> console.log("complete"),
+        error: error =>  this.error = error
+       }
+    )
   }
 
 
