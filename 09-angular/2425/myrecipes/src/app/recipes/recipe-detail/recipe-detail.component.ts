@@ -3,11 +3,12 @@ import { SupabaseService } from '../../services/supabase.service';
 import { IRecipe } from '../i-recipe';
 import { IngredientComponent } from "../ingredient/ingredient.component";
 import { Ingredient } from '../ingredient';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-recipe-detail',
-  imports: [IngredientComponent],
+  imports: [IngredientComponent, RouterLink],
   templateUrl: './recipe-detail.component.html',
   styleUrl: './recipe-detail.component.css'
 })

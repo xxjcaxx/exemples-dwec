@@ -11,6 +11,8 @@
 
       <h3>Instructions</h3>
       <p>{{recipe?.strInstructions}}</p>
+      <a [routerLink]="['/edit_recipe',recipe?.idMeal]"  class="btn btn-brand-orange">Edit</a>
+      
     </div>
   </div>
 

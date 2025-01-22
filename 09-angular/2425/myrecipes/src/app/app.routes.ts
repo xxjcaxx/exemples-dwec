@@ -7,12 +7,15 @@ import { SharedRecipesListComponent } from './recipes/shared-recipes-list/shared
 import { SharedRecipesComponent } from './recipes/shared-recipes/shared-recipes.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { CreateRecipeComponent } from './recipes/create-recipe/create-recipe.component';
 
 export const routes: Routes = [
     {path: 'home', component: HomeComponent},
     {path: 'main', component: MainComponent},
     {path: 'table', component: RecipeTableComponent},
     {path: 'recipes/:id', component: RecipeDetailComponent},
+    {path: 'create_recipe', component: CreateRecipeComponent},
+    {path: 'edit_recipe/:id', component: CreateRecipeComponent},
     {path: 'sharedrecipes', component: SharedRecipesListComponent},
     {path: 'sharedrecipes/:id', component: SharedRecipesComponent},
     {path: 'login', component: LoginComponent},

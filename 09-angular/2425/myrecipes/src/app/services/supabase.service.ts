@@ -107,7 +107,7 @@ export class SupabaseService {
   
   }
 
-  /////// TODO Register
+  /////// TODO Register, logout
 
   loggedSubject = new BehaviorSubject(false);
 

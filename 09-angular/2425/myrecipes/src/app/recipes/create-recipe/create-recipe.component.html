@@ -1,1 +1,49 @@
-<p>create-recipe works!</p>
+<div class="container">
+  <form [formGroup]="mealForm">
+    <div class="mb-3">
+      <label for="strMeal" class="form-label">Nom</label>
+      <input
+        type="text"
+        class="form-control"
+        id="strMeal"
+        aria-describedby="strMeal"
+        name="strMeal"
+        formControlName="strMeal"
+        [ngClass]="{
+            'is-valid': strMealValid,
+            'is-invalid': !strMealValid
+        }"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="strInstructions" class="form-label">Instruccions</label>
+      <textarea
+        class="form-control"
+        id="strInstructions"
+        name="strInstructions"
+        formControlName="strInstructions"
+      ></textarea>
+    </div>
+
+    <div formArrayName="ingredients">
+
+    @for (igredient of IngredientsArray.controls; track $index) {
+        <div class="mb-3">
+            <!-- Ha de ser un camp selection-->
+            <label for="ingredient{{$index}}" class="form-label">Ingredient</label>
+            <input
+              type="text"
+              class="form-control"
+              id="ingredient{{$index}}"
+              name="ingredient{{$index}}"
+              [formControlName]="$index"
+            />
+            <button class="btn btn-danger" (click)="delIngredient($index)">Borrar</button>
+          </div>
+    }
+    <button class="btn btn-primary" (click)="addIngredient()">Afegir Ingredient</button>
+</div>
+    <button type="submit" class="btn btn-primary">Crear</button>
+  </form>
+  {{mealForm.value | json}}
+</div>
