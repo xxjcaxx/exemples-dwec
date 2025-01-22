@@ -16,6 +16,7 @@ import {
 import { environment } from '../../environments/environment';
 import { IRecipe } from '../recipes/i-recipe';
 import { Ingredient } from '../recipes/ingredient';
+import { ISharedRecipe } from '../recipes/i-shared-recipe';
 
 @Injectable({
   providedIn: 'root',
@@ -96,7 +97,7 @@ export class SupabaseService {
   })).pipe(
     map(({ data, error }) => {
         if (error) {
-          throw error; 
+          throw error;
         }
         return data;
       }),
@@ -104,7 +105,14 @@ export class SupabaseService {
   );
 
   return loginResult;
-  
+
+  }
+
+
+  getSharedRecipes(search?: string): Observable<ISharedRecipe[]> {
+    return from(this.supabase.from('shared_recipes').select('*, meals(*),shared_recipes_events(*)')).pipe(
+      map(({ data }) => data as ISharedRecipe[])
+    );
   }
 
   /////// TODO Register, logout
@@ -120,9 +128,6 @@ export class SupabaseService {
       this.loggedSubject.next(false);
   }
 
-  getRecipes() {
-    return 'hola';
-  }
 
   getCharacters(): Observable<any[]> {
     return this.http

@@ -1,1 +1,24 @@
-<p>shared-recipes-list works!</p>
+
+<div class="container">
+  <h1>Shared Recipes</h1>
+<div class="row">
+
+
+  @for (r of recipes; track $index) {
+  <div class="col-2">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">
+          <a [routerLink]="['/sharedrecipes',r?.id]" class="card-link">{{r.meals.strMeal}}</a> <!-- Recipe Name -->
+
+        </h5>
+        </div>
+        <h3>Users</h3>
+        @for (u of r.shared_recipes_events; track $index) {
+          {{u.user}}
+        }
+        </div>
+        </div>
+      }
+        </div>
+      </div>

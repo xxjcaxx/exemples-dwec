@@ -1,1 +1,40 @@
-<p>shared-recipes works!</p>
+<div class="container">
+  <h2>{{recipe?.meals?.strMeal}}</h2>
+  <div class="row">
+    <div class="col-md-9">
+      <!-- Imagen flotante -->
+      <img src="{{recipe?.meals?.strMealThumb}}" alt="{{recipe?.meals?.strMeal}}"
+           class="img-fluid float-md-end ms-md-4 mt-md-4 mb-3 rounded"
+           style="max-width: 500px;">
+
+      <!-- Título y texto -->
+
+      <h3>Instructions</h3>
+      <p>{{recipe?.meals?.strInstructions}}</p>
+
+    </div>
+    <div class="col-md-3">
+      <h3>Events</h3>
+      @for (step of recipe?.shared_recipes_events; track $index) {
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">{{step?.step}}</h5>
+            <p class="card-text">{{step?.user}}</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Lista de ingredientes -->
+  <h3>Ingredients</h3>
+  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+    @for (ingredient of ingredients; track $index) {
+      @if (ingredient) {
+        <div class="col">
+          <app-ingredient [ingredient]="ingredient"></app-ingredient>
+        </div>
+      }
+    }
+  </div>
+</div>

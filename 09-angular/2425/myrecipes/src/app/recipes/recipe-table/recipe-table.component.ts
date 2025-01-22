@@ -13,10 +13,10 @@ import { SupabasewebsocketService } from '../../services/supabasewebsocket.servi
 export class RecipeTableComponent  implements OnInit{
   public recipes: IRecipe[] = recipes;
 
-  constructor(private supabaseServiceWebsockets: SupabasewebsocketService){}
+  constructor(){}
 
   ngOnInit(): void {
-    this.supabaseServiceWebsockets.getChannel();
+
   }
 
 }
