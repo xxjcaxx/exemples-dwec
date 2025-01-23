@@ -50,7 +50,6 @@ export class CreateRecipeComponent implements OnInit {
                 this.generateIngredientControl(i)
              )
             }
-      
           })
      
         },
@@ -81,9 +80,7 @@ export class CreateRecipeComponent implements OnInit {
       this.getIngredientControl()
     );
   }
-  delIngredient(i: number) {
-    console.log(i);
-    
+  delIngredient(i: number) {   
     (<FormArray>this.mealForm.get('ingredients')).removeAt(i);
   }
 }

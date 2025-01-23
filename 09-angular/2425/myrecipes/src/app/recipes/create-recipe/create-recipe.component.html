@@ -10,8 +10,8 @@
         name="strMeal"
         formControlName="strMeal"
         [ngClass]="{
-            'is-valid': strMealValid,
-            'is-invalid': !strMealValid
+          'is-valid': strMealValid,
+          'is-invalid': !strMealValid
         }"
       />
     </div>
@@ -26,24 +26,31 @@
     </div>
 
     <div formArrayName="ingredients">
-
-    @for (igredient of IngredientsArray.controls; track $index) {
-        <div class="mb-3">
-            <!-- Ha de ser un camp selection-->
-            <label for="ingredient{{$index}}" class="form-label">Ingredient</label>
-            <input
-              type="text"
-              class="form-control"
-              id="ingredient{{$index}}"
-              name="ingredient{{$index}}"
-              [formControlName]="$index"
-            />
-            <button class="btn btn-danger" (click)="delIngredient($index)">Borrar</button>
-          </div>
-    }
-    <button class="btn btn-primary" (click)="addIngredient()">Afegir Ingredient</button>
-</div>
+      @for (ingredient of IngredientsArray.controls; track $index) {
+      <div class="input-group mb-3">
+        <!-- Ha de ser un camp selection-->
+        <input
+          type="text"
+          class="form-control"
+          id="ingredient{{ $index }}"
+          name="ingredient{{ $index }}"
+          [formControlName]="$index"
+          placeholder="ingredient"
+          [ngClass]="{
+            'is-valid': ingredient.valid && ingredient.touched,
+            'is-invalid': ingredient.invalid && ingredient.touched
+          }"
+        />
+        <button class="btn btn-outline-danger" (click)="delIngredient($index)">
+          Borrar
+        </button>
+      </div>
+      }
+      <button class="btn btn-primary" (click)="addIngredient()">
+        Afegir Ingredient
+      </button>
+    </div>
     <button type="submit" class="btn btn-primary">Crear</button>
   </form>
-  {{mealForm.value | json}}
+  {{ mealForm.value | json }}
 </div>
