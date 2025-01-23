@@ -2,11 +2,7 @@
 
     <div class="row g-4 mt-1">
 
-      @for (item of characters; track $index) {
-        <p>{{item.name}}</p>
-      }
-      
-@for (recipe of recipes; track $index) {
+@for (recipe of recipes | filter:searchValue; track $index) {
   <div class="col">
 <app-recipe-card [recipe]="recipe"
 ></app-recipe-card>

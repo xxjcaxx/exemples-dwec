@@ -117,15 +117,15 @@ export class SupabaseService {
 
   /////// TODO Register, logout
 
-  loggedSubject = new BehaviorSubject(false);
+  static loggedSubject = new BehaviorSubject(false);
 
   async isLogged(){
       const { data: { user } } = await this.supabase.auth.getUser()
       if(user){
-        this.loggedSubject.next(true);
+        SupabaseService.loggedSubject.next(true);
       }
       else
-      this.loggedSubject.next(false);
+      SupabaseService.loggedSubject.next(false);
   }
 
 

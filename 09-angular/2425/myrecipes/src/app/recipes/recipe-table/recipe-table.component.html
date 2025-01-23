@@ -4,7 +4,7 @@
     <table class="table table-hover">
 
       
-@for (recipe of recipes; track $index) {
+@for (recipe of recipes | filter:searchValue; track $index) {
 <tr app-recipe-table-row [recipe]="recipe"></tr>
 
 }

@@ -8,11 +8,12 @@ import { SharedRecipesComponent } from './recipes/shared-recipes/shared-recipes.
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { CreateRecipeComponent } from './recipes/create-recipe/create-recipe.component';
+import { supabaseLoginGuard } from './guards/supabase-login.guard';
 
 export const routes: Routes = [
     {path: 'home', component: HomeComponent},
     {path: 'main', component: MainComponent},
-    {path: 'table', component: RecipeTableComponent},
+    {path: 'table', component: RecipeTableComponent, canActivate: [supabaseLoginGuard]},
     {path: 'recipes/:id', component: RecipeDetailComponent},
     {path: 'create_recipe', component: CreateRecipeComponent},
     {path: 'edit_recipe/:id', component: CreateRecipeComponent},
