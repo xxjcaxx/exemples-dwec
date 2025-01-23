@@ -14,6 +14,7 @@ export class SharedRecipesComponent implements OnInit {
   @Input('id') id?: string;
 
   recipe?: ISharedRecipe;
+  instructions?: {step: number, phrase: string}[] = [];
   public ingredients: Ingredient[] = [];
 
 
@@ -22,12 +23,15 @@ export class SharedRecipesComponent implements OnInit {
   ngOnInit(): void {
     this.supabaseService.getSharedRecipes(this.id).subscribe((recipes: ISharedRecipe[]) => {
       this.recipe = recipes[0];
+      this.instructions = this.recipe.meals?.strInstructions?.split('.').map((i,$i) => ({step: $i, phrase: i}))
       this.supabaseService.getIngredients(this.recipe?.meals?.idIngredients).subscribe({
         next: ingredients => {
           this.ingredients.push(ingredients);
         }
       });
     });
+
+
   }
 
 

@@ -81,7 +81,7 @@ export class SupabaseService {
       mergeMap(async (ingredient: Ingredient) => {
         const { data, error } = await this.supabase.storage
           .from('recipes')
-          .download(`${ingredient.strStorageimg}?rand=${Math.random()}`);
+          .download(`${ingredient.strStorageimg}`);
         if (data) {
           ingredient.blobimg = URL.createObjectURL(data);
         }

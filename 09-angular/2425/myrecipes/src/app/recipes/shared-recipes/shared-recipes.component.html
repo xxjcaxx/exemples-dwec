@@ -12,6 +12,12 @@
       <h3>Instructions</h3>
       <p>{{recipe?.meals?.strInstructions}}</p>
 
+      <div class="list-group">
+
+      @for(i of instructions; track $index) {
+        <button type="button" class="list-group-item list-group-item-action">{{i.phrase}}</button>
+      }
+    </div>
     </div>
     <div class="col-md-3">
       <h3>Events</h3>
