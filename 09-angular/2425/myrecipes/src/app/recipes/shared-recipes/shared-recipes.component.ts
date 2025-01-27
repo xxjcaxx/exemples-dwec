@@ -37,7 +37,7 @@ export class SharedRecipesComponent implements OnInit {
         next: ingredients => {
           this.ingredients.push(ingredients);
         }
-      }); //  //
+      }); //
 
       // Connexió al subject
       this.supabasewebsocketService.getsharedRecipesChannel(Number(this.recipe?.id)).pipe(
