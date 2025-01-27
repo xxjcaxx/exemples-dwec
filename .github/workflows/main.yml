@@ -30,7 +30,7 @@ jobs:
     # Paso 4: Construir el proyecto Angular
     - name: Build Angular App
       working-directory: 09-angular/2425/myrecipes
-      run: npm run build --configuration production
+      run: npm run build
 
     # Paso 5: Copiar los archivos a la máquina remota por SCP
     - name: Copy build to remote server
