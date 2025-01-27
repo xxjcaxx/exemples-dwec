@@ -37,10 +37,5 @@ jobs:
       env:
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-        REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       run: |
-        mkdir -p ~/.ssh
-        echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        scp -r 09-angular/2425/myrecipes/dist/myrecipes/browser ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
+        scp -r 09-angular/2425/myrecipes/dist/myrecipes/browser/* ${REMOTE_USER}@${REMOTE_HOST}:/var/www/html
