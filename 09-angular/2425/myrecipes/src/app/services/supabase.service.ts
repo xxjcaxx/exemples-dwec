@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { User } from '@supabase/supabase-js';
 import {
   BehaviorSubject,
   forkJoin,
@@ -17,6 +18,7 @@ import { environment } from '../../environments/environment';
 import { IRecipe } from '../recipes/i-recipe';
 import { Ingredient } from '../recipes/ingredient';
 import { ISharedRecipe } from '../recipes/i-shared-recipe';
+
 
 @Injectable({
   providedIn: 'root',
@@ -115,6 +117,16 @@ export class SupabaseService {
     );
   }
 
+  createSharedRecipesEvents(idSharedRecipe: number, step: number, user: string) {
+    return from(this.supabase.from('shared_recipes_events').insert([
+      {
+        shared_recipe: idSharedRecipe,
+        step: step,
+        user: user
+      }
+    ]));
+  }
+
   /////// TODO Register, logout
 
   loggedSubject = new BehaviorSubject(false);
@@ -126,6 +138,13 @@ export class SupabaseService {
       }
       else
       this.loggedSubject.next(false);
+  }
+
+
+  getUserInfo(): Observable<User>{
+    return from(this.supabase.auth.getUser()).pipe(
+      map(({ data }) => data.user as User)
+    )
   }
 
 

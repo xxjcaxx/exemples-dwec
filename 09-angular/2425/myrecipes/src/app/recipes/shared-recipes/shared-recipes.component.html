@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>{{recipe?.meals?.strMeal}}</h2>
+  <h2>{{recipe?.meals?.strMeal}} {{user?.id | stringToEmoji}}</h2>
   <div class="row">
     <div class="col-md-9">
       <!-- Imagen flotante -->
@@ -10,25 +10,26 @@
       <!-- Título y texto -->
 
       <h3>Instructions</h3>
-      <p>{{recipe?.meals?.strInstructions}}</p>
-
       <div class="list-group">
 
       @for(i of instructions; track $index) {
-        <button type="button" class="list-group-item list-group-item-action">{{i.phrase}}</button>
+        <button type="button" class="list-group-item list-group-item-action" (click)="joinInstruction($index)">{{i.phrase}}
+          @for (u of usersByStep[$index]; track $index) {
+            <span class="badge">{{u | stringToEmoji}}</span>
+          }
+        </button>
       }
     </div>
     </div>
     <div class="col-md-3">
       <h3>Events</h3>
+      <div class="list-group">
       @for (step of recipe?.shared_recipes_events; track $index) {
-        <div class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title">{{step?.step}}</h5>
-            <p class="card-text">{{step?.user}}</p>
-          </div>
-        </div>
+        <button type="button" class="list-group-item list-group-item-action">{{step?.step}}{{step?.user | stringToEmoji}}</button>
+            <h5 class="card-title"></h5>
+
       }
+    </div>
     </div>
   </div>
 

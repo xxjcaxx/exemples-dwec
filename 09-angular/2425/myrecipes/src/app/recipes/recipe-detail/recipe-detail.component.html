@@ -3,8 +3,8 @@
   <div class="row">
     <div class="col-md-12">
       <!-- Imagen flotante -->
-      <img src="{{recipe?.strMealThumb}}" alt="{{recipe?.strMeal}}" 
-           class="img-fluid float-md-end ms-md-4 mt-md-4 mb-3 rounded" 
+      <img src="{{recipe?.strMealThumb}}" alt="{{recipe?.strMeal}}"
+           class="img-fluid float-md-end ms-md-4 mt-md-4 mb-3 rounded"
            style="max-width: 500px;">
 
       <!-- Título y texto -->
@@ -12,7 +12,9 @@
       <h3>Instructions</h3>
       <p>{{recipe?.strInstructions}}</p>
       <a [routerLink]="['/edit_recipe',recipe?.idMeal]"  class="btn btn-brand-orange">Edit</a>
-      
+      <!-- TODO -->
+      <a   class="btn btn-brand-orange">Create Shared Recipe</a>
+      <!-- TODO -->
     </div>
   </div>
 
@@ -28,3 +30,5 @@
     }
   </div>
 </div>
+
+

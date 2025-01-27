@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../environments/environment';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,24 +15,26 @@ export class SupabasewebsocketService {
   }
 
 
-  getChannel(){
-    const currentUser = Math.random()+"";
+  getsharedRecipesChannel(recipe: number){
+    const sharedRecipesSubject: Subject<any> = new Subject<any>();
+
 
     const channel = this.supabase
-    .channel('schema-db-changes')
+    .channel('shared_recipes_events_change')
     .on(
       'postgres_changes',
       {
         event: '*',
         schema: 'public',
         table: 'shared_recipes_events',
-        filter: 'shared_recipe=eq.1',
+        filter: `shared_recipe=eq.${recipe}`,
       },
-      (payload:any) => console.log(payload)
+      (payload:any) => sharedRecipesSubject.next(payload)
     )
     .subscribe();
 
+    return sharedRecipesSubject
   }
-  
+
 
 }
