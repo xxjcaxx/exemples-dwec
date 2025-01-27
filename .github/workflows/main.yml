@@ -20,16 +20,16 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18'
+        node-version: '20'
 
     # Paso 3: Instalar dependencias en el directorio
     - name: Install dependencies
-      working-directory: ./09-angular/2425/myrecipes
+      working-directory: 09-angular/2425/myrecipes
       run: npm install
 
     # Paso 4: Construir el proyecto Angular
     - name: Build Angular App
-      working-directory: ./09-angular/2425/myrecipes
+      working-directory: 09-angular/2425/myrecipes
       run: npm run build --configuration production
 
     # Paso 5: Copiar los archivos a la máquina remota por SCP
@@ -43,4 +43,4 @@ jobs:
         mkdir -p ~/.ssh
         echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        scp -r ./09-angular/2425/myrecipes/dist/myrecipes/browser ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
+        scp -r 09-angular/2425/myrecipes/dist/myrecipes/browser ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
