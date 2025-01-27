@@ -67,7 +67,7 @@ export class SharedRecipesComponent implements OnInit {
 
 
     this.supabaseService.getUserInfo().subscribe(user => {
-      this.user = user; //
+      this.user = user;
     });
 
 
