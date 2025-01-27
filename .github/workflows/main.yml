@@ -41,4 +41,4 @@ jobs:
         mkdir -p ~/.ssh
         ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
         echo "Added ${{ secrets.REMOTE_HOST }} to known_hosts."
-        scp -r 09-angular/2425/myrecipes/dist/myrecipes/browser/* ${REMOTE_USER}@${REMOTE_HOST}:/var/www/html
+        scp -v -r 09-angular/2425/myrecipes/dist/myrecipes/browser ${REMOTE_USER}@${REMOTE_HOST}:/var/www/html
