@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - ./09-angular/2425/myrecipes/** # Ejecuta solo cuando se modifique algo en esta carpeta
+      - 09-angular/2425/myrecipes/** # Ejecuta solo cuando se modifique algo en esta carpeta
 
 jobs:
   build-and-deploy:
