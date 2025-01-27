@@ -5,7 +5,8 @@ import { inject } from '@angular/core';
 export const supabaseLoginGuard: CanActivateFn = (route, state) => {
 
   const router: Router = inject(Router);
+  const supabaseService: SupabaseService = inject(SupabaseService);
   const urlTree: UrlTree = router.parseUrl('./main');
-  return SupabaseService.loggedSubject.getValue() ? true : urlTree;
-  
+  return supabaseService.loggedSubject.getValue() ? true : urlTree;
+
 };

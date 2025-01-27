@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit{
   searchForm : FormGroup;
 
   constructor(
-    private supaService: SupabaseService,  
+    private supaService: SupabaseService,
     private formBuilder: FormBuilder,
     private searchService: SearchServiceService
   ){
@@ -28,8 +28,8 @@ export class HeaderComponent implements OnInit{
 
 
   ngOnInit(): void {
-    this.logged =  SupabaseService.loggedSubject.getValue();
-    SupabaseService.loggedSubject.subscribe(logged => this.logged = logged);
+    this.logged =  this.supaService.loggedSubject.getValue();
+    this.supaService.loggedSubject.subscribe(logged => this.logged = logged);
     this.supaService.isLogged();
 
     this.searchForm.get('searchInput')?.valueChanges.subscribe(this.searchService.searchSubject)
@@ -37,5 +37,5 @@ export class HeaderComponent implements OnInit{
   }
 
 
-  
+
 }
