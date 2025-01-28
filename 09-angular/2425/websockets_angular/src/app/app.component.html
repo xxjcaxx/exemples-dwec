@@ -1,0 +1,16 @@
+<ul>
+  <li><button (click)="sendEmoji('🍔')">🍔</button></li>
+  <li><button (click)="sendEmoji('🍕')">🍕</button></li>
+  <li><button (click)="sendEmoji('🌮')">🌮</button></li>
+  <li><button (click)="sendEmoji('🍣')">🍣</button></li>
+  <li><button (click)="sendEmoji('🍦')">🍦</button></li>
+</ul>
+
+<div class="container">
+@for (emoji of emoji_list; track $index) {
+  <span>
+    {{ emoji}}
+  </span>
+}
+
+</div>
