@@ -4,6 +4,7 @@ import { SupabaseService } from '../../services/supabase.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SearchServiceService } from '../../services/search-service.service';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -28,11 +29,15 @@ export class HeaderComponent implements OnInit{
 
 
   ngOnInit(): void {
-    this.logged =  this.supaService.loggedSubject.getValue();
+   // this.logged =  this.supaService.loggedSubject.getValue();
     this.supaService.loggedSubject.subscribe(logged => this.logged = logged);
     this.supaService.isLogged();
 
-    this.searchForm.get('searchInput')?.valueChanges.subscribe(this.searchService.searchSubject)
+    this.searchForm.get('searchInput')?.valueChanges.
+    pipe(
+      debounceTime(1000)
+    )
+    .subscribe(this.searchService.searchSubject)
 
   }
 
