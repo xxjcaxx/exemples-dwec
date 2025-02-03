@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { WebSocketService } from './services/websockets.service';
 import { CommonModule } from '@angular/common';
 import { skip } from 'rxjs';
+import { SseService } from './services/sse.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,11 @@ import { skip } from 'rxjs';
 export class AppComponent implements OnInit{
   title = 'websockets_angular';
 
- constructor(private webSocketService:WebSocketService){}
+  messages: string[] = [];
+
+ constructor(private webSocketService:WebSocketService,
+  private sseService: SseService
+ ){}
 
   emoji_list: string[] = [];
 
@@ -34,6 +39,14 @@ export class AppComponent implements OnInit{
         complete: () => console.log('Conexión cerrada'),
       }
     );
+
+    this.sseService.connectToSse();
+
+    // Suscribirse a los mensajes SSE
+    this.sseService.messages$.subscribe((message) => {
+   
+      this.messages.push(message); // Añadir mensaje a la lista
+    });
   }
 
   sendEmoji(emoji: string){

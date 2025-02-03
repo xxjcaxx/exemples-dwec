@@ -1,4 +1,6 @@
 const WebSocket = require('ws');
+const express = require('express');
+const cors = require('cors');  // Importa el paquete CORS
 
 // Crea el servidor WebSocket en el puerto 8080
 const wss = new WebSocket.Server({ port: 8080 });
@@ -38,6 +40,43 @@ wss.on('connection', (ws) => {
 });
 
 console.log('Servidor WebSocket escuchando en ws://localhost:8080');
+
+
+////////////// SSE
+
+
+const app = express();
+app.use(cors({
+  origin: 'http://localhost:4200', // Cambia a la URL de tu frontend Angular
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
+}));
+const sseClients = [];
+
+app.get('/events', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+
+  sseClients.push(res);
+  console.log('Cliente SSE conectado');
+
+  req.on('close', () => {
+    console.log('Cliente SSE desconectado');
+    const index = sseClients.indexOf(res);
+    if (index !== -1) sseClients.splice(index, 1);
+  });
+});
+
+// Enviar un evento SSE cada 5 segundos
+setInterval(() => {
+  const message = `Mensaje SSE: ${new Date().toISOString()}`;
+  console.log('Enviando:', message);
+
+  sseClients.forEach((client) => client.write(`data: ${message}\n\n`));
+}, 1000);
+
+app.listen(8081, () => console.log('SSE corriendo en http://localhost:8081'));
 
 
 
