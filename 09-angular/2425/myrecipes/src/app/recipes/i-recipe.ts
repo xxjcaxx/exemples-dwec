@@ -55,4 +55,6 @@ export interface IRecipe {
     strStorageimg:               null | string;
     idCategory:                  null | null | string;
     idIngredients:              (string | null)[];
+    pdf?:                         null | string;
+    mimepdf?:                         null | string;
 }

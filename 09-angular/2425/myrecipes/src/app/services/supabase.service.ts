@@ -19,7 +19,6 @@ import { IRecipe } from '../recipes/i-recipe';
 import { Ingredient } from '../recipes/ingredient';
 import { ISharedRecipe } from '../recipes/i-shared-recipe';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -92,61 +91,67 @@ export class SupabaseService {
     );
   }
 
- login(email: string, password: string) {
-   const loginResult = from(this.supabase.auth.signInWithPassword({
-    email,
-    password
-  })).pipe(
-    map(({ data, error }) => {
+  login(email: string, password: string) {
+    const loginResult = from(
+      this.supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+    ).pipe(
+      map(({ data, error }) => {
         if (error) {
           throw error;
         }
         return data;
       }),
-    tap(()=>this.isLogged())
-  );
+      tap(() => this.isLogged())
+    );
 
-  return loginResult;
-
+    return loginResult;
   }
-
 
   getSharedRecipes(search?: string): Observable<ISharedRecipe[]> {
-    return from(this.supabase.from('shared_recipes').select('*, meals(*),shared_recipes_events(*)')).pipe(
-      map(({ data }) => data as ISharedRecipe[])
-    );
+    return from(
+      this.supabase
+        .from('shared_recipes')
+        .select('*, meals(*),shared_recipes_events(*)')
+    ).pipe(map(({ data }) => data as ISharedRecipe[]));
   }
 
-  createSharedRecipesEvents(idSharedRecipe: number, step: number, user: string) {
-    return from(this.supabase.from('shared_recipes_events').insert([
-      {
-        shared_recipe: idSharedRecipe,
-        step: step,
-        user: user
-      }
-    ]));
+  createSharedRecipesEvents(
+    idSharedRecipe: number,
+    step: number,
+    user: string
+  ) {
+    return from(
+      this.supabase.from('shared_recipes_events').insert([
+        {
+          shared_recipe: idSharedRecipe,
+          step: step,
+          user: user,
+        },
+      ])
+    );
   }
 
   /////// TODO Register, logout
 
   loggedSubject = new BehaviorSubject(false);
 
-  async isLogged(){
-      const { data: { user } } = await this.supabase.auth.getUser()
-      if(user){
-        this.loggedSubject.next(true);
-      }
-      else
-      this.loggedSubject.next(false);
+  async isLogged() {
+    const {
+      data: { user },
+    } = await this.supabase.auth.getUser();
+    if (user) {
+      this.loggedSubject.next(true);
+    } else this.loggedSubject.next(false);
   }
 
-
-  getUserInfo(): Observable<User>{
+  getUserInfo(): Observable<User> {
     return from(this.supabase.auth.getUser()).pipe(
       map(({ data }) => data.user as User)
-    )
+    );
   }
-
 
   getCharacters(): Observable<any[]> {
     return this.http
@@ -158,5 +163,61 @@ export class SupabaseService {
 
   getInterval(): Observable<number> {
     return interval(1000);
+  }
+
+  getPDF(recipe: IRecipe): Observable<string> {
+    return from(
+      this.supabase.storage.from('recipes').download(`${recipe.pdf}`)
+    ).pipe(
+      map(({ data, error }) => {
+        let blobimg = '';
+        if (data) {
+          blobimg = URL.createObjectURL(data);
+        }
+        return blobimg;
+      })
+    );
+  }
+
+  getPDFBase64(recipe: IRecipe): string {
+    return `data:application/pdf;base64,${recipe.pdf}`;
+  }
+
+  getPDFBase64blob(recipe: IRecipe): string {
+    const byteCharacters = atob(recipe.pdf!);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return URL.createObjectURL(
+      new Blob([byteArray], { type: recipe.mimepdf! })
+    );
+  }
+
+  // https://www.geeksforgeeks.org/how-to-convert-base64-to-file-in-javascript/
+
+    assignPDF(file: File, recipe: IRecipe) {
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const base64String = (reader.result as string).split(',')[1]; // Quitar "data:mimeType;base64,"
+      const fileData = {
+        base64: base64String,
+        mimeType: file.type,
+      };
+      console.log(fileData);
+
+     const {data,error} = await this.supabase
+        .from('meals')
+        .update({ pdf: fileData.base64, mimepdf: fileData.mimeType  })
+        .eq('idMeal', recipe.idMeal)
+        .select();
+
+        console.log(data);
+    };
+
+
+    
+    reader.readAsDataURL(file);
   }
 }

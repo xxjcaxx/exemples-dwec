@@ -15,9 +15,23 @@
       <!-- TODO -->
       <a   class="btn btn-brand-orange">Create Shared Recipe</a>
       <!-- TODO -->
+      <a   class="btn btn-brand-orange" (click)="loadPDF()"> pdf
+      </a>
+      
+        <a   class="btn btn-brand-orange" (click)="loadPDFBase64()"> base64
+        </a>
+        <a   class="btn btn-brand-orange" (click)="loadPDFBase64blob()"> base64 Blob
+        </a>
+
+        <form>
+          <label for="file">Selecciona un archivo:</label>
+          <input type="file" id="file" (change)="onFileChange($event)" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx">
+          <button class="btn btn-primary" (click)="asignarPDF($event)">Asignar PDF</button>
+        </form>
     </div>
   </div>
-
+  <embed [src]="srcPDF" type="application/pdf">
+    <embed [src]="PDFbase64" type="application/pdf">
   <!-- Lista de ingredientes -->
   <h3>Ingredients</h3>
   <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
