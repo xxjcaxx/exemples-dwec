@@ -6,6 +6,7 @@ import {
   BehaviorSubject,
   forkJoin,
   from,
+  fromEvent,
   interval,
   map,
   mergeMap,
@@ -197,27 +198,32 @@ export class SupabaseService {
 
   // https://www.geeksforgeeks.org/how-to-convert-base64-to-file-in-javascript/
 
-    assignPDF(file: File, recipe: IRecipe) {
+  assignPDF(file: File, recipe: IRecipe) {
     const reader = new FileReader();
-    reader.onload = async () => {
-      const base64String = (reader.result as string).split(',')[1]; // Quitar "data:mimeType;base64,"
-      const fileData = {
-        base64: base64String,
-        mimeType: file.type,
-      };
-      console.log(fileData);
 
-     const {data,error} = await this.supabase
-        .from('meals')
-        .update({ pdf: fileData.base64, mimepdf: fileData.mimeType  })
-        .eq('idMeal', recipe.idMeal)
-        .select();
+    fromEvent(reader, 'load')
+      .pipe(
+        map(() => {
+          const base64String = (reader.result as string).split(',')[1]; // Quitar "data:mimeType;base64,"
+          const fileData = {
+            base64: base64String,
+            mimeType: file.type,
+          };
+          console.log(fileData);
+          return fileData;
+        }),
+        switchMap((fileData) => {
+          return from(
+            this.supabase
+              .from('meals')
+              .update({ pdf: fileData.base64, mimepdf: fileData.mimeType })
+              .eq('idMeal', recipe.idMeal)
+              .select()
+          );
+        })
+      )
+      .subscribe();
 
-        console.log(data);
-    };
-
-
-    
     reader.readAsDataURL(file);
   }
 }
