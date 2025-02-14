@@ -4,6 +4,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { User } from '@supabase/supabase-js';
 import {
   BehaviorSubject,
+  catchError,
   forkJoin,
   from,
   fromEvent,
@@ -11,9 +12,11 @@ import {
   map,
   mergeMap,
   Observable,
+  of,
   switchMap,
   take,
   tap,
+  throwError,
 } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { IRecipe } from '../recipes/i-recipe';
@@ -105,7 +108,7 @@ export class SupabaseService {
         }
         return data;
       }),
-      tap(() => this.isLogged())
+      tap(() => this.isLogged()),
     );
 
     return loginResult;
@@ -140,6 +143,8 @@ export class SupabaseService {
   loggedSubject = new BehaviorSubject(false);
 
   async isLogged() {
+    //const { data, error } = await this.supabase.auth.refreshSession({ refresh_token: '1234' })
+
     const {
       data: { user },
     } = await this.supabase.auth.getUser();
