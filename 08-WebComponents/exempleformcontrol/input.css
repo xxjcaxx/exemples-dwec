@@ -1,0 +1,75 @@
+:host {
+    display: block;
+    background: lightgray;
+
+}
+
+@layer {
+
+    :host {
+        --my-input-border-color: light-dark(rgb(118, 118, 118), rgb(161, 161, 161));
+        --my-input-border-color-hover: light-dark(rgb(78, 78, 78), rgb(200, 200, 200));
+        --my-input-border-color-disabled: rgba(150, 150, 150, 0.5);
+        --my-input-text-color: light-dark(fieldtext, rgb(240, 240, 240));
+        --my-input-text-color-disabled: light-dark(rgb(84, 84, 84), rgb(170, 170, 170));
+        --my-input-bg-color: inherit;
+        --my-input-bg-color-disabled: inherit;
+        --my-input-min-width: 4ch;
+    }
+
+    div {
+        display: block;
+        background-color: var(--my-input-bg-color);
+        color: var(--my-input-text-color);
+        border: 1px dotted var(--my-input-border-color);
+        padding: 2px 3px;
+        margin-bottom: -2px;
+        border-radius: 3px;
+
+        &:focus-visible {
+            border-color: transparent;
+            outline-offset: 0;
+            outline: 2px solid royalblue;
+            /* firefox */
+            outline-color: -webkit-focus-ring-color;
+            /* the rest */
+        }
+    }
+
+
+
+    div[disabled] {
+        border-color: var(--my-input-border-color-disabled);
+        background-color: var(--my-input-bg-color-disabled);
+        color: var(--my-input-text-color-disabled);
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    div:hover {
+        border-color: var(--input-inline-border-color-hover);
+    }
+
+
+    div[readonly] {
+        color: var(--my-input-text-color-disabled);
+        background-color: var(--my-input-bg-color-disabled);
+        border-color: var(--my-input-border-color-disabled);
+        user-select: text;
+        pointer-events: none;
+        /* bloquea edición/clics */
+        opacity: 0.6;
+        /* opcional, efecto visual */
+        cursor: default;
+    }
+
+
+
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+        my-input:empty::before {
+            /* fixes issue where empty my-input shifts left in chromium browsers */
+            content: " ";
+        }
+    }
+
+}
