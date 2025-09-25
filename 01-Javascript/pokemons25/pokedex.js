@@ -1,3 +1,5 @@
+export {pokemons}
+
 const pokemons = [{
     "id": 1,
     "name": {

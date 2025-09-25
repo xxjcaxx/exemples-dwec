@@ -1,3 +1,5 @@
+import { pokemons } from "./pokedex.js";
+
 function renderPokemon(p) {
   const pokemonDivContent = `<div class="pokemonCard" data-id-pokemon="${p.id}">
     <h2>${p.name.english}</h2>
@@ -7,7 +9,9 @@ function renderPokemon(p) {
     </div>
     </div>`;
   const pokemonDiv = document.createElement("div");
+  
   pokemonDiv.innerHTML = pokemonDivContent;
+  pokemonDiv.firstChild.addEventListener('click',e=> e.stopPropagation())
   return pokemonDiv.firstChild;
 }
 
@@ -67,12 +71,24 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const buttonSearch = divSortButtons.querySelector('#button-search');
+  const inputSearch = divSortButtons.querySelector('#input-search');
   buttonSearch.addEventListener('click',(event)=>{
     event.preventDefault();
-    const searchText = divSortButtons.querySelector('#input-search').value;
+    const searchText = inputSearch.value;
     const filteredPokemons = pokemons.filter(p=> p.name.english.toLowerCase().includes(searchText.toLowerCase()))
      printPokemons(filteredPokemons.slice(0, 20));
   });
+
+  inputSearch.addEventListener('keyup', (e)=>{
+    const searchText = inputSearch.value;
+     const filteredPokemons = pokemons.filter(p=> p.name.english.toLowerCase().includes(searchText.toLowerCase()))
+     printPokemons(filteredPokemons.slice(0, 20));
+     console.log(e.code);
+
+     
+  });
+
+
 
   navBar.append(divSortButtons, resetButton, ...botons);
 
@@ -81,4 +97,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // Fer botons per ordenar
 
   // Fer paginació
+
+  document.querySelector('#container').addEventListener('click',(e)=>{
+    console.log(e.target)
+    if([...e.target.classList].includes('pokemonCard')){
+     e.target.style.background = "rgb(230, 226, 40)";
+     console.log(e.target.dataset.idPokemon);
+     
+    }
+
+  })
 });
