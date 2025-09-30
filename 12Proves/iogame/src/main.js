@@ -8,5 +8,5 @@ import { renderFooter } from "./components/footer";
 
 document.addEventListener("DOMContentLoaded",()=>{
   const appDiv = document.querySelector('#app');
-  appDiv.innerHTML = renderHeader()+renderContent()+renderFooter();
+  appDiv.innerHTML = renderHeader()+renderContent(Array(120).fill(0).map((_,i)=>i))+renderFooter();
 });
