@@ -6,9 +6,11 @@
     width: 100%;                 
     max-width: 750px;          
     margin: 20px auto;
+    padding: 10px;
     display: grid;
     grid-template-columns: repeat(12, 1fr); 
-    gap: 2px;                
+    gap: 2px;        
+    background: #444;        
   }
 
   .cell {
@@ -24,8 +26,8 @@
     color: #222;
     background: linear-gradient(180deg, #f8f8f8, #e9eef8);
     background: url('/src/imgs/fruites.png') no-repeat;
-     background-size: 750px 450px;
-      background-position: -150px 0;
+     background-size: 350px ;
+      background-position: -90px -20px;
     /*border: 1px solid rgba(0,0,0,0.06);*/
     border-radius: 2px;
   }

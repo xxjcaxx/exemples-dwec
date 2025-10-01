@@ -1,6 +1,6 @@
 import "./style.scss"
 
-//import * as bootstrap from 'bootstrap'
+import * as bootstrap from 'bootstrap'
 
 import { renderHeader } from "./components/header"
 import { renderContent } from "./components/content";
