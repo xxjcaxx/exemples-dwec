@@ -1,6 +1,7 @@
 export {renderContent}
 
-function renderContent(fruitsBoard){
+function renderContent(){
+  const fruitsBoard = Array(120).fill(0).map((_,i)=>i)
     return `
 <div class="container board-wrapper">
   <div class="board">

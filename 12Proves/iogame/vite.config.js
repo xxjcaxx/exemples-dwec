@@ -7,7 +7,7 @@ export default {
         scss: {
           silenceDeprecations: [
             'import',
-            'mixed-decls',
+           // 'mixed-decls',
             'color-functions',
             'global-builtin',
           ],
