@@ -21,7 +21,8 @@ const renderBikes = (bikes) => {
         .map(
           (b) => `
           <div class="col">
-          <div class="card" style="width: 18rem;">
+          <div class="card ${b.available_bikes < 1 ? 'roig': ''}" style="width: 18rem;"
+          >
             <div class="card-body">
               <h5 class="card-title">${b.name}</h5>
               <h6 class="card-subtitle mb-2 text-body-secondary">${b.address}</h6>
@@ -98,6 +99,7 @@ const getPageAndRender = () => {
     }
     else {
       dataBikes = await getBikes(limit, offset);
+      dataBikes.results.sort((a,b)=> a.available_bikes < b.available_bikes ? -1 : 1);
       pageCache[page] = dataBikes;
     }
     
