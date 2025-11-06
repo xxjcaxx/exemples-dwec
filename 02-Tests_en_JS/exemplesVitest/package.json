@@ -3,6 +3,7 @@
     "test": "vitest"
   },
   "devDependencies": {
+    "msw": "^2.12.0",
     "vitest": "^4.0.7"
   }
 }
