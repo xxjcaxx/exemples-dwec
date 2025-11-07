@@ -1,8 +1,22 @@
-import { describe, expect, test, vi, beforeAll, afterAll, afterEach} from "vitest";
-import { http , HttpResponse} from 'msw';
+/**
+ * @vitest-environment jsdom
+ */
+
+import { describe, expect, test, vi, beforeAll, afterAll, afterEach } from "vitest";
+import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 
-import { arrays, numeric, objectes, promeses, promeses2, promeses3, server, serverPost, callback, domDiv, domEventListener, domEventEmit } from "./index";
+import { arrays, numeric, objectes, promeses, promeses2, promeses3, server, serverPost, 
+    callback, domDiv, domEventListener, domEventEmit, serverImage , spyFunctions} from "./index";
+
+import * as sumModule from "./sum";
+
+
+    
+import { readFile } from "fs/promises";
+import path from "path";
+import { fileURLToPath } from "url";
+
 
 describe("Exemples Vitest", () => {
     describe("Numeric", () => {
@@ -186,21 +200,40 @@ describe("Exemples Vitest", () => {
         }),
 
         http.get('http://dominioquenoexiste.noexiste/datos.json', () => {
-            return HttpResponse.networkError('Error de red');
-         //   return res.networkError('Error de red'); // Mock de error de red
+            return HttpResponse.error();
         }),
-        http.get('noexiste.json', () => {
-            return HttpResponse.notFound();
-          //  return res(ctx.status(500), ctx.json({ error: 'Error en el servidor' })); // Mock de error en servidor
+        http.get('http://dominiobueno.com/noexiste.json', () => {
+            return new HttpResponse('Not found', {
+                status: 404,
+                headers: {
+                    'Content-Type': 'text/plain',
+                },
+            })
         }),
-        http.get('jsonMalo.json', () => {
+        http.get('http://dominiobueno.com/jsonMalo.json', () => {
             return HttpResponse.text('json malo')
-//return res(ctx.body('This is not valid JSON')); // Mock de JSON malo
-        })
+        }),
+
+        http.post('http://dominiobueno.com/', async ({ request }) => {
+            const newPost = await request.clone().json();
+            return HttpResponse.json(newPost);
+        }),
+        http.get('http://dominiobueno.com/logo.png', async () => {
+            // Tot açò és perquè s'executa en node i no en un servidor web
+            const __dirname = path.dirname(fileURLToPath(import.meta.url));
+            const buffer = await readFile(path.join(__dirname, "logo.png"));
+            //console.log(buffer);
+        
+            return HttpResponse.arrayBuffer(buffer, {
+                headers: {
+                    "content-type": "image/png",
+                },
+            });
+        }),
     );
 
     describe("Server", () => {
-beforeAll(() => mockServer.listen());
+        beforeAll(() => mockServer.listen());
         afterAll(() => mockServer.close());
         afterEach(() => mockServer.resetHandlers());
         test("server ha de retornar un objecte", async () => {
@@ -208,16 +241,154 @@ beforeAll(() => mockServer.listen());
             expect(typeof result).toBe('object');
             expect(result).toEqual({ a: 1, b: 2 });
         });
-          test("server ha de retornar un error de red", async () => {
-            const result = await server("http://dominioquenoexiste.noexiste/datos.json");
-            expect(typeof result).toBe('object');
-            expect(result).toEqual({ a: 1, b: 2 });
+        test("server ha de retornar un error de red", async () => {
+            try {
+                const result = await server("http://dominioquenoexiste.noexiste/datos.json");
+            } catch (error) {
+                expect(error.message).toBe('Failed to fetch');
+                expect(error.name).toBe('TypeError');
+                expect(error).toBeInstanceOf(TypeError)
+            }
+        });
+        // Segona iteració
+        test("server ha de retornar un error de no trobat", async () => {
+            try {
+                const result = await server("http://dominiobueno.com/noexiste.json");
+            } catch (error) {
+                expect(error.message).toBe('Not Found');
+                expect(error.name).toBe('Error');
+                expect(error).toBeInstanceOf(Error)
+            }
+        });
+        test("server ha de retornar un error de json malo", async () => {
+            try {
+                const result = await server("http://dominiobueno.com/jsonMalo.json");
+            } catch (error) {
+                expect(error.message).toContain('Unexpected token');
+                expect(error.name).toBe('SyntaxError');
+                expect(error).toBeInstanceOf(SyntaxError);
+
+            }
         });
     });
-    describe("ServerPost", () => { });
-    describe("Callback", () => { });
-    describe("DOM", () => { });
-    describe("DOMEventListener", () => { });
-    describe("DOMEventEmit", () => { });
+    describe("ServerPost", () => {
+        beforeAll(() => mockServer.listen());
+        afterAll(() => mockServer.close());
+        afterEach(() => mockServer.resetHandlers());
+
+        test("serverPost ha de retornar un objecte", async () => {
+            const result = await serverPost("http://dominiobueno.com/")({ a: 1, b: 2 });
+            expect(typeof result).toBe('object');
+            expect(result).toEqual({ a: 1, b: 2 });
+
+        });
+    });
+
+    describe("ServerImage", () => {
+        beforeAll(() => mockServer.listen());
+        afterAll(() => mockServer.close());
+        afterEach(() => mockServer.resetHandlers());
+
+        test("serverImage ha de retornar un src de una imatge", async () => {
+            const result = await serverImage("http://dominiobueno.com/logo.png");
+            expect(result).contains("blob:");
+            expect(result.startsWith("blob:")).toBe(true);
+            // Faltaria testar errors
+        });
+    });
+
+    describe("Callback", () => { 
+        test("callback ha de retornar lo que retorne su función de callback", () => {
+            const randomResult = Math.random();
+            const callback = () => randomResult;
+            expect(callback()).toBe(randomResult);
+        });
+        test("callback ha de llamar a la función de callback", () => {
+            const callback = vi.fn(() => 42);
+            const result = callback();
+            expect(callback).toHaveBeenCalled();
+            expect(result).toBe(42);
+        });
+    });
+
+    describe("SpyFunctions", () => { 
+        test("spyFunctions ha de retornar lo que calcula y el resultado de llamar al callback", () => {
+            const data = [1,2,3,4,5,6];
+            const callback = (max,min,suma) => ({min,max,suma});
+            expect(spyFunctions(data,callback)).toEqual({min:1,max:6,suma:21});
+        });
+        test("callback ha de llamar a la función de callback", () => {
+            const callback = vi.fn(() => ({min:1,max:6,suma:21}));
+            const data = [1,2,3,4,5,6];
+            const result = spyFunctions(data,callback);
+            expect(callback).toHaveBeenCalled();
+            expect(result).toEqual({min:1,max:6,suma:21});
+        });
+        test("callback ha de usar Math.max y Math.min", () => {
+            const callback = vi.fn((max,min,suma) => ({min,max,suma}));
+            const max = vi.spyOn(Math, "max");
+            const min = vi.spyOn(Math, "min");
+            const data = [1,2,3,4,5,6];
+            const result = spyFunctions(data,callback);
+            expect(max).toHaveBeenCalledWith(...data);
+            expect(min).toHaveBeenCalledWith(...data);
+            expect(result).toEqual({min:1,max:6,suma:21});
+            max.mockRestore();
+            min.mockRestore();
+        });
+        test("callback ha de usar sum", () => {
+            const callback = vi.fn((max,min,suma) => ({min,max,suma}));
+            const sum = vi.spyOn(sumModule, "sum");  
+            // sols pots espiar funcions importades tant pel mòdul com pel test
+            // Per importar al test, cal fer-ho sempre amb "import * as ...""
+            const result = spyFunctions([1,2,3,4,5,6],callback);
+            expect(sum).toHaveBeenCalled();
+
+        });
+   
+    });
+
+    describe("DOM", () => { 
+        test("domDiv ha de retornar un div", () => {
+            const result = domDiv("<div>Hola</div>");
+            expect(result).toBeInstanceOf(HTMLDivElement);
+            expect(result.innerHTML).toBe("<div>Hola</div>");
+        });
+         test("domDiv ha de retornar un div amb innerHTML", () => {
+            const result = domDiv("<h1>Hola</h1>");
+            const h1 = result.querySelector("h1");
+            expect(h1).toBeInstanceOf(HTMLHeadingElement);
+
+            expect(h1.innerHTML).toBe("Hola");
+        });
+
+    });
+
+    describe("DOMEventListener", () => {
+        test("DOMEventListener ha d'afegir un eventListener", () => {
+            const div = domDiv("<div>Hola</div>"); // aquest tests ja no és totalment unitari
+            const handler = vi.fn();
+            const removeListener = domEventListener(div)(handler);
+            div.dispatchEvent(new MouseEvent("click"));
+            expect(handler).toHaveBeenCalled();
+            expect(removeListener).toBeInstanceOf(Function);
+            removeListener();
+        });
+     });
+    describe("DOMEventEmit", () => {
+        test("DOMEventEmit ha d'emitir un event",()=>{
+            const div = domDiv("<div>Hola</div>");
+            const details = {a: 1, b: 2};    
+            div.addEventListener("click", (event) => {
+                expect(event.detail).toEqual(details);
+            });
+            div.addEventListener("mouseover", (event) => {
+                expect(event.detail).toEqual(details);
+            });
+            domEventEmit(div)("click")(details);
+            domEventEmit(div)("mouseover")(details);
+        
+        });
+     });
 });
 

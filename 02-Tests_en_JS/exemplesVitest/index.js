@@ -1,3 +1,5 @@
+import { sum } from "./sum";
+
 export const numeric = (a, b) => typeof a === "number" && typeof b === "number" ? a + b : NaN;
 
 export const arrays = (a, b) => [
@@ -32,18 +34,78 @@ export const promeses3 = (a, b) => ([
 export const server = async (url) => {
     try {
         const result = await fetch(url);
+        if(!result.ok){
+            throw new Error(result.statusText)
+        }
         const data = await result.json();
         return data
     }
     catch (error) {
-        if(error.message === 'Failed to fetch')
-        return error
+       throw error
     }
 }
-export const serverPost = (url) => (data) => { }
-export const serverImage = (url) => { }
 
-export const callback = (callback) => { }
-export const domDiv = (content) => { }
-export const domEventListener = (div) => (handler) => { }
-export const domEventEmit = (div) => (eventName) => (details) => { }
+
+export const serverPost = (url) => async (data) => { 
+    try{
+        const result = await fetch(url,{
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if(!result.ok){
+            throw new Error(result.statusText)
+        }
+        const dataResponse = await result.json();
+        return dataResponse
+    }
+    catch(error){
+        throw error
+    }
+}
+export const serverImage = async (url) => { 
+    try{
+        const result = await fetch(url);
+        if(!result.ok){
+            console.log(result.statusText);
+            
+            throw new Error(result.statusText)
+        }
+        const dataResponse = await result.blob();
+        const src = URL.createObjectURL(dataResponse);
+        return src
+    }
+    catch(error){
+        throw error
+    }
+}
+
+export const callback = (callback) => { 
+    return callback();
+}
+
+
+
+export const spyFunctions = (data,callback) => { 
+    const max = Math.max(...data);
+    const min = Math.min(...data);
+    const suma = sum(...data);
+    return callback(max,min,suma);
+
+}
+
+export const domDiv = (content) => { 
+    const div = document.createElement('div');
+    div.innerHTML = content;
+    return div;
+}
+export const domEventListener = (div) => (handler) => { 
+    div.addEventListener('click', handler);
+    return () => div.removeEventListener('click', handler);
+}
+export const domEventEmit = (div) => (eventName) => (details) => { 
+    const event = new CustomEvent(eventName, { detail: details });
+    div.dispatchEvent(event);
+}
