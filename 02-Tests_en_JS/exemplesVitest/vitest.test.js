@@ -6,13 +6,16 @@ import { describe, expect, test, vi, beforeAll, afterAll, afterEach } from "vite
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 
-import { arrays, numeric, objectes, promeses, promeses2, promeses3, server, serverPost, 
-    callback, domDiv, domEventListener, domEventEmit, serverImage , spyFunctions} from "./index";
+import {
+    arrays, numeric, objectes, promeses, promeses2, promeses3, server, serverPost,
+    callback, domDiv, domEventListener, domEventEmit, serverImage, spyFunctions,
+    getUsers, addUser, updateUser, deleteUser
+} from "./index";
 
 import * as sumModule from "./sum";
 
 
-    
+
 import { readFile } from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -223,7 +226,7 @@ describe("Exemples Vitest", () => {
             const __dirname = path.dirname(fileURLToPath(import.meta.url));
             const buffer = await readFile(path.join(__dirname, "logo.png"));
             //console.log(buffer);
-        
+
             return HttpResponse.arrayBuffer(buffer, {
                 headers: {
                     "content-type": "image/png",
@@ -297,7 +300,7 @@ describe("Exemples Vitest", () => {
         });
     });
 
-    describe("Callback", () => { 
+    describe("Callback", () => {
         test("callback ha de retornar lo que retorne su función de callback", () => {
             const randomResult = Math.random();
             const callback = () => randomResult;
@@ -311,50 +314,50 @@ describe("Exemples Vitest", () => {
         });
     });
 
-    describe("SpyFunctions", () => { 
+    describe("SpyFunctions", () => {
         test("spyFunctions ha de retornar lo que calcula y el resultado de llamar al callback", () => {
-            const data = [1,2,3,4,5,6];
-            const callback = (max,min,suma) => ({min,max,suma});
-            expect(spyFunctions(data,callback)).toEqual({min:1,max:6,suma:21});
+            const data = [1, 2, 3, 4, 5, 6];
+            const callback = (max, min, suma) => ({ min, max, suma });
+            expect(spyFunctions(data, callback)).toEqual({ min: 1, max: 6, suma: 21 });
         });
         test("callback ha de llamar a la función de callback", () => {
-            const callback = vi.fn(() => ({min:1,max:6,suma:21}));
-            const data = [1,2,3,4,5,6];
-            const result = spyFunctions(data,callback);
+            const callback = vi.fn(() => ({ min: 1, max: 6, suma: 21 }));
+            const data = [1, 2, 3, 4, 5, 6];
+            const result = spyFunctions(data, callback);
             expect(callback).toHaveBeenCalled();
-            expect(result).toEqual({min:1,max:6,suma:21});
+            expect(result).toEqual({ min: 1, max: 6, suma: 21 });
         });
         test("callback ha de usar Math.max y Math.min", () => {
-            const callback = vi.fn((max,min,suma) => ({min,max,suma}));
+            const callback = vi.fn((max, min, suma) => ({ min, max, suma }));
             const max = vi.spyOn(Math, "max");
             const min = vi.spyOn(Math, "min");
-            const data = [1,2,3,4,5,6];
-            const result = spyFunctions(data,callback);
+            const data = [1, 2, 3, 4, 5, 6];
+            const result = spyFunctions(data, callback);
             expect(max).toHaveBeenCalledWith(...data);
             expect(min).toHaveBeenCalledWith(...data);
-            expect(result).toEqual({min:1,max:6,suma:21});
+            expect(result).toEqual({ min: 1, max: 6, suma: 21 });
             max.mockRestore();
             min.mockRestore();
         });
         test("callback ha de usar sum", () => {
-            const callback = vi.fn((max,min,suma) => ({min,max,suma}));
-            const sum = vi.spyOn(sumModule, "sum");  
+            const callback = vi.fn((max, min, suma) => ({ min, max, suma }));
+            const sum = vi.spyOn(sumModule, "sum");
             // sols pots espiar funcions importades tant pel mòdul com pel test
             // Per importar al test, cal fer-ho sempre amb "import * as ...""
-            const result = spyFunctions([1,2,3,4,5,6],callback);
+            const result = spyFunctions([1, 2, 3, 4, 5, 6], callback);
             expect(sum).toHaveBeenCalled();
 
         });
-   
+
     });
 
-    describe("DOM", () => { 
+    describe("DOM", () => {
         test("domDiv ha de retornar un div", () => {
             const result = domDiv("<div>Hola</div>");
             expect(result).toBeInstanceOf(HTMLDivElement);
             expect(result.innerHTML).toBe("<div>Hola</div>");
         });
-         test("domDiv ha de retornar un div amb innerHTML", () => {
+        test("domDiv ha de retornar un div amb innerHTML", () => {
             const result = domDiv("<h1>Hola</h1>");
             const h1 = result.querySelector("h1");
             expect(h1).toBeInstanceOf(HTMLHeadingElement);
@@ -374,11 +377,11 @@ describe("Exemples Vitest", () => {
             expect(removeListener).toBeInstanceOf(Function);
             removeListener();
         });
-     });
+    });
     describe("DOMEventEmit", () => {
-        test("DOMEventEmit ha d'emitir un event",()=>{
+        test("DOMEventEmit ha d'emitir un event", () => {
             const div = domDiv("<div>Hola</div>");
-            const details = {a: 1, b: 2};    
+            const details = { a: 1, b: 2 };
             div.addEventListener("click", (event) => {
                 expect(event.detail).toEqual(details);
             });
@@ -387,8 +390,97 @@ describe("Exemples Vitest", () => {
             });
             domEventEmit(div)("click")(details);
             domEventEmit(div)("mouseover")(details);
-        
+
         });
-     });
+    });
+
+
+
+
+    /////////////// CRUD Complet
+
+    // Simular la base de dades en memòria
+    let mockUsers = [
+        { id: 1, name: "Alice" },
+        { id: 2, name: "Bob" },
+    ];
+
+    // Definir handlers per a cada petició en msw
+    const handlers = [
+        http.get("/api/users", () => {
+            return HttpResponse.json(mockUsers);
+        }),
+
+        http.post("/api/users", async ({ request }) => {
+            const newUser = await request.json();
+            const created = { id: Date.now(), ...newUser };
+            mockUsers.push(created);
+            return HttpResponse.json(created, { status: 201 });
+        }),
+
+        http.put("/api/users/:id", async ({ params, request }) => {
+            const id = Number(params.id);
+            const updates = await request.json();
+            const user = mockUsers.find((u) => u.id === id);
+            if (!user) return HttpResponse.json({ error: "Not found" }, { status: 404 });
+            Object.assign(user, updates);
+            return HttpResponse.json(user);
+        }),
+
+        http.delete("/api/users/:id", ({ params }) => {
+            const id = Number(params.id);
+            mockUsers = mockUsers.filter((u) => u.id !== id);
+            return HttpResponse.json({ success: true });
+        }),
+    ];
+
+    // Configurar msw
+    const serverCRUD = setupServer(...handlers);
+
+    // 
+    describe("API REST mockeada amb MSW", () => {
+        beforeAll(() => serverCRUD.listen());
+        afterEach(() => {
+            serverCRUD.resetHandlers();
+            mockUsers = [
+                { id: 1, name: "Alice" },
+                { id: 2, name: "Bob" },
+            ]; // reiniciar la base de dades després de cada test
+        });
+        afterAll(() => serverCRUD.close());
+
+        test("GET /api/users torna els usuaris", async () => {
+            const users = await getUsers();
+            expect(users).toHaveLength(2);
+            expect(users[0].name).toBe("Alice");
+        });
+
+        test("POST /api/users crea un usuari", async () => {
+            const newUser = { name: "Charlie" };
+            const created = await addUser(newUser);
+            expect(created.name).toBe("Charlie");
+            const users = await getUsers();
+            expect(users).toHaveLength(3);
+        });
+
+        test("PUT /api/users/:id actualitza un usuari", async () => {
+            const updated = await updateUser(2, { name: "Robert" });
+            expect(updated.name).toBe("Robert");
+            const users = await getUsers();
+            expect(users.find((u) => u.id === 2).name).toBe("Robert");
+        });
+
+        test("DELETE /api/users/:id elimina un usuari", async () => {
+            await deleteUser(1);
+            const users = await getUsers();
+            expect(users).toHaveLength(1);
+            expect(users[0].id).toBe(2);
+        });
+
+        test("PUT torna error si no existeix l'usuari", async () => {
+            await expect(updateUser(999, { name: "X" })).rejects.toThrow("Error en PUT");
+        });
+    });
+
 });
 
