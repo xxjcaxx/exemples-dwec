@@ -2,13 +2,13 @@
  * @vitest-environment jsdom
  */
 
-import { describe, expect, test, vi, beforeAll, afterAll, afterEach } from "vitest";
+import { describe, expect, test, vi, beforeAll, afterAll, afterEach, beforeEach } from "vitest";
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 
 import {
     arrays, numeric, objectes, promeses, promeses2, promeses3, server, serverPost,
-    callback, domDiv, domEventListener, domEventEmit, serverImage, spyFunctions,
+    callback, domDiv, domEventListener, domEventEmit, addMessage, serverImage, spyFunctions,
     getUsers, addUser, updateUser, deleteUser
 } from "./index";
 
@@ -391,6 +391,33 @@ describe("Exemples Vitest", () => {
             domEventEmit(div)("click")(details);
             domEventEmit(div)("mouseover")(details);
 
+        });
+    });
+
+    describe("addMessage manipula el DOM", () => {
+        beforeEach(() => {
+            document.body.innerHTML = `
+      <div id="messages"></div>
+    `;
+        });
+
+        afterEach(() => {
+            document.body.innerHTML = "";
+        });
+
+        test("addMessage afegeix un missatge al DOM virtual", () => {
+            addMessage("Hola mundo");
+            const container = document.querySelector("#messages");
+            expect(container.children.length).toBe(1);
+            expect(container.textContent).toBe("Hola mundo");
+        });
+
+        test("addMessage afegeix dos missatges al DOM virtual", () => {
+            addMessage("Uno");
+            addMessage("Dos");
+            const container = document.querySelector("#messages");
+            expect(container.children).toHaveLength(2);
+            expect(container.children[1].textContent).toBe("Dos");
         });
     });
 

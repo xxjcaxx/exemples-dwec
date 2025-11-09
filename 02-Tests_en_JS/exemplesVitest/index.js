@@ -110,6 +110,13 @@ export const domEventEmit = (div) => (eventName) => (details) => {
     div.dispatchEvent(event);
 }
 
+///// DOM amb efectes
+export const addMessage = (msg) => {
+  const container = document.querySelector("#messages");
+  const p = document.createElement("p");
+  p.textContent = msg;
+  container.append(p);
+};
 
 
 
