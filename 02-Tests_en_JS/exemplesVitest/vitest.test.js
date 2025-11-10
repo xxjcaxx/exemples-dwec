@@ -158,13 +158,13 @@ describe("Exemples Vitest", () => {
 
     });
     describe("Promeses3", () => {
-        test("promeses2 ha de retornar un array de promeses", () => {
+        test("promeses3 ha de retornar un array de promeses", () => {
             const result = promeses3(1, 2).map(p => p.catch(() => { }));  // cal capturar els errors, que no ens interessen
             expect(result).toBeInstanceOf(Array);
             expect(result).toHaveLength(2);
             expect(result.every(p => p instanceof Promise)).toBe(true);
         });
-        test("promeses ha de retornar els valors o res", async () => {
+        test("promeses3 ha de retornar els valors o res", async () => {
             const result = promeses3(1, 2);
             try {
                 const result1 = await result[0];
