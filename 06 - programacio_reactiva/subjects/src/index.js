@@ -1,5 +1,5 @@
 import { pokemons } from "./pokedex.js";
-import { BehaviorSubject, debounceTime, fromEvent, map, tap } from "rxjs";
+import { BehaviorSubject, combineLatest, debounceTime, fromEvent, map, startWith, tap } from "rxjs";
 
 function renderPokemon(p) {
   const pokemonDivContent = `<div class="pokemonCard" data-id-pokemon="${p.id}">
@@ -16,23 +16,56 @@ function renderPokemon(p) {
   return pokemonDiv.firstChild;
 }
 
-function printPokemons(pokemons) {
-  const pokemonDivs = pokemons.map(renderPokemon);
+const createElement = (element) => (html,id) => {
+  const e = document.createElement(element);
+  e.innerHTML = html;
+  e.dataset.id = id;
+  return e;
+}
+
+function printPokemons(pokemons,offset,limit) {
+  console.log(pokemons.length,offset,limit);
+  
+  const pokemonDivs = pokemons.slice(offset,limit).map(renderPokemon);
   const container = document.querySelector("#container");
-  /*container.innerHTML = "";
-  container.append(...pokemonDivs);*/
   container.replaceChildren(...pokemonDivs);
+  const pagesDiv = document.querySelector("#pages");
+  const nPages = Math.ceil(pokemons.length / (limit-offset));
+  const pagesButtons = Array(nPages).fill(0).map((_,i)=>i).map(createElement('button'));
+  pagesDiv.replaceChildren(...pagesButtons);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
 
   const pokemons$ = new BehaviorSubject(pokemons);
+  const currentPage$ = new BehaviorSubject({offset: 0, limit: 10});
 
   const pokemonSubscription = pokemons$.subscribe(pokemons => {
-    printPokemons(pokemons.slice(0, 10));
+    currentPage$.next({offset: 0, limit: 10});
+    //console.log("sdfsdf");
+    
+    //printPokemons(pokemons,currentPage$.getValue().offset,currentPage$.getValue().limit);
   });
 
-  
+  const changePage$ = fromEvent(document.querySelector("#pages"),'click').pipe(
+    
+    map(e => e.target.dataset.id),
+    startWith(0),
+    map(p=> ({offset: p*10, limit: p*10+10}))
+  )
+
+  const changePageSubscription = changePage$.subscribe(currentPage$);
+  const currentPageSubscription = currentPage$.subscribe(p=> {
+  //  console.log(p);
+   // printPokemons(pokemons$.getValue(),p.offset,p.limit);
+  });
+
+  const pokemonsPages$ = combineLatest([pokemons$,currentPage$]).pipe(
+    tap(console.log)
+  ).subscribe(([pok,page])=>{
+    printPokemons(pok,page.offset,page.limit);
+  })
+
 
   // Llistar els tipus en botons i filtrar per tipus
   const tipos = [...new Set([...pokemons.map((p) => p.type).flat()])];
