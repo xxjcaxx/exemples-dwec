@@ -86,8 +86,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   randomObservable.subscribe(randomSubject);
 
-  randomSubject.subscribe((r) => console.log("Subs 1", r));
-  randomSubject.subscribe((r) => console.log("Subs 2", r));
+ // randomSubject.subscribe((r) => console.log("Subs 1", r));
+  //randomSubject.subscribe((r) => console.log("Subs 2", r));
 
   ////////////////// El doble click
 

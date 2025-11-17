@@ -1,0 +1,13 @@
+#container {
+    display: flex;
+    flex-wrap: wrap;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.pokemonCard{
+    margin: 10px;
+    border: 1px solid  #eee;
+    padding: 0px 10px 10px 10px;
+    border-radius: 10px;
+    background-color: #eee;
+}
