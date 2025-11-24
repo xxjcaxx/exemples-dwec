@@ -1,0 +1,13 @@
+div.card-list-host {
+    display: block;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+div.card-list-host art-card {
+    width: 400px;
+
+}

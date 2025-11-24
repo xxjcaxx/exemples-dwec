@@ -1,0 +1,20 @@
+{
+  "name": "art-funcional-reactiu-wc",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "vite": "^7.2.4"
+  },
+  "dependencies": {
+    "jsdom": "^27.2.0",
+    "msw": "^2.12.3",
+    "rxjs": "^7.8.2",
+    "vitest": "^4.0.13"
+  }
+}

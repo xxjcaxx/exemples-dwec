@@ -1,0 +1,52 @@
+/* Estilos para el contenedor principal de la obra de arte */
+.artWork {
+    /* Define un ancho máximo para que no se extienda demasiado en pantallas grandes */
+    max-width: 900px;
+    margin: 40px auto; /* Centra el div en la página y añade espacio superior/inferior */
+    padding: 20px; /* Espacio interior */
+    /* Un ligero sombreado para darle profundidad y que "flote" */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 
+                0 6px 6px rgba(0, 0, 0, 0.20);
+    /* Un color de fondo muy suave para contraste */
+    background-color: #ffffff;
+    border-radius: 12px; /* Esquinas redondeadas suaves */
+    font-family: 'Georgia', serif; /* Tipo de letra más clásico para texto de arte */
+    line-height: 1.6; /* Mejora la legibilidad */
+}
+
+/* Estilos para la imagen dentro del contenedor */
+.artWork img {
+    /* Asegura que la imagen sea completamente responsiva */
+    max-width: 100%;
+    /* Altura automática para mantener la proporción */
+    height: auto; 
+    /* Un sutil borde alrededor de la imagen */
+    border: 1px solid #ddd; 
+    /* Esquinas redondeadas, un poco menos que el contenedor */
+    border-radius: 8px; 
+    /* Espacio debajo de la imagen */
+    margin-bottom: 20px;
+    /* Transición suave para cualquier efecto de hover futuro */
+    transition: transform 0.3s ease-in-out; 
+}
+
+/* Estilos para el título */
+.artWork h2 {
+    color: #333; /* Color de texto oscuro */
+    text-align: center; /* Centra el título */
+    margin-top: 0; /* Elimina el margen superior por defecto */
+    margin-bottom: 25px; 
+    font-size: 2em; /* Título más grande */
+    /* Una línea decorativa sutil debajo del título */
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+}
+
+/* Estilos para los párrafos de texto */
+.artWork p {
+    color: #555; /* Un gris más suave para el cuerpo del texto */
+    margin-bottom: 15px;
+    text-align: justify; /* Justifica el texto para un aspecto más formal */
+    padding: 0 10px; /* Pequeño espacio a los lados del texto */
+}
+
