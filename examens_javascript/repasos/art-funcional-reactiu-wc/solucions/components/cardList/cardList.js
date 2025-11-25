@@ -31,24 +31,38 @@ export class CardList extends HTMLElement {
 
   connectedCallback() {
     // Codi per renderitzar el component
-     
+      this.artWorksSubscription = this.artWorks$.subscribe(this.render);
       
   }
 
   set artWorks(value) {
     // Actualització de la propietat i renderització del contingut
- 
+    this.artWorks$.next(value);
   }
 
 
   disconnectedCallback() {
     // Neteja de recursos si cal
-   
+    if (this.artWorksSubscription) {
+      this.artWorksSubscription.unsubscribe();
+    }
   }
 
   render = (artWorks) => {
     // Generació del HTML utilitzant la plantilla i inserció al shadow DOM
-  
+    const cardsArtworks = artWorks.map(artWork => {
+        const artCard = document.createElement('art-card');
+        artCard.artWork = artWork;
+        return artCard;
+    });
+    
+    const host = document.createElement('div');
+    host.className = 'card-list-host';
+    const stylElement = document.createElement('style');
+    stylElement.textContent = style;
+    host.append(stylElement,...cardsArtworks);
+    this.innerHTML = '';
+    this.appendChild(host);
 
   }
 }

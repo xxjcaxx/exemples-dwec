@@ -24,7 +24,23 @@ export class App extends HTMLElement {
 
   connectedCallback() {
     // Codi per renderitzar el component i afegir els listeners d'esdeveniments
+    this.innerHTML = `
+      <art-buscador></art-buscador>
+      <art-card-list></art-card-list>
+    `;
+    const buscador = this.querySelector('art-buscador');
+    const cardList = this.querySelector('art-card-list');
     
+
+    const search$ = fromEvent(buscador, 'search').pipe(
+      // Mapear l'esdeveniment per obtenir el valor del filtre
+      map(event => event.detail),
+      startWith('') // Valor inicial buit per carregar totes les obres d'art
+    );
+
+    const subscription = searchArts(search$).subscribe(artWorks => {
+      cardList.artWorks = artWorks;
+    });
 
    
   }

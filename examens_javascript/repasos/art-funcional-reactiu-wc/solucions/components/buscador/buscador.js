@@ -32,10 +32,27 @@ export class Buscador extends HTMLElement {
 
     // Utilitzar rxjs per gestionar l'input amb debounceTime
 
-  
+    fromEvent(input, 'input').pipe(
+      map(event => event.target.value),
+      debounceTime(500)
+    ).subscribe(value => {
+      this.dispatchEvent(new CustomEvent('search', {
+        detail: value,
+        bubbles: true,
+        composed: true
+      }));
+    });
+
     // També es pot afegir un listener al botó si es vol
-   
+    button.addEventListener('click', () => {
+      const value = input.value;
+      this.dispatchEvent(new CustomEvent('search', {
+        detail: value,
+        bubbles: true,
+        composed: true
+      }));
+    }); 
   }
 
-  
+  // Altres mètodes necessaris per gestionar les interaccions
 }

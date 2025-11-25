@@ -38,12 +38,20 @@ export class ArtCard extends HTMLElement {
 
   set artWork(value) {
     // Actualització de la propietat i renderització del contingut
-  
+    this._artWork = value;
+    console.log(value);
+    
+    this.render();
   }
 
+  get artWork() {
+    return this._artWork;
+  }
 
   render() {
     // Generació del HTML utilitzant la plantilla i inserció al shadow DOM
-    
+    if (this.artWork) {
+      this.shadowRoot.innerHTML = cardTemplate(this.artWork);
+    }
   }
 }   
