@@ -6,6 +6,7 @@ export const addImgUrL = (artWork) => {
     /*
     Les imatges es poden obtenir amb la següent URL:
     https://www.artic.edu/iiif/2/${artWork.image_id}/full/843,/0/default.jpg
+    https://www.artic.edu/iiif/2/faaa2809-3e04-b1cc-ea9e-ec9407cb384e/full/843,/0/default.jpg
 
     Afegeix la propietat 'img_url' a l'objecte artWork amb l'URL de la imatge corresponent.
     Retorna una copia de l'objecte artWork modificat.
