@@ -1,0 +1,159 @@
+/* Estilos generales del formulario */
+#buscador-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Título del formulario */
+h2 {
+    width: 100%;
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Inputs y selects */
+#buscador-form input[type="text"],
+#buscador-form select,
+#buscador-form input[type="range"] {
+    flex: 1 1 200px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+#buscador-form input[type="text"]:focus,
+#buscador-form select:focus,
+#buscador-form input[type="range"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0,123,255,0.5);
+}
+
+/* Estilo del slider (input range) */
+#buscador-form input[type="range"] {
+    -webkit-appearance: none;
+    background: #ddd;
+    height: 6px;
+    border-radius: 5px;
+    margin-top: 12px;
+}
+
+#buscador-form input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+#buscador-form input[type="range"]::-webkit-slider-thumb:hover {
+    background: #0056b3;
+}
+
+/* Botón */
+#buscador-form button {
+    padding: 10px 25px;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+#buscador-form button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Resultados */
+#app {
+    max-width: 1000px;
+    margin: 30px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display:flex;
+    flex-wrap: wrap;
+
+}
+
+/* Contenedor de cada oferta */
+.oferta {
+    width: 25%;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    padding: 20px;
+    margin: 15px auto;
+    max-width: 900px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Efecto hover */
+.oferta:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Título de la oferta */
+.oferta h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 1.4rem;
+}
+
+/* Párrafos dentro de la card */
+.oferta p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 1rem;
+}
+
+/* Resaltar etiquetas fuertes */
+.oferta p strong {
+    color: #007bff;
+}
+
+/* Enlace de la oferta */
+.oferta a {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.oferta a:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Responsive: tarjetas ocupan casi todo el ancho en móvil */
+@media (max-width: 600px) {
+    .oferta {
+        padding: 15px;
+        margin: 10px;
+    }
+
+    .oferta h2 {
+        font-size: 1.2rem;
+    }
+}

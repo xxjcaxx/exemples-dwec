@@ -1,0 +1,21 @@
+{
+  "name": "tecnoempleo",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "jsdom": "^27.2.0",
+    "msw": "^2.12.2",
+    "vite": "^7.2.2",
+    "vitest": "^4.0.10"
+  },
+  "dependencies": {
+    "rxjs": "^7.8.2"
+  }
+}
