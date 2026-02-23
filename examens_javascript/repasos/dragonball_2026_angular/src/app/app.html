@@ -1,1 +1,4 @@
-<app-characters-kanban></app-characters-kanban>
+<a [routerLink]="['home']">Characters</a>
+<a [routerLink]="['form']">Formulari</a>
+<input type="text" [(ngModel)]="searchString" (input)="search()"/>
+<router-outlet></router-outlet>

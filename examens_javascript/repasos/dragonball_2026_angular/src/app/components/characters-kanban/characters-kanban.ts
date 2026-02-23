@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Characters } from '../../services/characters';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CharactersKanbanItem } from '../characters-kanban-item/characters-kanban-item';
@@ -9,11 +9,15 @@ import { CharactersKanbanItem } from '../characters-kanban-item/characters-kanba
   templateUrl: './characters-kanban.html',
   styleUrl: './characters-kanban.scss',
 })
-export class CharactersKanban {
+export class CharactersKanban implements OnInit{
 
 
  charactersService: Characters = inject(Characters);
- characters = toSignal(this.charactersService.getCharacters())
+ characters = toSignal(this.charactersService.charactersFiltered);
 
+
+ ngOnInit(): void {
+   this.charactersService.getCharacters();
+ }
 
 }

@@ -1,0 +1,24 @@
+<form>
+    <input type="number" id="nom" 
+    [formField] = "characterForm.name"
+    [ngClass] = "getnameValid()"
+    >
+    <input type="text" id="ki" [formField] = "characterForm.ki">
+    <input type="text" id="maxki" [formField] = "characterForm.maxKi">
+</form>
+ @if (characterForm.name().touched() && characterForm.name().invalid()) {
+      <ul class="error-list">
+        @for (error of characterForm.name().errors(); track error) {
+          <li>{{ error.message }}</li>
+        }
+      </ul>
+    }
+
+     @if (characterForm.ki().touched() && characterForm.ki().invalid()) {
+      <ul class="error-list">
+        @for (error of characterForm.ki().errors(); track error) {
+          <li>{{ error.message }}</li>
+        }
+      </ul>
+    }
+{{characterModel() | json}}
