@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { Character } from '../../interfaces/character';
 
 @Component({
   selector: 'app-characters-kanban-item',
@@ -8,4 +9,6 @@ import { Component } from '@angular/core';
 })
 export class CharactersKanbanItem {
 
+
+  character = input.required<Character>()
 }

@@ -1,1 +1,5 @@
-<p>characters-kanban works!</p>
+@for(character of characters(); track character.id){
+    <app-characters-kanban-item 
+    [character]="character"
+    ></app-characters-kanban-item>
+}

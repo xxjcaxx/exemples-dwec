@@ -1,1 +1,12 @@
-<p>characters-kanban-item works!</p>
+<div>
+    <h2>{{character().name}}</h2>
+    <img [src]="character().image"/>
+    <ul>
+        <li>
+            Ki: {{character().ki}}</li>
+        <li>Max Ki: {{character().maxKi}}</li>
+        <li>Race: {{character().race}}</li>
+        <li>Gender: {{character().gender}}</li>
+        <li>Description: {{character().description}}</li>
+    </ul>
+</div>

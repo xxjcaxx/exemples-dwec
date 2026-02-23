@@ -4,7 +4,6 @@ https://web.dragonball-api.com/documentation?ref=freepublicapis.com
 https://dragonball-api.com/api-docs
 
 ng new dragonball_2026_angular
-ng new component components/characters-kanban
 ng g component components/characters-kanban
 ng g component components/characters-kanban-item
 ng g component components/characters-search-form
