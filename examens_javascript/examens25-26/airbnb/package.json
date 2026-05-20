@@ -1,0 +1,23 @@
+{
+  "name": "airbnb",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predev": "kill-port 3000 5173 || true",
+    "dev": "concurrently -k \"npm:dev:web\" \"npm:dev:api\"",
+    "dev:web": "vite --port 5173",
+    "dev:api": "json-server air.json --port 3000",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "kill-port": "^2.0.1",
+    "vite": "^8.0.1"
+  },
+  "dependencies": {
+    "json-server": "^1.0.0-beta.15",
+    "rxjs": "^7.8.2"
+  }
+}
