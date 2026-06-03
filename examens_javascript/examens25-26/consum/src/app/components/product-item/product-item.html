@@ -1,0 +1,8 @@
+@if(product()){
+  <div class="productItem">
+    <h2>{{product().name}}</h2>
+    <img [src]="product().imageURL"/>
+    <p>Preu: {{product().price}}</p>
+    <button (click) = "afegir(product())">Afegir al carret</button>
+  </div>
+}

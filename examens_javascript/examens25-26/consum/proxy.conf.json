@@ -1,0 +1,11 @@
+{
+  "/consum-api": {
+    "target": "https://tienda.consum.es",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/consum-api": ""
+    },
+    "logLevel": "debug"
+  }
+}

@@ -1,0 +1,8 @@
+<form>
+<input type="text" name="search" id="searchInput" placeholder="Cerca productes..." [(ngModel)]="query" [ngModelOptions]="{standalone: true}">
+<select [(ngModel)]="order" [ngModelOptions]="{standalone: true}">
+  <option value="asc">Preu ascendent</option>
+  <option value="desc">Preu descendent</option>
+  <option value="nom">Nom</option>
+</select>
+</form>

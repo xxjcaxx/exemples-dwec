@@ -1,0 +1,19 @@
+<form>
+Nom:
+<input type="text"  [formField]="carretForm.nom" [ngClass]="getNomValid()" >
+<br>
+Direcció:
+<input type="text"  [formField]="carretForm.direccio" [ngClass]="getDireccioValid()">
+<br>
+Tarjeta:
+<input type="text"  [formField]="carretForm.tarjeta" [ngClass]="getTarjetaValid()">
+</form>
+
+<ul>
+@for(product of products(); track product.id){
+  <li class="productItem">
+    {{product.name}}  : {{product.price}}
+  </li>
+}
+</ul>
+<h3>Total: {{total()}}</h3>
