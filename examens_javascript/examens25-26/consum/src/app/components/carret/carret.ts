@@ -1,9 +1,9 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Consum } from '../../services/consum';
 import { form, FormField, pattern, required } from '@angular/forms/signals';
 import { NgClass } from '@angular/common';
-
+import { JsonPipe } from '@angular/common';
 
 interface ICarret {
   nom: string;
@@ -13,11 +13,18 @@ interface ICarret {
 
 @Component({
   selector: 'app-carret',
-  imports: [FormField, NgClass],
+  imports: [FormField, NgClass, JsonPipe],
   templateUrl: './carret.html',
   styleUrl: './carret.scss',
 })
 export class Carret {
+
+  constructor() {
+    effect(()=>{
+      console.log(this.carretModel());
+      
+    });
+  }
 
   consumService: Consum = inject(Consum);
 
@@ -30,6 +37,10 @@ export class Carret {
     direccio: '',
     tarjeta: ''
   })
+
+  datosCarret = computed(
+    ()=> `DATOS: ${this.carretModel().nom}, ${this.carretModel().direccio}, ${this.carretModel().tarjeta}`
+  )
 
   carretForm = form(this.carretModel, (schemaPath) => {
     required(schemaPath.nom, {message: "El nom és requerit"});
