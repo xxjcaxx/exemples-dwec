@@ -19,7 +19,7 @@ const readJson = (fileName) => {
 // Carga tus archivos
 const db = {
   usuarios: readJson('usuarios.json'),
- // productos: readJson('productos.json'),
+  pelicules: readJson('2025.json'),
  // pedidos: readJson('pedidos.json')
 };
 
