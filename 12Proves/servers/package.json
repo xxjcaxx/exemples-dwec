@@ -1,0 +1,11 @@
+{
+  "name": "API-mock",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "json-server": "^0.17.4"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
