@@ -20,7 +20,7 @@ const readJson = (fileName) => {
 const db = {
   usuarios: readJson('usuarios.json'),
   pelicules: readJson('2025.json'),
- // pedidos: readJson('pedidos.json')
+  restaurants: readJson('restaurants.json')
 };
 
 const router = jsonServer.router(db);
