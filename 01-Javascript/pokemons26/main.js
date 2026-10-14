@@ -37,5 +37,9 @@ document.addEventListener("DOMContentLoaded", () => {
      * Quan es fa click es mostren sols els d'eixe tipus
      */
 
+  const tipos = [...new Set(pokemons.map(p => p.type).flat())];
+  console.log(tipos);
+    
+
   document.querySelector("#content").append(...pokemons.map(convertPokemon));
 });
