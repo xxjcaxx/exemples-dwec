@@ -22,6 +22,23 @@ function convertPokemon(pokemon) {
    return div;
 }
 
+function renderPokemonList(pokemons,content){
+  content.innerHTML = '';
+  content.append(...pokemons.map(convertPokemon));
+}
+
+function buttonType(type, pokemons, content){
+  const button = document.createElement('button');
+  button.innerText = type;
+  button.addEventListener('click',()=>{
+    const pokemonsType = pokemons.filter(p => p.type.includes(type));
+    renderPokemonList(pokemonsType,content)
+  })
+  
+  return button;
+  
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   /*let pokemons_html = '';
    for(let pokemon of pokemons){
@@ -36,10 +53,14 @@ document.addEventListener("DOMContentLoaded", () => {
      * Crear un botó per a cada tipus de pokemon
      * Quan es fa click es mostren sols els d'eixe tipus
      */
+  const content = document.querySelector("#content");
 
   const tipos = [...new Set(pokemons.map(p => p.type).flat())];
   console.log(tipos);
-    
+  tipos.forEach(t => {
+    const button = buttonType(t, pokemons, content);
+    document.querySelector("#buttons").append(button);
+  });  
 
-  document.querySelector("#content").append(...pokemons.map(convertPokemon));
+  renderPokemonList(pokemons,content)
 });
