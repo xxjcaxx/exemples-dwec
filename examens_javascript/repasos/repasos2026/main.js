@@ -60,19 +60,72 @@ function filterTeams(weeks, name) {
   );
 }
 
+function getClassificationTable(weeks) {
+  const teams = Object.fromEntries(
+    weeks[0]
+      .map((p) => [p.Local, p.Visitante])
+      .flat()
+      .map((e) => [e, { nom: e, punts: 0, golsFavor: 0, golsContra: 0 }]),
+  );
+  console.log(teams);
+  
+  weeks.forEach((week) => {
+    week.forEach((match) => {
+      const { Local, Visitante, Marcador } = match;
+      const [golsLocal, golsVisitant] = Marcador.split("–").map((g) =>
+        parseInt(g),
+      );
+      const puntsLocal =
+        golsLocal > golsVisitant ? 3 : golsLocal < golsVisitant ? 0 : 1;
+      const puntsVisitant = puntsLocal === 3 ? 0 : puntsLocal === 0 ? 3 : 1;
+      teams[Local].golsFavor += golsLocal;
+      teams[Visitante].golsFavor += golsVisitant;
+      teams[Local].golsContra += golsVisitant;
+      teams[Visitante].golsContra += golsLocal;
+      teams[Local].punts += puntsLocal;
+      teams[Visitante].punts += puntsVisitant;
+    });
+  });
+  console.log(teams);
+  console.log(Object.values(teams).sort((a, b) => b.punts - a.punts));
+  return Object.values(teams).sort((a, b) => b.punts - a.punts);
+}
+
+function renderClassificationTable(classificationTable) {
+  const tableDiv = document.createElement("div");
+  tableDiv.classList.add("weekCard");
+  tableDiv.innerHTML = `
+     <table>
+    <tr><td>Equip</td><td>Punts</td><td>Gols a Favor</td><td>Gols en contra</td></tr>
+    ${classificationTable.map(
+      (e) =>
+        `<tr><td>${e.nom}</td><td>${e.punts}</td><td>${e.golsFavor}</td><td>${e.golsContra}</td></tr>`,
+    ).join('')}
+    </table>
+    `;
+  return tableDiv;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const weeks = weekGroup(cleanData(liga));
 
   //console.log(filterTeams(weeks, "vale"));
   const buscador = document.querySelector("#buscador");
 
-  buscador.addEventListener("keyup",()=>{
+  buscador.addEventListener("keyup", () => {
     const filteredWeeks = filterTeams(weeks, buscador.value);
     console.log(buscador.value, filteredWeeks);
-    appendWeeks(weeksToHTML(filteredWeeks), document.querySelector("#container"));
+    appendWeeks(
+      weeksToHTML(filteredWeeks),
+      document.querySelector("#container"),
+    );
   });
 
   appendWeeks(weeksToHTML(weeks), document.querySelector("#container"));
+
+  document
+    .querySelector("#classificacio")
+    .append(renderClassificationTable(getClassificationTable(weeks)));
 });
 
 /*
