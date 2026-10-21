@@ -1,4 +1,7 @@
 import { liga } from "./liga.js";
+import {partits} from "./football_charts_matches.js";
+
+
 
 function cleanData(partits) {
   return partits.filter((p) => p["Sem."] !== "");
@@ -126,6 +129,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .querySelector("#classificacio")
     .append(renderClassificationTable(getClassificationTable(weeks)));
+
+    console.log(partits)
+    
 });
 
 /*
