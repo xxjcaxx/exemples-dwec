@@ -9,4 +9,8 @@ document.addEventListener("DOMContentLoaded",()=>{
   
   const llistaPartits = partits.split("\n").map(linea => linea.split(","))
 console.log(llistaPartits);
+
+// Convertir el array de partits en una array d'objectes partit (classe opcional)
+
+// Mostrar 100 partits
 });
