@@ -1,5 +1,6 @@
 import { liga } from "./liga.js";
 import {partits} from "./football_charts_matches.js";
+import * as FuncionsAuxiliars from "./funcions.js"
 
 
 
@@ -157,3 +158,6 @@ addeventlister,
 
 
 */
+
+
+console.log(FuncionsAuxiliars.sumar(1,2))
