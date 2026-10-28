@@ -1,7 +1,49 @@
 import "./style.css";
 import cara from "./assets/1.png";
 
+function renderMatch(match) {
+  const matchTemplate = `<div class="match-card">
+  <div class="match-header">
+    <span class="league-name">${match.league_name} (${match.country})</span>
+    <span class="match-season">${match.season}</span>
+  </div>
+  
+  <div class="match-body">
+    <div class="team home">
+      <span class="team-name">${match.home_team}</span>
+      <span class="team-goals">${match.home_goals}</span>
+    </div>
+    
+    <div class="match-info">
+      <div class="final-score">${match.ft_result}</div>
+      <div class="match-status">Finalizado</div>
+      <div class="ht-score">(Descanso: ${match.ht_result})</div>
+    </div>
+    
+    <div class="team away">
+      <span class="team-goals">${match.away_goals}</span>
+      <span class="team-name">${match.away_team}</span>
+    </div>
+  </div>
+
+  <div class="match-footer">
+    <div class="detail-item">
+      <strong>Fecha:</strong> ${match.match_date} - ${match.time}
+    </div>
+    <div class="detail-item">
+      <strong>Primer gol:</strong> Minuto ${match.first_goal_time}
+    </div>
+  </div>
+</div>`;
+
+  const divAux = document.createElement("div");
+  divAux.innerHTML = matchTemplate;
+  return divAux.firstElementChild;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  const containerApp = document.querySelector("#app");
+
   fetch("/football_charts_matches.csv")
     .catch((error) => console.log(error))
     .then((r) => r.text())
@@ -15,6 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
         Object.fromEntries(keys.map((k, i) => [k, linea[i]])),
       );
       console.log(llistaObjectesPartit);
+      llistaObjectesPartit
+        .slice(0, 20)
+        .forEach((p) => containerApp.append(renderMatch(p)));
     });
 
   /* const llistaPartits = partits.split("\n").map((linea) => linea.split(","));
