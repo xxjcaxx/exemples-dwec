@@ -1,9 +1,23 @@
 import "./style.css";
 import cara from "./assets/1.png";
-import { partits } from "./football_charts_matches";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const llistaPartits = partits.split("\n").map((linea) => linea.split(","));
+  fetch("/football_charts_matches.csv")
+    .catch((error) => console.log(error))
+    .then((r) => r.text())
+    .then((partits) => {
+      const llistaPartits = partits
+        .split("\n")
+        .map((linea) => linea.split(","));
+      const keys = llistaPartits[0];
+      const data = llistaPartits.slice(1);
+      const llistaObjectesPartit = data.map((linea) =>
+        Object.fromEntries(keys.map((k, i) => [k, linea[i]])),
+      );
+      console.log(llistaObjectesPartit);
+    });
+
+  /* const llistaPartits = partits.split("\n").map((linea) => linea.split(","));
   //console.log(llistaPartits);
 
   // Convertir el array de partits en una array d'objectes partit (classe opcional)
@@ -12,9 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const data = llistaPartits.slice(1);
   const llistaObjectesPartit = data.map(linea =>
     Object.fromEntries(keys.map((k,i) => [k,linea[i]]))
-  );
+  );*/
 
- /* class Partit {
+  /* class Partit {
     constructor(
       ...datos
     ) {
@@ -23,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
       Object.assign(this,objectDatos);
     }
   }*/
-/*
+  /*
   class Partit {
     constructor(
       league,
@@ -64,8 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
  */
 
- // const llistaObjectesPartit = data.map(linea => new Partit(...linea));
-  console.log(llistaObjectesPartit);
+  // const llistaObjectesPartit = data.map(linea => new Partit(...linea));
+  // console.log(llistaObjectesPartit);
 
   // Mostrar 100 partits
 });
