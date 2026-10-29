@@ -41,9 +41,39 @@ function renderMatch(match) {
   return divAux.firstElementChild;
 }
 
+function selectLeagues(leagues) {
+  const select = document.createElement("select");
+  leagues.forEach((league) => {
+    const option = document.createElement("option");
+    option.value = league;
+    option.innerText = league;
+    select.append(option);
+  });
+  return select;
+}
+
+async function getPartits(url, containerApp){
+  const response = await fetch(url);
+  const partits = await response.text();
+  const llistaPartits = partits.split("\n").map((linea) => linea.split(","));
+  const keys = llistaPartits[0];
+  const data = llistaPartits.slice(1);
+  let matches = data.map((linea) =>
+    Object.fromEntries(keys.map((k, i) => [k, linea[i]])),
+  );
+  const leagues = new Set(matches.map((p) => p.league_name));
+
+  console.log(leagues);
+  containerApp.append(selectLeagues(leagues));
+  matches.slice(0, 20).forEach((p) => containerApp.append(renderMatch(p)));
+
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const containerApp = document.querySelector("#app");
-
+  getPartits("/football_charts_matches.csv",containerApp);
+  
+  /*
   fetch("/football_charts_matches.csv")
     .catch((error) => console.log(error))
     .then((r) => r.text())
@@ -53,15 +83,18 @@ document.addEventListener("DOMContentLoaded", () => {
         .map((linea) => linea.split(","));
       const keys = llistaPartits[0];
       const data = llistaPartits.slice(1);
-      const llistaObjectesPartit = data.map((linea) =>
+      matches = data.map((linea) =>
         Object.fromEntries(keys.map((k, i) => [k, linea[i]])),
       );
-      console.log(llistaObjectesPartit);
-      llistaObjectesPartit
+      const leagues = new Set(matches.map(p => p.league_name))
+    
+      console.log(leagues);
+      containerApp.append(selectLeagues(leagues))
+      matches
         .slice(0, 20)
         .forEach((p) => containerApp.append(renderMatch(p)));
     });
-
+*/
   /* const llistaPartits = partits.split("\n").map((linea) => linea.split(","));
   //console.log(llistaPartits);
 
