@@ -1,6 +1,6 @@
 API:
 
-https://exemples-dwec.onrender.com/restaurants?_page=1&_per_page=25
+https://exemples-dwec.onrender.com/restaurants?_page=1&_limit=25
 
 
 Es pagina com en l'exemple
