@@ -3,6 +3,7 @@ import * as bootstrap from "bootstrap";
 import {getTable} from "./services/supaservice"
 import {partitCard} from "./components/partit_card"
 import { registerCard, loginCard } from './components/register';
+import { profileCard } from './components/profile_card';
 
 document.addEventListener("DOMContentLoaded",()=>{
 
@@ -13,6 +14,14 @@ document.addEventListener("DOMContentLoaded",()=>{
   getTable("partits").then((partits)=>{
     partitsContainer.innerHTML = partits.map(partitCard).join('');
   });
+  const profileDiv = document.querySelector("#profileDiv");
+  getTable("profiles").then((user)=>{
+    profileDiv.append(profileCard(user[0]));
+  }).catch((error)=>{
+    console.error("Error fetching profile:", error);
+    profileDiv.append(profileCard({name: "John Doe", email: "john.doe@example.com"}));
+  });
+
 
   const registerDiv = document.querySelector("#register");
   registerDiv.append(registerCard());
