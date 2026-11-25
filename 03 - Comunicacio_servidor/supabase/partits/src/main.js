@@ -2,7 +2,7 @@ import './style.scss'
 import * as bootstrap from "bootstrap";
 import {getTable} from "./services/supaservice"
 import {partitCard} from "./components/partit_card"
-import { registerCard } from './components/register';
+import { registerCard, loginCard } from './components/register';
 
 document.addEventListener("DOMContentLoaded",()=>{
 
@@ -16,5 +16,6 @@ document.addEventListener("DOMContentLoaded",()=>{
 
   const registerDiv = document.querySelector("#register");
   registerDiv.append(registerCard());
+  registerDiv.append(loginCard());
 
 });

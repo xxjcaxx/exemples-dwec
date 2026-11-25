@@ -1,4 +1,4 @@
-export {getTable, register}
+export {getTable, register,login}
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL; 
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY;
@@ -9,7 +9,7 @@ async function getTable(table, params = {}) {
   const response = await fetch(`${SUPABASE_URL}/rest/v1/${encodeURIComponent(table)}?${query}`, {
     headers: {
       apikey: SUPABASE_KEY,
-      Authorization: `Bearer ${SUPABASE_KEY}`,
+    Authorization: `Bearer ${localStorage.getItem("token") || API_KEY}`,
     },
   });
 
@@ -20,7 +20,6 @@ async function getTable(table, params = {}) {
 }
 
 async function register(registerData){
-    
   const response = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
     method: "post",
     headers: {
@@ -29,10 +28,27 @@ async function register(registerData){
     },
     body: registerData
   });
-
   if (!response.ok) {
     throw new Error(`Error Supabase ${response.status}: ${await response.text()}`);
   }
   return response.json();
-  
 }
+
+
+async function login(loginData){
+  const response = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+    method: "post",
+    headers: {
+      apikey: SUPABASE_KEY,
+      "Content-Type": "application/json"
+    },
+    body: loginData
+  });
+  if (!response.ok) {
+    throw new Error(`Error Supabase ${response.status}: ${await response.text()}`);
+  }
+  const loginRespose = await response.json();
+  localStorage.setItem("token", loginRespose.access_token);
+  return loginRespose;
+}
+
